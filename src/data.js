@@ -2,7 +2,7 @@ export const nextDropDate = "2026-03-26T18:00:00";
 
 export const upcomingRelease = {
   batch: "BATCH NO. 004",
-  strain: "MIDNIGHT CITRUS",
+  strain: "Gas Nana",
   type: "HYBRID",
   notes:
     "Bright citrus on the front, deeper gas on the finish. Tight drop. No reruns.",
