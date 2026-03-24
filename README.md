@@ -1,18 +1,15 @@
-# The Batch Site
+# The Batch Site v5
 
 Updated Vite + React splash page for The Batch.
 
-## What's new in v4
+## What's new in v5
 
-- Smarter store cards with city names
-- Dedicated **Get Directions** button for every store
-- Better mobile spacing so store content does not get crushed
-- Smooth dropdown open/close easing for each strain card
-- Soft hover lift + glassy blur treatment on store rows
-- Pulsing glow on **IN STOCK** badges
-- Batch Archive section
-- English / Spanish toggle
-- Custom glowing desktop cursor
+- Fixed custom cursor jitter using Framer Motion motion values instead of React state updates
+- Archive section moved to the bottom of the page on mobile and desktop
+- Archive is now a dropdown for long-term scalability
+- New archive description copy
+- Upcoming release description now switches properly between English and Spanish
+- Smarter store cards, mobile polish, dropdown strain cards, city names, directions buttons, stock glow pulse, and language toggle all still included
 
 ## Run locally
 
@@ -40,6 +37,15 @@ export const nextDropDate = "2026-04-03T18:00:00";
 ### Change the upcoming release
 
 Edit `upcomingRelease` in `src/data.js`.
+
+The description now supports both languages:
+
+```js
+notes: {
+  en: "English description",
+  es: "Spanish description"
+}
+```
 
 ### Change previous batches and stores
 
@@ -93,6 +99,6 @@ If needed:
 
 ```bash
 git add .
-git commit -m "Add smarter store section, archive, and micro interactions"
+git commit -m "Fix cursor and update archive layout"
 git push
 ```

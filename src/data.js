@@ -4,8 +4,10 @@ export const upcomingRelease = {
   batch: "BATCH NO. 004",
   strain: "MIDNIGHT CITRUS",
   type: "HYBRID",
-  notes:
-    "Bright citrus on the front, deeper gas on the finish. Tight drop. No reruns.",
+  notes: {
+    en: "Bright citrus on the front, deeper gas on the finish. Tight drop. No reruns.",
+    es: "Cítrico brillante al inicio, con un final más profundo y gaseoso. Drop cerrado. Sin repeticiones."
+  }
 };
 
 export const previousBatches = [

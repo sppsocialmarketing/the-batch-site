@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 import {
   ArrowRight,
   ChevronDown,
@@ -19,7 +19,6 @@ const copy = {
     topLabel: "Limited Release Flower",
     currentState: "Current State",
     awaiting: "Awaiting Next Drop",
-    language: "Language",
     english: "EN",
     spanish: "ES",
     nextBatchDropsIn: "Next Batch Drops In",
@@ -35,14 +34,15 @@ const copy = {
     inStock: "IN STOCK",
     soldOut: "SOLD OUT",
     archive: "Batch Archive",
-    archiveLabel: "Previous Releases",
-    archiveCopy: "A running log of prior drops, built to make the brand feel like a catalog instead of a random shelf item.",
+    archiveLabel: "Past Drops",
+    archiveCopy: "A clean record of every release. Built for scale, so as more batches drop, the archive stays organized instead of turning into a wall of chaos.",
+    showArchive: "Show Archive",
+    hideArchive: "Hide Archive",
   },
   es: {
     topLabel: "Flor de Lanzamiento Limitado",
     currentState: "Estado Actual",
     awaiting: "Esperando el Próximo Drop",
-    language: "Idioma",
     english: "EN",
     spanish: "ES",
     nextBatchDropsIn: "Próximo Batch en",
@@ -58,8 +58,10 @@ const copy = {
     inStock: "EN STOCK",
     soldOut: "AGOTADO",
     archive: "Archivo de Batches",
-    archiveLabel: "Lanzamientos Previos",
-    archiveCopy: "Un registro continuo de drops anteriores para que la marca se sienta como un catálogo y no como un producto al azar en el estante.",
+    archiveLabel: "Drops Anteriores",
+    archiveCopy: "Un registro limpio de cada lanzamiento. Hecho para crecer, para que cuando haya muchos batches el archivo siga ordenado y no se convierta en un muro de caos.",
+    showArchive: "Mostrar Archivo",
+    hideArchive: "Ocultar Archivo",
   },
 };
 
@@ -67,8 +69,14 @@ export default function TheBatchSplashPage() {
   const targetDate = useMemo(() => new Date(nextDropDate), []);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
   const [openBatch, setOpenBatch] = useState(previousBatches[0]?.batch ?? null);
-  const [cursor, setCursor] = useState({ x: 0, y: 0, visible: false });
+  const [archiveOpen, setArchiveOpen] = useState(false);
   const [language, setLanguage] = useState("en");
+  const [cursorVisible, setCursorVisible] = useState(false);
+
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  const smoothX = useSpring(cursorX, { stiffness: 700, damping: 45, mass: 0.2 });
+  const smoothY = useSpring(cursorY, { stiffness: 700, damping: 45, mass: 0.2 });
 
   const t = copy[language];
 
@@ -84,23 +92,25 @@ export default function TheBatchSplashPage() {
     const media = window.matchMedia("(pointer: fine)");
     if (!media.matches) return undefined;
 
-    const onMove = (event) => {
-      setCursor({ x: event.clientX, y: event.clientY, visible: true });
+    const handleMove = (event) => {
+      cursorX.set(event.clientX - 6);
+      cursorY.set(event.clientY - 6);
+      setCursorVisible(true);
     };
 
-    const onLeave = () => setCursor((current) => ({ ...current, visible: false }));
-    const onEnter = () => setCursor((current) => ({ ...current, visible: true }));
+    const handleLeave = () => setCursorVisible(false);
+    const handleEnter = () => setCursorVisible(true);
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseout", onLeave);
-    window.addEventListener("mouseover", onEnter);
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    window.addEventListener("mouseleave", handleLeave);
+    window.addEventListener("mouseenter", handleEnter);
 
     return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseout", onLeave);
-      window.removeEventListener("mouseover", onEnter);
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseleave", handleLeave);
+      window.removeEventListener("mouseenter", handleEnter);
     };
-  }, []);
+  }, [cursorX, cursorY]);
 
   const timerItems = [
     { value: timeLeft.days, label: t.days },
@@ -111,7 +121,7 @@ export default function TheBatchSplashPage() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-black px-4 py-8 text-white md:px-8 md:py-10 lg:px-16">
-      <CursorDot cursor={cursor} />
+      <CursorDot x={smoothX} y={smoothY} visible={cursorVisible} />
 
       <div className="mx-auto max-w-6xl">
         <header className="border-b border-white/12 pb-7 md:pb-8">
@@ -204,56 +214,10 @@ export default function TheBatchSplashPage() {
                   {upcomingRelease.strain}
                 </p>
                 <p className="mt-3 max-w-xl leading-7 text-white/70">
-                  {upcomingRelease.notes}
+                  {upcomingRelease.notes[language]}
                 </p>
               </div>
             </motion.div>
-
-            <section className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-[2px] md:p-8">
-              <div className="flex items-center gap-3">
-                <div className="rounded-full border border-white/10 p-2 text-white/70">
-                  <Archive className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">
-                    {t.archiveLabel}
-                  </p>
-                  <h3 className="mt-2 text-2xl font-medium tracking-[0.06em]">
-                    {t.archive}
-                  </h3>
-                </div>
-              </div>
-
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65">
-                {t.archiveCopy}
-              </p>
-
-              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {batchArchive.map((item) => (
-                  <motion.div
-                    key={item.batch}
-                    whileHover={{ y: -3 }}
-                    transition={{ type: "spring", stiffness: 240, damping: 18 }}
-                    className="rounded-2xl border border-white/8 bg-white/[0.018] p-4 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.03]"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-[10px] uppercase tracking-[0.3em] text-white/45">
-                        {item.batch}
-                      </span>
-                      <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-white/55">
-                        {item.type}
-                      </span>
-                    </div>
-                    <p className="mt-3 text-lg tracking-[0.12em] text-white/92">
-                      {item.strain}
-                    </p>
-                    <p className="mt-2 text-xs uppercase tracking-[0.24em] text-white/45">
-                      {item.status}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
           </section>
 
           <section>
@@ -399,23 +363,108 @@ export default function TheBatchSplashPage() {
               </div>
             </div>
           </section>
+
+          <section className="lg:col-span-2">
+            <section className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-[2px] md:p-8">
+              <button
+                type="button"
+                onClick={() => setArchiveOpen((value) => !value)}
+                className="flex w-full items-center justify-between gap-4 text-left"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="rounded-full border border-white/10 p-2 text-white/70">
+                    <Archive className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">
+                      {t.archiveLabel}
+                    </p>
+                    <h3 className="mt-2 text-2xl font-medium tracking-[0.06em]">
+                      {t.archive}
+                    </h3>
+                  </div>
+                </div>
+
+                <motion.div
+                  animate={{ rotate: archiveOpen ? 180 : 0 }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                  className="shrink-0 rounded-full border border-white/10 bg-white/[0.03] p-2 text-white/65"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </motion.div>
+              </button>
+
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-white/65">
+                {t.archiveCopy}
+              </p>
+
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={() => setArchiveOpen((value) => !value)}
+                  className="text-[11px] uppercase tracking-[0.28em] text-white/45 transition-colors duration-300 hover:text-white/80"
+                >
+                  {archiveOpen ? t.hideArchive : t.showArchive}
+                </button>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {archiveOpen && (
+                  <motion.div
+                    key="archive-content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {batchArchive.map((item) => (
+                        <motion.div
+                          key={item.batch}
+                          whileHover={{ y: -3 }}
+                          transition={{ type: "spring", stiffness: 240, damping: 18 }}
+                          className="rounded-2xl border border-white/8 bg-white/[0.018] p-4 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.03]"
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-[10px] uppercase tracking-[0.3em] text-white/45">
+                              {item.batch}
+                            </span>
+                            <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-white/55">
+                              {item.type}
+                            </span>
+                          </div>
+                          <p className="mt-3 text-lg tracking-[0.12em] text-white/92">
+                            {item.strain}
+                          </p>
+                          <p className="mt-2 text-xs uppercase tracking-[0.24em] text-white/45">
+                            {item.status}
+                          </p>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </section>
+          </section>
         </main>
       </div>
     </div>
   );
 }
 
-function CursorDot({ cursor }) {
+function CursorDot({ x, y, visible }) {
   return (
     <motion.div
-      animate={{
-        x: cursor.x - 6,
-        y: cursor.y - 6,
-        opacity: cursor.visible ? 1 : 0,
-        scale: cursor.visible ? 1 : 0.8,
+      style={{
+        x,
+        y,
+        opacity: visible ? 1 : 0,
+        scale: visible ? 1 : 0.85,
       }}
-      transition={{ type: "spring", stiffness: 400, damping: 28, mass: 0.4 }}
-      className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-3 w-3 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.6)] mix-blend-difference md:block"
+      transition={{ opacity: { duration: 0.18 }, scale: { duration: 0.18 } }}
+      className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-3 w-3 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.55)] md:block"
     />
   );
 }
