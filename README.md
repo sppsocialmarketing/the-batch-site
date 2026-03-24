@@ -91,3 +91,8 @@ git push
 ```
 
 Vercel should update automatically after the push.
+
+
+## English / Spanish Toggle
+The top-right language toggle switches the interface between English and Spanish.
+Strain names, batch numbers, and store data stay the same, while UI labels and stock badges translate automatically.

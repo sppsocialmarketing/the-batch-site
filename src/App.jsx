@@ -3,11 +3,57 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, MapPin, ArrowUpRight } from "lucide-react";
 import { nextDropDate, previousBatches, upcomingRelease } from "./data";
 
+const copy = {
+  en: {
+    topLabel: "Limited Release Flower",
+    currentState: "Current State",
+    awaiting: "Awaiting Next Drop",
+    language: "Language",
+    english: "EN",
+    spanish: "ES",
+    nextBatchDropsIn: "Next Batch Drops In",
+    days: "Days",
+    hours: "Hours",
+    minutes: "Minutes",
+    seconds: "Seconds",
+    upcomingRelease: "Upcoming Release",
+    previousBatches: "Previous Batches",
+    findInStore: "Find In Store",
+    tapToExpand: "Tap a strain to expand",
+    openInGoogleMaps: "Open in Google Maps",
+    inStock: "IN STOCK",
+    soldOut: "SOLD OUT",
+  },
+  es: {
+    topLabel: "Flor de Lanzamiento Limitado",
+    currentState: "Estado Actual",
+    awaiting: "Esperando el Próximo Drop",
+    language: "Idioma",
+    english: "EN",
+    spanish: "ES",
+    nextBatchDropsIn: "Próximo Batch en",
+    days: "Días",
+    hours: "Horas",
+    minutes: "Minutos",
+    seconds: "Segundos",
+    upcomingRelease: "Próximo Lanzamiento",
+    previousBatches: "Batches Anteriores",
+    findInStore: "Encuéntralo en Tienda",
+    tapToExpand: "Toca una strain para expandir",
+    openInGoogleMaps: "Abrir en Google Maps",
+    inStock: "EN STOCK",
+    soldOut: "AGOTADO",
+  },
+};
+
 export default function TheBatchSplashPage() {
   const targetDate = useMemo(() => new Date(nextDropDate), []);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
   const [openBatch, setOpenBatch] = useState(previousBatches[0]?.batch ?? null);
   const [cursor, setCursor] = useState({ x: 0, y: 0, visible: false });
+  const [language, setLanguage] = useState("en");
+
+  const t = copy[language];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,10 +86,10 @@ export default function TheBatchSplashPage() {
   }, []);
 
   const timerItems = [
-    { value: timeLeft.days, label: "Days" },
-    { value: timeLeft.hours, label: "Hours" },
-    { value: timeLeft.minutes, label: "Minutes" },
-    { value: timeLeft.seconds, label: "Seconds" },
+    { value: timeLeft.days, label: t.days },
+    { value: timeLeft.hours, label: t.hours },
+    { value: timeLeft.minutes, label: t.minutes },
+    { value: timeLeft.seconds, label: t.seconds },
   ];
 
   return (
@@ -55,15 +101,50 @@ export default function TheBatchSplashPage() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[11px] uppercase tracking-[0.35em] text-white/45 md:text-xs">
-                Limited Release Flower
+                {t.topLabel}
               </p>
               <h1 className="mt-3 text-4xl font-semibold tracking-[0.12em] sm:text-5xl md:text-7xl">
                 THE BATCH
               </h1>
             </div>
-            <div className="text-left md:text-right">
-              <p className="text-[11px] uppercase tracking-[0.3em] text-white/35">Current State</p>
-              <p className="mt-2 text-sm uppercase tracking-[0.25em] text-white/70">Awaiting Next Drop</p>
+
+            <div className="flex flex-col gap-4 text-left md:items-end md:text-right">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.3em] text-white/35">{t.currentState}</p>
+                <p className="mt-2 text-sm uppercase tracking-[0.25em] text-white/70">{t.awaiting}</p>
+              </div>
+
+              <div>
+                <p className="mb-2 text-[10px] uppercase tracking-[0.3em] text-white/35">{t.language}</p>
+                <div className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-1">
+                  <button
+                    type="button"
+                    onClick={() => setLanguage("en")}
+                    className={[
+                      "rounded-full px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-all duration-300",
+                      language === "en"
+                        ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.22)]"
+                        : "text-white/65 hover:text-white",
+                    ].join(" ")}
+                    aria-pressed={language === "en"}
+                  >
+                    {t.english}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLanguage("es")}
+                    className={[
+                      "rounded-full px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-all duration-300",
+                      language === "es"
+                        ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.22)]"
+                        : "text-white/65 hover:text-white",
+                    ].join(" ")}
+                    aria-pressed={language === "es"}
+                  >
+                    {t.spanish}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </header>
@@ -71,7 +152,7 @@ export default function TheBatchSplashPage() {
         <main className="grid grid-cols-1 gap-10 pt-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14 lg:pt-12">
           <section>
             <div className="rounded-3xl border border-white/12 bg-white/[0.02] p-6 shadow-2xl shadow-white/[0.02] md:p-8 lg:p-10">
-              <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">Next Batch Drops In</p>
+              <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.nextBatchDropsIn}</p>
 
               <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4 md:gap-4">
                 {timerItems.map((item) => (
@@ -90,7 +171,7 @@ export default function TheBatchSplashPage() {
               </div>
 
               <div className="mt-9 border-t border-white/10 pt-7 md:mt-10 md:pt-8">
-                <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">Upcoming Release</p>
+                <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.upcomingRelease}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <h2 className="text-2xl font-medium tracking-[0.08em] md:text-4xl">{upcomingRelease.batch}</h2>
                   <span className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-white/60">
@@ -109,10 +190,10 @@ export default function TheBatchSplashPage() {
             <div className="rounded-3xl border border-white/12 bg-white/[0.02] p-6 shadow-2xl shadow-white/[0.02] md:p-8 lg:p-10">
               <div className="flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">Previous Batches</p>
-                  <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">Find In Store</h3>
+                  <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.previousBatches}</p>
+                  <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{t.findInStore}</h3>
                 </div>
-                <p className="text-[11px] uppercase tracking-[0.28em] text-white/35">Tap a strain to expand</p>
+                <p className="text-[11px] uppercase tracking-[0.28em] text-white/35">{t.tapToExpand}</p>
               </div>
 
               <div className="mt-6 space-y-4">
@@ -155,6 +236,7 @@ export default function TheBatchSplashPage() {
                             <div className="space-y-3 p-4 md:p-5">
                               {batch.stores.map((store) => {
                                 const inStock = store.status === "IN STOCK";
+                                const statusLabel = inStock ? t.inStock : t.soldOut;
                                 return (
                                   <motion.a
                                     key={`${batch.batch}-${store.name}`}
@@ -177,7 +259,7 @@ export default function TheBatchSplashPage() {
                                           <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-white/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white/70" />
                                         </div>
                                         <span className="mt-1 block text-[10px] uppercase tracking-[0.28em] text-white/35">
-                                          Open in Google Maps
+                                          {t.openInGoogleMaps}
                                         </span>
                                       </div>
                                     </div>
@@ -191,7 +273,7 @@ export default function TheBatchSplashPage() {
                                             : "border-red-500/35 bg-red-500/10 text-red-400 shadow-[0_0_18px_rgba(248,113,113,0.35)] group-hover:shadow-[0_0_24px_rgba(248,113,113,0.45)]",
                                         ].join(" ")}
                                       >
-                                        {store.status}
+                                        {statusLabel}
                                       </span>
                                     </div>
                                   </motion.a>
