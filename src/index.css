@@ -14,11 +14,15 @@ body,
 
 html {
   background: #000000;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  background: #000000;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 28%),
+    linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0) 24%),
+    #000000;
 }
 
 * {
@@ -29,7 +33,8 @@ body {
   html,
   body,
   a,
-  button {
+  button,
+  summary {
     cursor: none;
   }
 }
@@ -41,4 +46,25 @@ a {
 
 button {
   font: inherit;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@keyframes stockPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(74, 222, 128, 0.0), 0 0 18px rgba(74, 222, 128, 0.24);
+  }
+  50% {
+    box-shadow: 0 0 0 rgba(74, 222, 128, 0.0), 0 0 26px rgba(74, 222, 128, 0.42);
+  }
+}
+
+.stock-pulse {
+  animation: stockPulse 2.6s ease-in-out infinite;
 }

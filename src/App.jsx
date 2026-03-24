@@ -1,7 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, MapPin, ArrowUpRight } from "lucide-react";
-import { nextDropDate, previousBatches, upcomingRelease } from "./data";
+import {
+  ArrowRight,
+  ChevronDown,
+  MapPin,
+  ArrowUpRight,
+  Archive,
+} from "lucide-react";
+import {
+  batchArchive,
+  nextDropDate,
+  previousBatches,
+  upcomingRelease,
+} from "./data";
 
 const copy = {
   en: {
@@ -17,12 +28,15 @@ const copy = {
     minutes: "Minutes",
     seconds: "Seconds",
     upcomingRelease: "Upcoming Release",
-    previousBatches: "Previous Batches",
-    findInStore: "Find In Store",
+    previousBatches: "Find a Store",
     tapToExpand: "Tap a strain to expand",
     openInGoogleMaps: "Open in Google Maps",
+    directions: "Get Directions",
     inStock: "IN STOCK",
     soldOut: "SOLD OUT",
+    archive: "Batch Archive",
+    archiveLabel: "Previous Releases",
+    archiveCopy: "A running log of prior drops, built to make the brand feel like a catalog instead of a random shelf item.",
   },
   es: {
     topLabel: "Flor de Lanzamiento Limitado",
@@ -37,12 +51,15 @@ const copy = {
     minutes: "Minutos",
     seconds: "Segundos",
     upcomingRelease: "Próximo Lanzamiento",
-    previousBatches: "Batches Anteriores",
-    findInStore: "Encuéntralo en Tienda",
+    previousBatches: "Encontrar Tienda",
     tapToExpand: "Toca una strain para expandir",
     openInGoogleMaps: "Abrir en Google Maps",
+    directions: "Cómo llegar",
     inStock: "EN STOCK",
     soldOut: "AGOTADO",
+    archive: "Archivo de Batches",
+    archiveLabel: "Lanzamientos Previos",
+    archiveCopy: "Un registro continuo de drops anteriores para que la marca se sienta como un catálogo y no como un producto al azar en el estante.",
   },
 };
 
@@ -110,51 +127,52 @@ export default function TheBatchSplashPage() {
 
             <div className="flex flex-col gap-4 text-left md:items-end md:text-right">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.3em] text-white/35">{t.currentState}</p>
-                <p className="mt-2 text-sm uppercase tracking-[0.25em] text-white/70">{t.awaiting}</p>
+                <p className="text-[11px] uppercase tracking-[0.3em] text-white/35">
+                  {t.currentState}
+                </p>
+                <p className="mt-2 text-sm uppercase tracking-[0.25em] text-white/70">
+                  {t.awaiting}
+                </p>
               </div>
 
-              <div>
-                <p className="mb-2 text-[10px] uppercase tracking-[0.3em] text-white/35">{t.language}</p>
-                <div className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-1">
-                  <button
-                    type="button"
-                    onClick={() => setLanguage("en")}
-                    className={[
-                      "rounded-full px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-all duration-300",
-                      language === "en"
-                        ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.22)]"
-                        : "text-white/65 hover:text-white",
-                    ].join(" ")}
-                    aria-pressed={language === "en"}
-                  >
-                    {t.english}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setLanguage("es")}
-                    className={[
-                      "rounded-full px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-all duration-300",
-                      language === "es"
-                        ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.22)]"
-                        : "text-white/65 hover:text-white",
-                    ].join(" ")}
-                    aria-pressed={language === "es"}
-                  >
-                    {t.spanish}
-                  </button>
-                </div>
+              <div className="inline-flex w-fit items-center rounded-full border border-white/10 bg-white/[0.03] p-1">
+                <button
+                  type="button"
+                  onClick={() => setLanguage("en")}
+                  className={[
+                    "rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.28em] transition-all duration-300",
+                    language === "en" ? "bg-white text-black" : "text-white/65 hover:text-white",
+                  ].join(" ")}
+                >
+                  {t.english}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage("es")}
+                  className={[
+                    "rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.28em] transition-all duration-300",
+                    language === "es" ? "bg-white text-black" : "text-white/65 hover:text-white",
+                  ].join(" ")}
+                >
+                  {t.spanish}
+                </button>
               </div>
             </div>
           </div>
         </header>
 
-        <main className="grid grid-cols-1 gap-10 pt-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14 lg:pt-12">
-          <section>
-            <div className="rounded-3xl border border-white/12 bg-white/[0.02] p-6 shadow-2xl shadow-white/[0.02] md:p-8 lg:p-10">
-              <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.nextBatchDropsIn}</p>
+        <main className="grid grid-cols-1 gap-10 pt-10 md:gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:pt-12">
+          <section className="space-y-8">
+            <motion.div
+              whileHover={{ y: -5 }}
+              transition={{ type: "spring", stiffness: 220, damping: 18 }}
+              className="rounded-3xl border border-white/12 bg-white/[0.02] p-6 shadow-2xl shadow-white/[0.02] backdrop-blur-[2px] md:p-10"
+            >
+              <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">
+                {t.nextBatchDropsIn}
+              </p>
 
-              <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4 md:gap-4">
+              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
                 {timerItems.map((item) => (
                   <div
                     key={item.label}
@@ -170,55 +188,122 @@ export default function TheBatchSplashPage() {
                 ))}
               </div>
 
-              <div className="mt-9 border-t border-white/10 pt-7 md:mt-10 md:pt-8">
-                <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.upcomingRelease}</p>
+              <div className="mt-8 border-t border-white/10 pt-7">
+                <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">
+                  {t.upcomingRelease}
+                </p>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <h2 className="text-2xl font-medium tracking-[0.08em] md:text-4xl">{upcomingRelease.batch}</h2>
+                  <h2 className="text-2xl font-medium tracking-[0.08em] md:text-4xl">
+                    {upcomingRelease.batch}
+                  </h2>
                   <span className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-white/60">
                     {upcomingRelease.type}
                   </span>
                 </div>
-                <p className="mt-4 text-lg tracking-[0.14em] text-white/92 sm:text-xl md:text-2xl">
+                <p className="mt-4 text-lg tracking-[0.14em] text-white/92 md:text-2xl">
                   {upcomingRelease.strain}
                 </p>
-                <p className="mt-3 max-w-xl text-sm leading-7 text-white/70 md:text-base">{upcomingRelease.notes}</p>
+                <p className="mt-3 max-w-xl leading-7 text-white/70">
+                  {upcomingRelease.notes}
+                </p>
               </div>
-            </div>
+            </motion.div>
+
+            <section className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-[2px] md:p-8">
+              <div className="flex items-center gap-3">
+                <div className="rounded-full border border-white/10 p-2 text-white/70">
+                  <Archive className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">
+                    {t.archiveLabel}
+                  </p>
+                  <h3 className="mt-2 text-2xl font-medium tracking-[0.06em]">
+                    {t.archive}
+                  </h3>
+                </div>
+              </div>
+
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/65">
+                {t.archiveCopy}
+              </p>
+
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {batchArchive.map((item) => (
+                  <motion.div
+                    key={item.batch}
+                    whileHover={{ y: -3 }}
+                    transition={{ type: "spring", stiffness: 240, damping: 18 }}
+                    className="rounded-2xl border border-white/8 bg-white/[0.018] p-4 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.03]"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-[10px] uppercase tracking-[0.3em] text-white/45">
+                        {item.batch}
+                      </span>
+                      <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-white/55">
+                        {item.type}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-lg tracking-[0.12em] text-white/92">
+                      {item.strain}
+                    </p>
+                    <p className="mt-2 text-xs uppercase tracking-[0.24em] text-white/45">
+                      {item.status}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </section>
           </section>
 
           <section>
-            <div className="rounded-3xl border border-white/12 bg-white/[0.02] p-6 shadow-2xl shadow-white/[0.02] md:p-8 lg:p-10">
-              <div className="flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.previousBatches}</p>
-                  <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{t.findInStore}</h3>
-                </div>
-                <p className="text-[11px] uppercase tracking-[0.28em] text-white/35">{t.tapToExpand}</p>
+            <div className="rounded-3xl border border-white/12 bg-white/[0.02] p-6 shadow-2xl shadow-white/[0.02] backdrop-blur-[2px] md:p-10">
+              <div className="border-b border-white/10 pb-5">
+                <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">
+                  {t.previousBatches}
+                </p>
+                <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">
+                  {t.previousBatches}
+                </h3>
+                <p className="mt-3 text-sm uppercase tracking-[0.24em] text-white/35">
+                  {t.tapToExpand}
+                </p>
               </div>
 
               <div className="mt-6 space-y-4">
                 {previousBatches.map((batch) => {
                   const isOpen = openBatch === batch.batch;
+
                   return (
-                    <div key={batch.batch} className="overflow-hidden rounded-3xl border border-white/8 bg-white/[0.015]">
+                    <motion.div
+                      key={batch.batch}
+                      layout
+                      transition={{ layout: { type: "spring", stiffness: 220, damping: 22 } }}
+                      className="overflow-hidden rounded-3xl border border-white/8 bg-white/[0.015] backdrop-blur-[1px] transition-all duration-300 hover:border-white/16 hover:bg-white/[0.03] hover:shadow-[0_14px_40px_rgba(255,255,255,0.05)]"
+                    >
                       <button
                         type="button"
                         onClick={() => setOpenBatch(isOpen ? null : batch.batch)}
-                        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-colors duration-300 hover:bg-white/[0.03] md:px-5 md:py-5"
+                        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left md:px-5 md:py-5"
                       >
                         <div className="min-w-0">
-                          <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                            <p className="text-base tracking-[0.12em] text-white/92 md:text-xl">{batch.strain}</p>
-                            <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.28em] text-white/60">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[10px] uppercase tracking-[0.3em] text-white/45">
+                              {batch.batch}
+                            </span>
+                            <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-white/55">
                               {batch.type}
                             </span>
                           </div>
-                          <p className="mt-2 text-[11px] uppercase tracking-[0.3em] text-white/45">{batch.batch}</p>
+                          <p className="mt-3 truncate pr-2 text-lg tracking-[0.12em] text-white/92 md:text-xl">
+                            {batch.strain}
+                          </p>
                         </div>
+
                         <motion.div
                           animate={{ rotate: isOpen ? 180 : 0 }}
-                          transition={{ duration: 0.24 }}
-                          className="shrink-0 rounded-full border border-white/10 p-2 text-white/60"
+                          transition={{ duration: 0.28, ease: "easeOut" }}
+                          className="shrink-0 rounded-full border border-white/10 bg-white/[0.03] p-2 text-white/65"
                         >
                           <ChevronDown className="h-4 w-4" />
                         </motion.div>
@@ -227,63 +312,88 @@ export default function TheBatchSplashPage() {
                       <AnimatePresence initial={false}>
                         {isOpen && (
                           <motion.div
+                            key="content"
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.28, ease: "easeOut" }}
-                            className="overflow-hidden border-t border-white/8"
+                            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                            className="overflow-hidden"
                           >
-                            <div className="space-y-3 p-4 md:p-5">
-                              {batch.stores.map((store) => {
-                                const inStock = store.status === "IN STOCK";
-                                const statusLabel = inStock ? t.inStock : t.soldOut;
-                                return (
-                                  <motion.a
-                                    key={`${batch.batch}-${store.name}`}
-                                    href={store.mapsUrl}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    whileHover={{ y: -2, scale: 1.005 }}
-                                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                                    className="group flex flex-col gap-3 rounded-2xl border border-white/8 bg-white/[0.015] px-4 py-4 transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.03] sm:flex-row sm:items-center sm:justify-between"
-                                  >
-                                    <div className="flex min-w-0 items-start gap-3">
-                                      <div className="mt-0.5 rounded-full border border-white/10 p-2 text-white/55 transition-colors duration-300 group-hover:border-white/20 group-hover:text-white/90">
-                                        <MapPin className="h-4 w-4" />
-                                      </div>
-                                      <div className="min-w-0">
-                                        <div className="flex min-w-0 items-center gap-2">
-                                          <span className="block break-words text-sm tracking-[0.03em] text-white/88 group-hover:text-white md:text-base">
-                                            {store.name}
-                                          </span>
-                                          <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-white/30 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white/70" />
-                                        </div>
-                                        <span className="mt-1 block text-[10px] uppercase tracking-[0.28em] text-white/35">
-                                          {t.openInGoogleMaps}
-                                        </span>
-                                      </div>
-                                    </div>
+                            <div className="space-y-3 border-t border-white/8 px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
+                              {batch.stores
+                                .slice()
+                                .sort((a, b) => (a.status === "IN STOCK" ? -1 : 1) - (b.status === "IN STOCK" ? -1 : 1))
+                                .map((store) => {
+                                  const inStock = store.status === "IN STOCK";
+                                  const stockLabel = inStock ? t.inStock : t.soldOut;
 
-                                    <div className="flex justify-start sm:justify-end">
-                                      <span
-                                        className={[
-                                          "inline-flex shrink-0 items-center rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] transition-all duration-300 sm:text-xs md:text-sm",
-                                          inStock
-                                            ? "border-green-500/35 bg-green-500/10 text-green-400 shadow-[0_0_18px_rgba(74,222,128,0.35)] group-hover:shadow-[0_0_24px_rgba(74,222,128,0.45)]"
-                                            : "border-red-500/35 bg-red-500/10 text-red-400 shadow-[0_0_18px_rgba(248,113,113,0.35)] group-hover:shadow-[0_0_24px_rgba(248,113,113,0.45)]",
-                                        ].join(" ")}
-                                      >
-                                        {statusLabel}
-                                      </span>
-                                    </div>
-                                  </motion.a>
-                                );
-                              })}
+                                  return (
+                                    <motion.div
+                                      key={`${batch.batch}-${store.name}`}
+                                      whileHover={{ y: -3 }}
+                                      transition={{ type: "spring", stiffness: 240, damping: 18 }}
+                                      className="group rounded-2xl border border-white/8 bg-white/[0.02] p-3 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.045] hover:backdrop-blur-md sm:p-4"
+                                    >
+                                      <div className="flex flex-col gap-3 sm:gap-4">
+                                        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                          <div className="min-w-0 pr-1">
+                                            <div className="flex items-start gap-3">
+                                              <div className="mt-0.5 rounded-full border border-white/10 p-2 text-white/55 transition-colors duration-300 group-hover:border-white/20 group-hover:text-white/90">
+                                                <MapPin className="h-4 w-4" />
+                                              </div>
+                                              <div className="min-w-0">
+                                                <p className="truncate text-sm tracking-[0.03em] text-white/92 md:text-base">
+                                                  {store.name}
+                                                </p>
+                                                <p className="mt-1 text-xs uppercase tracking-[0.22em] text-white/40">
+                                                  {store.city}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <span
+                                            className={[
+                                              "w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] transition-all duration-300",
+                                              inStock
+                                                ? "stock-pulse border-green-500/35 bg-green-500/10 text-green-400 group-hover:shadow-[0_0_24px_rgba(74,222,128,0.48)]"
+                                                : "border-red-500/35 bg-red-500/10 text-red-400 shadow-[0_0_18px_rgba(248,113,113,0.35)] group-hover:shadow-[0_0_24px_rgba(248,113,113,0.45)]",
+                                            ].join(" ")}
+                                          >
+                                            {stockLabel}
+                                          </span>
+                                        </div>
+
+                                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                          <a
+                                            href={store.mapsUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-white/42 transition-colors duration-300 hover:text-white/75"
+                                          >
+                                            <span>{t.openInGoogleMaps}</span>
+                                            <ArrowUpRight className="h-3.5 w-3.5" />
+                                          </a>
+
+                                          <a
+                                            href={store.mapsUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 py-3 text-[11px] uppercase tracking-[0.28em] text-white/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:bg-white/[0.09] sm:w-auto"
+                                          >
+                                            <span>{t.directions}</span>
+                                            <ArrowRight className="h-3.5 w-3.5" />
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </motion.div>
+                                  );
+                                })}
                             </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -297,18 +407,16 @@ export default function TheBatchSplashPage() {
 
 function CursorDot({ cursor }) {
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 hidden md:block [@media(pointer:fine)]:block">
-      <motion.div
-        animate={{
-          x: cursor.x - 6,
-          y: cursor.y - 6,
-          opacity: cursor.visible ? 1 : 0,
-          scale: cursor.visible ? 1 : 0.6,
-        }}
-        transition={{ type: "spring", stiffness: 500, damping: 35, mass: 0.25 }}
-        className="h-3 w-3 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.55)]"
-      />
-    </div>
+    <motion.div
+      animate={{
+        x: cursor.x - 6,
+        y: cursor.y - 6,
+        opacity: cursor.visible ? 1 : 0,
+        scale: cursor.visible ? 1 : 0.8,
+      }}
+      transition={{ type: "spring", stiffness: 400, damping: 28, mass: 0.4 }}
+      className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-3 w-3 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.6)] mix-blend-difference md:block"
+    />
   );
 }
 

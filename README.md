@@ -1,13 +1,18 @@
 # The Batch Site
 
-Minimal Vite + React splash page for The Batch.
+Updated Vite + React splash page for The Batch.
 
-## What's updated
+## What's new in v4
 
-- Mobile-friendly store layout
-- Expand/collapse strain dropdowns for previous batches
-- Custom glowing white cursor on desktop / laptop
-- Better spacing so stock badges do not crash into store names on small screens
+- Smarter store cards with city names
+- Dedicated **Get Directions** button for every store
+- Better mobile spacing so store content does not get crushed
+- Smooth dropdown open/close easing for each strain card
+- Soft hover lift + glassy blur treatment on store rows
+- Pulsing glow on **IN STOCK** badges
+- Batch Archive section
+- English / Spanish toggle
+- Custom glowing desktop cursor
 
 ## Run locally
 
@@ -28,32 +33,37 @@ Open `src/data.js`.
 
 ### Change the countdown
 
-Edit:
-
 ```js
 export const nextDropDate = "2026-04-03T18:00:00";
-```
-
-Format:
-
-```txt
-YYYY-MM-DDTHH:MM:SS
 ```
 
 ### Change the upcoming release
 
 Edit `upcomingRelease` in `src/data.js`.
 
-### Change previous batches, strains, stores, and statuses
+### Change previous batches and stores
 
 Edit `previousBatches` in `src/data.js`.
 
-Use these exact values for store status:
+Each store supports:
+
+```js
+{
+  name: "Store Name",
+  city: "Seattle, WA",
+  status: "IN STOCK",
+  mapsUrl: "https://maps.google.com/?q=Store+Name+Seattle+WA"
+}
+```
+
+Use these exact status values:
 
 - `IN STOCK`
 - `SOLD OUT`
 
-Anything other than `IN STOCK` will show the red sold-out styling.
+### Change the archive section
+
+Edit `batchArchive` in `src/data.js`.
 
 ## Push changes to GitHub
 
@@ -61,38 +71,28 @@ From the project folder:
 
 ```bash
 git add .
-git commit -m "Update site"
+git commit -m "Describe your update"
 git push
 ```
 
 ## Update Vercel
 
-If your repo is already connected to Vercel, `git push` will usually trigger a new deployment automatically.
+If GitHub is already connected to Vercel, every `git push` should trigger an automatic deploy.
 
-If you want to force a fresh deploy:
-
+If needed:
 1. Open your project in Vercel
-2. Go to the **Deployments** tab
-3. Click the newest deployment or click **Redeploy**
+2. Go to **Deployments**
+3. Click **Redeploy**
 
-## Replace your GitHub project with this updated version
+## Replace your existing local project with this version
 
-If you already have the original site in GitHub:
-
-1. Unzip this updated folder
-2. Copy all files from this updated version into your existing local project folder
-3. Replace the old files when prompted
+1. Unzip this folder
+2. Copy all files into your existing `the-batch-site` local folder
+3. Replace old files when prompted
 4. Run:
 
 ```bash
 git add .
-git commit -m "Improve mobile layout and add dropdown stores"
+git commit -m "Add smarter store section, archive, and micro interactions"
 git push
 ```
-
-Vercel should update automatically after the push.
-
-
-## English / Spanish Toggle
-The top-right language toggle switches the interface between English and Spanish.
-Strain names, batch numbers, and store data stay the same, while UI labels and stock badges translate automatically.

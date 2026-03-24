@@ -16,15 +16,17 @@ export const previousBatches = [
     stores: [
       {
         name: "Greenhouse Dispensary",
+        city: "Seattle, WA",
         status: "IN STOCK",
-        mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary",
+        mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary+Seattle+WA"
       },
       {
         name: "Urban Harvest",
+        city: "Bellevue, WA",
         status: "SOLD OUT",
-        mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Cannabis",
-      },
-    ],
+        mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Bellevue+WA"
+      }
+    ]
   },
   {
     batch: "BATCH NO. 002",
@@ -33,15 +35,17 @@ export const previousBatches = [
     stores: [
       {
         name: "Elevate Cannabis",
+        city: "Tacoma, WA",
         status: "IN STOCK",
-        mapsUrl: "https://maps.google.com/?q=Elevate+Cannabis",
+        mapsUrl: "https://maps.google.com/?q=Elevate+Cannabis+Tacoma+WA"
       },
       {
         name: "Cloud 9 Collective",
+        city: "Everett, WA",
         status: "SOLD OUT",
-        mapsUrl: "https://maps.google.com/?q=Cloud+9+Collective+Cannabis",
-      },
-    ],
+        mapsUrl: "https://maps.google.com/?q=Cloud+9+Collective+Everett+WA"
+      }
+    ]
   },
   {
     batch: "BATCH NO. 001",
@@ -50,9 +54,31 @@ export const previousBatches = [
     stores: [
       {
         name: "Northline Cannabis",
+        city: "Marysville, WA",
         status: "IN STOCK",
-        mapsUrl: "https://maps.google.com/?q=Northline+Cannabis",
-      },
-    ],
+        mapsUrl: "https://maps.google.com/?q=Northline+Cannabis+Marysville+WA"
+      }
+    ]
+  }
+];
+
+export const batchArchive = [
+  {
+    batch: "BATCH NO. 003",
+    strain: "LEMON STATIC",
+    type: "SATIVA",
+    status: "Released"
   },
+  {
+    batch: "BATCH NO. 002",
+    strain: "JET FUEL OG",
+    type: "SATIVA",
+    status: "Archived"
+  },
+  {
+    batch: "BATCH NO. 001",
+    strain: "VELVET GAS",
+    type: "INDICA",
+    status: "Archived"
+  }
 ];
