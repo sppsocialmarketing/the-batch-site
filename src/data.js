@@ -69,7 +69,7 @@ export const previousBatches = [
     type: "SATIVA",
     stores: [
       {
-        name: "cASCADE KROPZ",
+        name: "CASCADE KROPZ",
         city: "Arlington, WA",
         status: "IN STOCK",
         mapsUrl: "https://maps.app.goo.gl/y5ZkzYv5ybt65coi7"
