@@ -1,15 +1,17 @@
-# The Batch Site v5
+# The Batch Site v6
 
 Updated Vite + React splash page for The Batch.
 
-## What's new in v5
+## What's new in v6
 
-- Fixed custom cursor jitter using Framer Motion motion values instead of React state updates
-- Archive section moved to the bottom of the page on mobile and desktop
-- Archive is now a dropdown for long-term scalability
-- New archive description copy
-- Upcoming release description now switches properly between English and Spanish
-- Smarter store cards, mobile polish, dropdown strain cards, city names, directions buttons, stock glow pulse, and language toggle all still included
+- Upcoming batch now supports multiple strains
+- Upcoming release uses a dropdown list view so the page stays clean
+- Each upcoming strain supports:
+  - name
+  - type
+  - English description
+  - Spanish description
+- Cursor fix, archive dropdown, language toggle, smarter store section, and mobile polish are all still included
 
 ## Run locally
 
@@ -34,38 +36,35 @@ Open `src/data.js`.
 export const nextDropDate = "2026-04-03T18:00:00";
 ```
 
-### Change the upcoming release
-
-Edit `upcomingRelease` in `src/data.js`.
-
-The description now supports both languages:
+### Add multiple strains to the upcoming release
 
 ```js
-notes: {
-  en: "English description",
-  es: "Spanish description"
-}
+export const upcomingRelease = {
+  batch: "BATCH NO. 004",
+  strains: [
+    {
+      name: "MIDNIGHT CITRUS",
+      type: "HYBRID",
+      notes: {
+        en: "English description",
+        es: "Spanish description"
+      }
+    },
+    {
+      name: "VELVET RUSH",
+      type: "INDICA",
+      notes: {
+        en: "English description",
+        es: "Spanish description"
+      }
+    }
+  ]
+};
 ```
 
 ### Change previous batches and stores
 
 Edit `previousBatches` in `src/data.js`.
-
-Each store supports:
-
-```js
-{
-  name: "Store Name",
-  city: "Seattle, WA",
-  status: "IN STOCK",
-  mapsUrl: "https://maps.google.com/?q=Store+Name+Seattle+WA"
-}
-```
-
-Use these exact status values:
-
-- `IN STOCK`
-- `SOLD OUT`
 
 ### Change the archive section
 
@@ -81,15 +80,6 @@ git commit -m "Describe your update"
 git push
 ```
 
-## Update Vercel
-
-If GitHub is already connected to Vercel, every `git push` should trigger an automatic deploy.
-
-If needed:
-1. Open your project in Vercel
-2. Go to **Deployments**
-3. Click **Redeploy**
-
 ## Replace your existing local project with this version
 
 1. Unzip this folder
@@ -99,6 +89,6 @@ If needed:
 
 ```bash
 git add .
-git commit -m "Fix cursor and update archive layout"
+git commit -m "Add multi-strain upcoming batch support"
 git push
 ```

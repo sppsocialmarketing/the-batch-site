@@ -27,6 +27,7 @@ const copy = {
     minutes: "Minutes",
     seconds: "Seconds",
     upcomingRelease: "Upcoming Release",
+    upcomingStrains: "Included Strains",
     previousBatches: "Find a Store",
     tapToExpand: "Tap a strain to expand",
     openInGoogleMaps: "Open in Google Maps",
@@ -37,7 +38,7 @@ const copy = {
     archiveLabel: "Past Drops",
     archiveCopy: "A clean record of every release. Built for scale, so as more batches drop, the archive stays organized instead of turning into a wall of chaos.",
     showArchive: "Show Archive",
-    hideArchive: "Hide Archive",
+    hideArchive: "Hide Archive"
   },
   es: {
     topLabel: "Flor de Lanzamiento Limitado",
@@ -51,6 +52,7 @@ const copy = {
     minutes: "Minutos",
     seconds: "Segundos",
     upcomingRelease: "Próximo Lanzamiento",
+    upcomingStrains: "Strains Incluidas",
     previousBatches: "Encontrar Tienda",
     tapToExpand: "Toca una strain para expandir",
     openInGoogleMaps: "Abrir en Google Maps",
@@ -61,8 +63,8 @@ const copy = {
     archiveLabel: "Drops Anteriores",
     archiveCopy: "Un registro limpio de cada lanzamiento. Hecho para crecer, para que cuando haya muchos batches el archivo siga ordenado y no se convierta en un muro de caos.",
     showArchive: "Mostrar Archivo",
-    hideArchive: "Ocultar Archivo",
-  },
+    hideArchive: "Ocultar Archivo"
+  }
 };
 
 export default function TheBatchSplashPage() {
@@ -70,6 +72,7 @@ export default function TheBatchSplashPage() {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
   const [openBatch, setOpenBatch] = useState(previousBatches[0]?.batch ?? null);
   const [archiveOpen, setArchiveOpen] = useState(false);
+  const [upcomingOpen, setUpcomingOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const [cursorVisible, setCursorVisible] = useState(false);
 
@@ -207,15 +210,68 @@ export default function TheBatchSplashPage() {
                     {upcomingRelease.batch}
                   </h2>
                   <span className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-white/60">
-                    {upcomingRelease.type}
+                    {upcomingRelease.strains.length} {upcomingRelease.strains.length === 1 ? "STRAIN" : "STRAINS"}
                   </span>
                 </div>
-                <p className="mt-4 text-lg tracking-[0.14em] text-white/92 md:text-2xl">
-                  {upcomingRelease.strain}
-                </p>
-                <p className="mt-3 max-w-xl leading-7 text-white/70">
-                  {upcomingRelease.notes[language]}
-                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setUpcomingOpen((value) => !value)}
+                  className="mt-5 flex w-full items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-4 text-left transition-all duration-300 hover:border-white/18 hover:bg-white/[0.04]"
+                >
+                  <div className="min-w-0">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-white/45">
+                      {t.upcomingStrains}
+                    </p>
+                    <p className="mt-2 text-sm uppercase tracking-[0.22em] text-white/82">
+                      {upcomingRelease.strains.map((strain) => strain.name).join(" · ")}
+                    </p>
+                  </div>
+
+                  <motion.div
+                    animate={{ rotate: upcomingOpen ? 180 : 0 }}
+                    transition={{ duration: 0.28, ease: "easeOut" }}
+                    className="shrink-0 rounded-full border border-white/10 bg-white/[0.03] p-2 text-white/65"
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </motion.div>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {upcomingOpen && (
+                    <motion.div
+                      key="upcoming-strains"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-4 space-y-3">
+                        {upcomingRelease.strains.map((strain) => (
+                          <motion.div
+                            key={strain.name}
+                            whileHover={{ y: -2 }}
+                            transition={{ type: "spring", stiffness: 240, damping: 18 }}
+                            className="rounded-2xl border border-white/8 bg-white/[0.018] p-4 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.03]"
+                          >
+                            <div className="flex flex-wrap items-center gap-3">
+                              <p className="text-base tracking-[0.12em] text-white/92 md:text-lg">
+                                {strain.name}
+                              </p>
+                              <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-white/55">
+                                {strain.type}
+                              </span>
+                            </div>
+                            <p className="mt-3 max-w-xl text-sm leading-7 text-white/68">
+                              {strain.notes[language]}
+                            </p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           </section>

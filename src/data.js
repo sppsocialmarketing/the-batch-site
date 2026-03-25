@@ -7,24 +7,24 @@ export const upcomingRelease = {
       name: "MIDNIGHT CITRUS",
       type: "HYBRID",
       notes: {
-        en: "Bright citrus on the front, deeper gas on the finish.",
-        es: "Cítrico brillante al inicio, con un final más profundo."
+        en: "Bright citrus on the front, deeper gas on the finish. Tight drop. No reruns.",
+        es: "Cítrico brillante al inicio, con un final más profundo y gaseoso. Drop cerrado. Sin repeticiones."
       }
     },
     {
       name: "VELVET RUSH",
       type: "INDICA",
       notes: {
-        en: "Heavy body, smooth inhale, slow fade.",
-        es: "Cuerpo pesado, inhalación suave, efecto lento."
+        en: "Dense flower with a darker finish and slow body melt.",
+        es: "Flor densa con un final más oscuro y un efecto corporal lento."
       }
     },
     {
       name: "LIME STATIC",
       type: "SATIVA",
       notes: {
-        en: "Sharp citrus with energetic uplift.",
-        es: "Cítrico intenso con energía elevada."
+        en: "Sharper citrus with a brighter, more lifted feel.",
+        es: "Cítrico más intenso con una sensación más brillante y elevada."
       }
     }
   ]
