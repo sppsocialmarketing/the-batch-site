@@ -64,21 +64,34 @@ export const upcomingRelease = {
 
 export const previousBatches = [
   {
-    batch: "BATCH NO. 001",
-    strain: "LEMON CHERRY GELATO",
+    batch: "BATCH NO. 003",
+    strain: "LEMON STATIC",
     type: "SATIVA",
-    stores: [
+    storesByCity: [
       {
-        name: "CASCADE KROPZ",
-        city: "Arlington, WA",
-        status: "IN STOCK",
-        mapsUrl: "https://maps.app.goo.gl/y5ZkzYv5ybt65coi7"
+        city: "Seattle, WA",
+        stores: [
+          {
+            name: "Greenhouse Dispensary",
+            status: "IN STOCK",
+            mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary+Seattle+WA"
+          },
+          {
+            name: "North Dock Cannabis",
+            status: "SOLD OUT",
+            mapsUrl: "https://maps.google.com/?q=North+Dock+Cannabis+Seattle+WA"
+          }
+        ]
       },
       {
-        name: "PRC",
-        city: "Arlington, WA",
-        status: "SOLD OUT",
-        mapsUrl: "https://maps.app.goo.gl/Dddh2XG6wEB7b5tM9"
+        city: "Bellevue, WA",
+        stores: [
+          {
+            name: "Urban Harvest",
+            status: "SOLD OUT",
+            mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Bellevue+WA"
+          }
+        ]
       }
     ]
   },
@@ -86,18 +99,26 @@ export const previousBatches = [
     batch: "BATCH NO. 002",
     strain: "JET FUEL OG",
     type: "SATIVA",
-    stores: [
+    storesByCity: [
       {
-        name: "Elevate Cannabis",
         city: "Tacoma, WA",
-        status: "IN STOCK",
-        mapsUrl: "https://maps.google.com/?q=Elevate+Cannabis+Tacoma+WA"
+        stores: [
+          {
+            name: "Elevate Cannabis",
+            status: "IN STOCK",
+            mapsUrl: "https://maps.google.com/?q=Elevate+Cannabis+Tacoma+WA"
+          }
+        ]
       },
       {
-        name: "Cloud 9 Collective",
         city: "Everett, WA",
-        status: "SOLD OUT",
-        mapsUrl: "https://maps.google.com/?q=Cloud+9+Collective+Everett+WA"
+        stores: [
+          {
+            name: "Cloud 9 Collective",
+            status: "SOLD OUT",
+            mapsUrl: "https://maps.google.com/?q=Cloud+9+Collective+Everett+WA"
+          }
+        ]
       }
     ]
   },
@@ -105,12 +126,21 @@ export const previousBatches = [
     batch: "BATCH NO. 001",
     strain: "VELVET GAS",
     type: "INDICA",
-    stores: [
+    storesByCity: [
       {
-        name: "Northline Cannabis",
         city: "Marysville, WA",
-        status: "IN STOCK",
-        mapsUrl: "https://maps.google.com/?q=Northline+Cannabis+Marysville+WA"
+        stores: [
+          {
+            name: "Northline Cannabis",
+            status: "IN STOCK",
+            mapsUrl: "https://maps.google.com/?q=Northline+Cannabis+Marysville+WA"
+          },
+          {
+            name: "Cascade Green",
+            status: "IN STOCK",
+            mapsUrl: "https://maps.google.com/?q=Cascade+Green+Marysville+WA"
+          }
+        ]
       }
     ]
   }

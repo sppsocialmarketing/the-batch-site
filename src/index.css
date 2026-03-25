@@ -48,14 +48,6 @@ button {
   font: inherit;
 }
 
-details > summary {
-  list-style: none;
-}
-
-details > summary::-webkit-details-marker {
-  display: none;
-}
-
 @keyframes stockPulse {
   0%, 100% {
     box-shadow: 0 0 0 rgba(74, 222, 128, 0.0), 0 0 18px rgba(74, 222, 128, 0.24);
