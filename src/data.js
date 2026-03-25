@@ -26,7 +26,7 @@ export const upcomingRelease = {
         en: "Sharper citrus with a brighter, more lifted feel.",
         es: "Cítrico más intenso con una sensación más brillante y elevada."
       }
-    }
+    },
     {
       name: "Lemon Cherry Gelato",
       type: "SATIVA",
