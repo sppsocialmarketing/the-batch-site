@@ -2,12 +2,32 @@ export const nextDropDate = "2026-04-03T18:00:00";
 
 export const upcomingRelease = {
   batch: "BATCH NO. 004",
-  strain: "MIDNIGHT CITRUS",
-  type: "HYBRID",
-  notes: {
-    en: "Bright citrus on the front, deeper gas on the finish. Tight drop. No reruns.",
-    es: "Cítrico brillante al inicio, con un final más profundo y gaseoso. Drop cerrado. Sin repeticiones."
-  }
+  strains: [
+    {
+      name: "MIDNIGHT CITRUS",
+      type: "HYBRID",
+      notes: {
+        en: "Bright citrus on the front, deeper gas on the finish.",
+        es: "Cítrico brillante al inicio, con un final más profundo."
+      }
+    },
+    {
+      name: "VELVET RUSH",
+      type: "INDICA",
+      notes: {
+        en: "Heavy body, smooth inhale, slow fade.",
+        es: "Cuerpo pesado, inhalación suave, efecto lento."
+      }
+    },
+    {
+      name: "LIME STATIC",
+      type: "SATIVA",
+      notes: {
+        en: "Sharp citrus with energetic uplift.",
+        es: "Cítrico intenso con energía elevada."
+      }
+    }
+  ]
 };
 
 export const previousBatches = [
