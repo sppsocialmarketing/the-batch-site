@@ -1,38 +1,62 @@
 export const nextDropDate = "2026-04-03T18:00:00";
 
 export const upcomingRelease = {
-  batch: "BATCH NO. 004",
+  batch: "BATCH NO. 001",
   strains: [
     {
-      name: "Gas Nana",
+      name: "GAS NANA",
       type: "HYBRID",
       notes: {
-        en: "Bright citrus on the front, deeper gas on the finish. Tight drop. No reruns.",
-        es: "Cítrico brillante al inicio, con un final más profundo y gaseoso. Drop cerrado. Sin repeticiones."
+        en: "Heavy gas layered with sweet banana undertones.",
+        es: "Gas intenso con notas dulces de plátano."
       }
     },
     {
-      name: "Hi Chew",
+      name: "HI CHEW",
+      type: "SATIVA",
+      notes: {
+        en: "Bright, candy-like profile with a smooth, uplifting finish.",
+        es: "Perfil dulce tipo caramelo con un efecto ligero y energético."
+      }
+    },
+    {
+      name: "CANDY GAS",
+      type: "HYBRID",
+      notes: {
+        en: "Sweet candy inhale with a strong gassy backend.",
+        es: "Entrada dulce tipo caramelo con un final fuerte y gaseoso."
+      }
+    },
+    {
+      name: "CANDY CARTEL",
       type: "INDICA",
       notes: {
-        en: "Dense flower with a darker finish and slow body melt.",
-        es: "Flor densa con un final más oscuro y un efecto corporal lento."
+        en: "Rich, sugary aroma with a heavier body effect.",
+        es: "Aroma dulce intenso con un efecto corporal más pesado."
       }
     },
     {
-      name: "Candy Gas",
-      type: "SATIVA",
+      name: "OREOZ",
+      type: "INDICA",
       notes: {
-        en: "Sharper citrus with a brighter, more lifted feel.",
-        es: "Cítrico más intenso con una sensación más brillante y elevada."
+        en: "Creamy, dessert-like profile with deep relaxing effects.",
+        es: "Perfil cremoso tipo postre con efectos relajantes profundos."
       }
     },
     {
-      name: "Lemon Cherry Gelato",
-      type: "SATIVA",
+      name: "EYE CANDY",
+      type: "HYBRID",
       notes: {
-        en: "Sharper citrus with a brighter, more lifted feel.",
-        es: "Cítrico más intenso con una sensación más brillante y elevada."
+        en: "Visually striking flower with a smooth, balanced high.",
+        es: "Flor visualmente llamativa con un efecto equilibrado y suave."
+      }
+    },
+    {
+      name: "LEMON CHERRY GELATO",
+      type: "HYBRID",
+      notes: {
+        en: "Citrus and cherry sweetness with a creamy gelato finish.",
+        es: "Cítrico y cereza con un final cremoso tipo gelato."
       }
     }
   ]
