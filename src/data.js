@@ -4,7 +4,7 @@ export const upcomingRelease = {
   batch: "BATCH NO. 004",
   strains: [
     {
-      name: "MIDNIGHT CITRUS",
+      name: "Gas Nana",
       type: "HYBRID",
       notes: {
         en: "Bright citrus on the front, deeper gas on the finish. Tight drop. No reruns.",
@@ -12,7 +12,7 @@ export const upcomingRelease = {
       }
     },
     {
-      name: "VELVET RUSH",
+      name: "Hi Chew",
       type: "INDICA",
       notes: {
         en: "Dense flower with a darker finish and slow body melt.",
@@ -20,7 +20,15 @@ export const upcomingRelease = {
       }
     },
     {
-      name: "LIME STATIC",
+      name: "Candy Gas",
+      type: "SATIVA",
+      notes: {
+        en: "Sharper citrus with a brighter, more lifted feel.",
+        es: "Cítrico más intenso con una sensación más brillante y elevada."
+      }
+    }
+    {
+      name: "Lemon Cherry Gelato",
       type: "SATIVA",
       notes: {
         en: "Sharper citrus with a brighter, more lifted feel.",
