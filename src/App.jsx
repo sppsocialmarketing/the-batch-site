@@ -273,29 +273,41 @@ export default function TheBatchSplashPage() {
                                     <button
                                       type="button"
                                       onClick={() => toggleCity(batch.batch, cityGroup.city)}
-                                      className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-all duration-300 hover:bg-white/[0.03]"
+                                      className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-all duration-300 hover:bg-white/[0.03] sm:items-center"
                                     >
                                       <div className="min-w-0">
                                         <div className="flex items-center gap-2">
                                           <div className="rounded-full border border-white/10 p-2 text-white/55">
                                             <MapPin className="h-4 w-4" />
                                           </div>
-                                          <div>
+                                          <div className="min-w-0">
                                             <p className="text-[10px] uppercase tracking-[0.28em] text-white/42">{t.cityLabel}</p>
                                             <p className="text-sm tracking-[0.08em] text-white/92 md:text-base">{cityGroup.city}</p>
+                                            <div className="mt-2 flex flex-wrap items-center gap-2 min-[420px]:hidden">
+                                              <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
+                                                {cityGroup.stores.length} {cityGroup.stores.length === 1 ? "STORE" : "STORES"}
+                                              </span>
+                                              {inStockCount > 0 && (
+                                                <span className="stock-pulse rounded-full border border-green-500/35 bg-green-500/10 px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-green-400 whitespace-nowrap">
+                                                  {inStockCount} {t.inStock}
+                                                </span>
+                                              )}
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
 
-                                      <div className="flex items-center gap-3">
-                                        <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-white/55">
-                                          {cityGroup.stores.length} {cityGroup.stores.length === 1 ? "STORE" : "STORES"}
-                                        </span>
-                                        {inStockCount > 0 && (
-                                          <span className="stock-pulse rounded-full border border-green-500/35 bg-green-500/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-green-400">
-                                            {inStockCount} {t.inStock}
+                                      <div className="flex shrink-0 items-center gap-2 self-start sm:self-center">
+                                        <div className="hidden min-[420px]:flex flex-wrap items-center justify-end gap-2">
+                                          <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
+                                            {cityGroup.stores.length} {cityGroup.stores.length === 1 ? "STORE" : "STORES"}
                                           </span>
-                                        )}
+                                          {inStockCount > 0 && (
+                                            <span className="stock-pulse rounded-full border border-green-500/35 bg-green-500/10 px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-green-400 whitespace-nowrap">
+                                              {inStockCount} {t.inStock}
+                                            </span>
+                                          )}
+                                        </div>
                                         <motion.div animate={{ rotate: cityOpen ? 180 : 0 }} transition={{ duration: 0.28, ease: "easeOut" }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.03] p-2 text-white/65">
                                           <ChevronDown className="h-4 w-4" />
                                         </motion.div>
