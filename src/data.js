@@ -64,21 +64,21 @@ export const upcomingRelease = {
 
 export const previousBatches = [
   {
-    batch: "BATCH NO. 003",
-    strain: "LEMON STATIC",
+    batch: "BATCH NO. 001",
+    strain: "LEMON CHERRY GELATO",
     type: "SATIVA",
     stores: [
       {
-        name: "Greenhouse Dispensary",
-        city: "Seattle, WA",
+        name: "cASCADE KROPZ",
+        city: "Arlington, WA",
         status: "IN STOCK",
-        mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary+Seattle+WA"
+        mapsUrl: "https://maps.app.goo.gl/y5ZkzYv5ybt65coi7"
       },
       {
-        name: "Urban Harvest",
-        city: "Bellevue, WA",
+        name: "PRC",
+        city: "Arlington, WA",
         status: "SOLD OUT",
-        mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Bellevue+WA"
+        mapsUrl: "https://maps.app.goo.gl/Dddh2XG6wEB7b5tM9"
       }
     ]
   },
