@@ -17,13 +17,14 @@ const copy = {
     seconds: "Seconds",
     upcomingRelease: "Upcoming Release",
     upcomingStrains: "Included Strains",
-    previousBatches: "Active Batches",
-    citySections: "Find a Store",
+    previousBatches: "Find a Store",
+    citySections: "Browse by City",
     nearbyText: "Fastest way to check if there's Batches near you.",
     tapToExpand: "Click a strain to see if it's in your city or nearby.",
     openInGoogleMaps: "Open in Google Maps",
     directions: "Get Directions",
     cityLabel: "City",
+    cityPrompt: "Choose a city",
     inStock: "IN STOCK",
     soldOut: "SOLD OUT",
     archive: "Batch Archive",
@@ -44,14 +45,15 @@ const copy = {
     minutes: "Minutos",
     seconds: "Segundos",
     upcomingRelease: "Próximo Lanzamiento",
-    upcomingStrains: "Cepas incluidas",
-    previousBatches: "Activo Batches",
+    upcomingStrains: "Strains Incluidas",
+    previousBatches: "Encontrar Tienda",
     citySections: "Buscar por Ciudad",
-    nearbyText: "La forma más rápida de verificar si hay lotes cerca de ti.",
-    tapToExpand: "¡Haz clic en una variedad para ver si está en tu ciudad o cerca!",
+    nearbyText: "La forma más rápida de revisar si hay Batches cerca de ti.",
+    tapToExpand: "Haz clic en una strain para ver si está en tu ciudad o cerca.",
     openInGoogleMaps: "Abrir en Google Maps",
     directions: "Cómo llegar",
     cityLabel: "Ciudad",
+    cityPrompt: "Elige una ciudad",
     inStock: "EN STOCK",
     soldOut: "AGOTADO",
     archive: "Archivo de Batches",
@@ -66,6 +68,7 @@ export default function TheBatchSplashPage() {
   const targetDate = useMemo(() => new Date(nextDropDate), []);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
   const [openBatch, setOpenBatch] = useState(previousBatches[0]?.batch ?? null);
+  const [openCity, setOpenCity] = useState({});
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [upcomingOpen, setUpcomingOpen] = useState(false);
   const [language, setLanguage] = useState("en");
@@ -113,6 +116,13 @@ export default function TheBatchSplashPage() {
     { value: timeLeft.minutes, label: t.minutes },
     { value: timeLeft.seconds, label: t.seconds }
   ];
+
+  const toggleCity = (batchKey, cityName) => {
+    const key = `${batchKey}__${cityName}`;
+    setOpenCity((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const isCityOpen = (batchKey, cityName) => !!openCity[`${batchKey}__${cityName}`];
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-black px-4 py-8 text-white md:px-8 md:py-10 lg:px-16">
@@ -251,55 +261,93 @@ export default function TheBatchSplashPage() {
                       <AnimatePresence initial={false}>
                         {isOpen && (
                           <motion.div key="content" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
-                            <div className="space-y-4 border-t border-white/8 px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
-                              {batch.storesByCity.map((cityGroup) => (
-                                <div key={`${batch.batch}-${cityGroup.city}`} className="rounded-2xl border border-white/8 bg-white/[0.02] p-3 sm:p-4">
-                                  <div className="flex items-center gap-2 border-b border-white/8 pb-3">
-                                    <div className="rounded-full border border-white/10 p-2 text-white/55">
-                                      <MapPin className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                      <p className="text-[10px] uppercase tracking-[0.28em] text-white/42">{t.cityLabel}</p>
-                                      <p className="text-sm tracking-[0.08em] text-white/92 md:text-base">{cityGroup.city}</p>
-                                    </div>
-                                  </div>
+                            <div className="space-y-3 border-t border-white/8 px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
+                              <p className="px-1 text-[10px] uppercase tracking-[0.28em] text-white/38">{t.cityPrompt}</p>
 
-                                  <div className="mt-3 space-y-3">
-                                    {cityGroup.stores.slice().sort((a, b) => (a.status === "IN STOCK" ? -1 : 1) - (b.status === "IN STOCK" ? -1 : 1)).map((store) => {
-                                      const inStock = store.status === "IN STOCK";
-                                      const stockLabel = inStock ? t.inStock : t.soldOut;
+                              {batch.storesByCity.map((cityGroup) => {
+                                const cityOpen = isCityOpen(batch.batch, cityGroup.city);
+                                const inStockCount = cityGroup.stores.filter((store) => store.status === "IN STOCK").length;
 
-                                      return (
-                                        <motion.div key={`${cityGroup.city}-${store.name}`} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 240, damping: 18 }} className="group rounded-2xl border border-white/8 bg-white/[0.02] p-3 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.045] hover:backdrop-blur-md">
-                                          <div className="flex flex-col gap-3">
-                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                                              <div className="min-w-0">
-                                                <p className="text-sm tracking-[0.03em] text-white/92 md:text-base">{store.name}</p>
-                                              </div>
+                                return (
+                                  <motion.div key={`${batch.batch}-${cityGroup.city}`} layout transition={{ layout: { type: "spring", stiffness: 220, damping: 22 } }} className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02]">
+                                    <button
+                                      type="button"
+                                      onClick={() => toggleCity(batch.batch, cityGroup.city)}
+                                      className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-all duration-300 hover:bg-white/[0.03]"
+                                    >
+                                      <div className="min-w-0">
+                                        <div className="flex items-center gap-2">
+                                          <div className="rounded-full border border-white/10 p-2 text-white/55">
+                                            <MapPin className="h-4 w-4" />
+                                          </div>
+                                          <div>
+                                            <p className="text-[10px] uppercase tracking-[0.28em] text-white/42">{t.cityLabel}</p>
+                                            <p className="text-sm tracking-[0.08em] text-white/92 md:text-base">{cityGroup.city}</p>
+                                          </div>
+                                        </div>
+                                      </div>
 
-                                              <span className={["w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] transition-all duration-300", inStock ? "stock-pulse border-green-500/35 bg-green-500/10 text-green-400 group-hover:shadow-[0_0_24px_rgba(74,222,128,0.48)]" : "border-red-500/35 bg-red-500/10 text-red-400 shadow-[0_0_18px_rgba(248,113,113,0.35)] group-hover:shadow-[0_0_24px_rgba(248,113,113,0.45)]"].join(" ")}>
-                                                {stockLabel}
-                                              </span>
-                                            </div>
+                                      <div className="flex items-center gap-3">
+                                        <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-white/55">
+                                          {cityGroup.stores.length} {cityGroup.stores.length === 1 ? "STORE" : "STORES"}
+                                        </span>
+                                        {inStockCount > 0 && (
+                                          <span className="stock-pulse rounded-full border border-green-500/35 bg-green-500/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-green-400">
+                                            {inStockCount} {t.inStock}
+                                          </span>
+                                        )}
+                                        <motion.div animate={{ rotate: cityOpen ? 180 : 0 }} transition={{ duration: 0.28, ease: "easeOut" }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.03] p-2 text-white/65">
+                                          <ChevronDown className="h-4 w-4" />
+                                        </motion.div>
+                                      </div>
+                                    </button>
 
-                                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                                              <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-white/42 transition-colors duration-300 hover:text-white/75">
-                                                <span>{t.openInGoogleMaps}</span>
-                                                <ArrowUpRight className="h-3.5 w-3.5" />
-                                              </a>
+                                    <AnimatePresence initial={false}>
+                                      {cityOpen && (
+                                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
+                                          <div className="space-y-3 border-t border-white/8 p-3">
+                                            {cityGroup.stores
+                                              .slice()
+                                              .sort((a, b) => (a.status === "IN STOCK" ? -1 : 1) - (b.status === "IN STOCK" ? -1 : 1))
+                                              .map((store) => {
+                                                const inStock = store.status === "IN STOCK";
+                                                const stockLabel = inStock ? t.inStock : t.soldOut;
 
-                                              <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 py-3 text-[11px] uppercase tracking-[0.28em] text-white/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:bg-white/[0.09] sm:w-auto">
-                                                <span>{t.directions}</span>
-                                                <ArrowRight className="h-3.5 w-3.5" />
-                                              </a>
-                                            </div>
+                                                return (
+                                                  <motion.div key={`${cityGroup.city}-${store.name}`} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 240, damping: 18 }} className="group rounded-2xl border border-white/8 bg-white/[0.02] p-3 transition-all duration-300 hover:border-white/16 hover:bg-white/[0.045] hover:backdrop-blur-md">
+                                                    <div className="flex flex-col gap-3">
+                                                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                                        <div className="min-w-0">
+                                                          <p className="text-sm tracking-[0.03em] text-white/92 md:text-base">{store.name}</p>
+                                                        </div>
+
+                                                        <span className={["w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] transition-all duration-300", inStock ? "stock-pulse border-green-500/35 bg-green-500/10 text-green-400 group-hover:shadow-[0_0_24px_rgba(74,222,128,0.48)]" : "border-red-500/35 bg-red-500/10 text-red-400 shadow-[0_0_18px_rgba(248,113,113,0.35)] group-hover:shadow-[0_0_24px_rgba(248,113,113,0.45)]"].join(" ")}>
+                                                          {stockLabel}
+                                                        </span>
+                                                      </div>
+
+                                                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                                        <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-white/42 transition-colors duration-300 hover:text-white/75">
+                                                          <span>{t.openInGoogleMaps}</span>
+                                                          <ArrowUpRight className="h-3.5 w-3.5" />
+                                                        </a>
+
+                                                        <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 py-3 text-[11px] uppercase tracking-[0.28em] text-white/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:bg-white/[0.09] sm:w-auto">
+                                                          <span>{t.directions}</span>
+                                                          <ArrowRight className="h-3.5 w-3.5" />
+                                                        </a>
+                                                      </div>
+                                                    </div>
+                                                  </motion.div>
+                                                );
+                                              })}
                                           </div>
                                         </motion.div>
-                                      );
-                                    })}
-                                  </div>
-                                </div>
-                              ))}
+                                      )}
+                                    </AnimatePresence>
+                                  </motion.div>
+                                );
+                              })}
                             </div>
                           </motion.div>
                         )}
