@@ -68,39 +68,8 @@ git push
 - Tightened animation timing for a cleaner, more premium feel
 
 
-## What's new in v11
+## What's new in v13
 
-- Added optional **Use My Location** button in Store Finder
-- Cities now sort nearest-first when location is enabled
-- Stores inside each city also sort nearest-first
-- Distance badges show miles away for cities and stores
-- Added latitude/longitude fields in `src/data.js` for all sample stores
-
-### Store coordinates format
-
-```js
-{
-  name: "Store Name",
-  status: "IN STOCK",
-  mapsUrl: "https://maps.google.com/?q=Store+Name+City+State",
-  lat: 47.6062,
-  lng: -122.3321
-}
-```
-
-### Push changes to GitHub
-
-```bash
-git add .
-git commit -m "Add nearest store support"
-git push
-```
-
-
-## What's new in v12
-
-- Added backward-compatible data handling so the site works with either:
-  - `storesByCity`
-  - or older flat `stores` arrays with `city`
-- Added safer fallbacks so missing fields are less likely to white-screen the app
-- Best if you want to keep your edited data without perfectly matching the newest structure
+- Fixed the actual black-screen bug from v11/v12
+- Restored the missing helper function that caused runtime failure
+- Kept nearest-location support and safer data handling

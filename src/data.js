@@ -151,8 +151,8 @@ export const previousBatches = [
             name: "Cascade Green",
             status: "IN STOCK",
             mapsUrl: "https://maps.google.com/?q=Cascade+Green+Marysville+WA",
-            lat: 48.0540,
-            lng: -122.1830
+            lat: 48.054,
+            lng: -122.183
           }
         ]
       }
