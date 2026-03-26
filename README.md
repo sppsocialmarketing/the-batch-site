@@ -82,9 +82,8 @@ git push
 - Chevron now stays isolated on the right so the metadata does not get shoved around
 
 
-## What's new in v15
+## What's new in v16
 
-- When the countdown hits zero, the timer switches to:
-  - `CURRENTLY LANDING IN STORES...`
-- Added subtle animated dots for the in-process state
-- Helps the countdown feel intentional instead of just stopping at zero
+- Fixed the black-screen bug from the countdown-zero update
+- Added the `CURRENTLY LANDING IN STORES...` state correctly this time
+- Includes localized subtext and animated dots

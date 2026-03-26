@@ -16,6 +16,7 @@ const copy = {
     minutes: "Minutes",
     seconds: "Seconds",
     landingInStores: "CURRENTLY LANDING IN STORES",
+    landingSubtext: "Check store locations as batches arrive.",
     upcomingRelease: "Upcoming Release",
     upcomingStrains: "Included Strains",
     previousBatches: "Find a Store",
@@ -52,6 +53,7 @@ const copy = {
     minutes: "Minutos",
     seconds: "Segundos",
     landingInStores: "ACTUALMENTE LLEGANDO A TIENDAS",
+    landingSubtext: "Revisa las tiendas mientras van llegando los batches.",
     upcomingRelease: "Próximo Lanzamiento",
     upcomingStrains: "Strains Incluidas",
     previousBatches: "Encontrar Tienda",
@@ -161,6 +163,8 @@ export default function TheBatchSplashPage() {
     { value: timeLeft.minutes, label: t.minutes },
     { value: timeLeft.seconds, label: t.seconds }
   ];
+
+  const isLanding = timerItems.every((item) => item.value === "00");
 
   const toggleCity = (batchKey, cityName) => {
     const key = `${batchKey}__${cityName}`;
@@ -276,7 +280,7 @@ export default function TheBatchSplashPage() {
                       </span>
                     </p>
                     <p className="mt-4 text-sm uppercase tracking-[0.22em] text-white/45">
-                      Check store locations as batches arrive.
+                      {t.landingSubtext}
                     </p>
                   </div>
                 </div>
