@@ -8,6 +8,7 @@ const copy = {
     topLabel: "Limited Release Flower",
     currentState: "Current State",
     awaiting: "Awaiting Next Drop",
+    delivering: "Delivering to Stores",
     english: "EN",
     spanish: "ES",
     nextBatchDropsIn: "Next Batch Drops In",
@@ -45,6 +46,7 @@ const copy = {
     topLabel: "Flor de Lanzamiento Limitado",
     currentState: "Estado Actual",
     awaiting: "Esperando el Próximo Drop",
+    delivering: "En camino a tiendas",
     english: "EN",
     spanish: "ES",
     nextBatchDropsIn: "Próximo Batch en",
@@ -236,7 +238,7 @@ export default function TheBatchSplashPage() {
             <div className="flex flex-col gap-4 text-left md:items-end md:text-right">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.3em] text-white/35">{t.currentState}</p>
-                <p className="mt-2 text-sm uppercase tracking-[0.25em] text-white/70">{t.awaiting}</p>
+                <p className="mt-2 text-sm uppercase tracking-[0.25em] text-white/70">{isLanding ? t.delivering : t.awaiting}</p>
               </div>
 
               <div className="inline-flex w-fit items-center rounded-full border border-white/10 bg-white/[0.03] p-1">

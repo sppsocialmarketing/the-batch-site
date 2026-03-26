@@ -87,3 +87,13 @@ git push
 - Fixed the black-screen bug from the countdown-zero update
 - Added the `CURRENTLY LANDING IN STORES...` state correctly this time
 - Includes localized subtext and animated dots
+
+
+## What's new in v17
+
+- Top-right **Current State** now switches automatically:
+  - before zero: `Awaiting Next Drop`
+  - after zero: `Delivering to Stores`
+- Keeps the landing-state message:
+  - `CURRENTLY LANDING IN STORES...`
+- Built from the already-fixed v16 version to avoid the previous black-screen bug
