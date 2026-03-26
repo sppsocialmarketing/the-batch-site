@@ -101,16 +101,26 @@ export default function TheBatchSplashPage() {
       return;
     }
 
+    const onSuccess = (position) => {
+      setUserLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+      setLocationError(false);
+    };
+
+    const onError = () => {
+      navigator.geolocation.getCurrentPosition(
+        onSuccess,
+        () => setLocationError(true),
+        { enableHighAccuracy: false, timeout: 15000, maximumAge: 300000 }
+      );
+    };
+
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-        setLocationError(false);
-      },
-      () => setLocationError(true),
-      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+      onSuccess,
+      onError,
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 120000 }
     );
   };
 
@@ -368,7 +378,7 @@ export default function TheBatchSplashPage() {
                                     <button
                                       type="button"
                                       onClick={() => toggleCity(batch.batch, cityGroup.city)}
-                                      className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-all duration-200 hover:bg-white/[0.03] sm:items-center"
+                                      className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-all duration-200 hover:bg-white/[0.03]"
                                     >
                                       <div className="min-w-0">
                                         <div className="flex items-center gap-2">
@@ -378,7 +388,7 @@ export default function TheBatchSplashPage() {
                                           <div className="min-w-0">
                                             <p className="text-[10px] uppercase tracking-[0.28em] text-white/42">{t.cityLabel}</p>
                                             <p className="text-sm tracking-[0.08em] text-white/92 md:text-base">{cityGroup.city}</p>
-                                            <div className="mt-2 flex flex-wrap items-center gap-2 min-[420px]:hidden">
+                                            <div className="mt-2 flex flex-wrap items-center gap-2">
                                               <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
                                                 {cityGroup.stores.length} {t.storesLabel}
                                               </span>
@@ -397,22 +407,7 @@ export default function TheBatchSplashPage() {
                                         </div>
                                       </div>
 
-                                      <div className="flex shrink-0 items-center gap-2 self-start sm:self-center">
-                                        <div className="hidden min-[420px]:flex flex-wrap items-center justify-end gap-2">
-                                          <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
-                                            {cityGroup.stores.length} {t.storesLabel}
-                                          </span>
-                                          {cityGroup.inStockCount > 0 && (
-                                            <span className="stock-pulse rounded-full border border-green-500/35 bg-green-500/10 px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-green-400 whitespace-nowrap">
-                                              {cityGroup.inStockCount} {t.inStock}
-                                            </span>
-                                          )}
-                                          {cityGroup.nearestDistance != null && (
-                                            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
-                                              {cityGroup.nearestDistance.toFixed(1)} {t.milesAway}
-                                            </span>
-                                          )}
-                                        </div>
+                                      <div className="flex shrink-0 items-start self-start">
                                         <motion.div animate={{ rotate: cityOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.03] p-2 text-white/65">
                                           <ChevronDown className="h-4 w-4" />
                                         </motion.div>

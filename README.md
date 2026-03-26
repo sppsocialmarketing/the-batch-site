@@ -73,3 +73,10 @@ git push
 - Fixed the actual black-screen bug from v11/v12
 - Restored the missing helper function that caused runtime failure
 - Kept nearest-location support and safer data handling
+
+
+## What's new in v14
+
+- Improved mobile geolocation with a fallback request if high-accuracy lookup fails
+- Fixed city-row badges so `1 stores`, `1 IN STOCK`, and miles-away tags wrap cleanly under the city name
+- Chevron now stays isolated on the right so the metadata does not get shoved around
