@@ -74,12 +74,16 @@ export const previousBatches = [
           {
             name: "Greenhouse Dispensary",
             status: "IN STOCK",
-            mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary+Seattle+WA"
+            mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary+Seattle+WA",
+            lat: 47.6062,
+            lng: -122.3321
           },
           {
             name: "North Dock Cannabis",
             status: "SOLD OUT",
-            mapsUrl: "https://maps.google.com/?q=North+Dock+Cannabis+Seattle+WA"
+            mapsUrl: "https://maps.google.com/?q=North+Dock+Cannabis+Seattle+WA",
+            lat: 47.6145,
+            lng: -122.3418
           }
         ]
       },
@@ -89,7 +93,9 @@ export const previousBatches = [
           {
             name: "Urban Harvest",
             status: "SOLD OUT",
-            mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Bellevue+WA"
+            mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Bellevue+WA",
+            lat: 47.6101,
+            lng: -122.2015
           }
         ]
       }
@@ -106,7 +112,9 @@ export const previousBatches = [
           {
             name: "Elevate Cannabis",
             status: "IN STOCK",
-            mapsUrl: "https://maps.google.com/?q=Elevate+Cannabis+Tacoma+WA"
+            mapsUrl: "https://maps.google.com/?q=Elevate+Cannabis+Tacoma+WA",
+            lat: 47.2529,
+            lng: -122.4443
           }
         ]
       },
@@ -116,7 +124,9 @@ export const previousBatches = [
           {
             name: "Cloud 9 Collective",
             status: "SOLD OUT",
-            mapsUrl: "https://maps.google.com/?q=Cloud+9+Collective+Everett+WA"
+            mapsUrl: "https://maps.google.com/?q=Cloud+9+Collective+Everett+WA",
+            lat: 47.9789,
+            lng: -122.2021
           }
         ]
       }
@@ -133,12 +143,16 @@ export const previousBatches = [
           {
             name: "Northline Cannabis",
             status: "IN STOCK",
-            mapsUrl: "https://maps.google.com/?q=Northline+Cannabis+Marysville+WA"
+            mapsUrl: "https://maps.google.com/?q=Northline+Cannabis+Marysville+WA",
+            lat: 48.0518,
+            lng: -122.1771
           },
           {
             name: "Cascade Green",
             status: "IN STOCK",
-            mapsUrl: "https://maps.google.com/?q=Cascade+Green+Marysville+WA"
+            mapsUrl: "https://maps.google.com/?q=Cascade+Green+Marysville+WA",
+            lat: 48.0540,
+            lng: -122.1830
           }
         ]
       }

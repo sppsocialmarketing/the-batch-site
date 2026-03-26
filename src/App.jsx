@@ -25,6 +25,10 @@ const copy = {
     directions: "Get Directions",
     cityLabel: "City",
     cityPrompt: "Choose a city",
+    useLocation: "Use My Location",
+    locationActive: "Location Active",
+    nearestFirst: "Nearest locations first",
+    milesAway: "mi away",
     inStock: "IN STOCK",
     soldOut: "SOLD OUT",
     archive: "Batch Archive",
@@ -54,6 +58,10 @@ const copy = {
     directions: "Cómo llegar",
     cityLabel: "Ciudad",
     cityPrompt: "Elige una ciudad",
+    useLocation: "Usar mi ubicación",
+    locationActive: "Ubicación activa",
+    nearestFirst: "Ubicaciones más cercanas primero",
+    milesAway: "mi de distancia",
     inStock: "EN STOCK",
     soldOut: "AGOTADO",
     archive: "Archivo de Batches",
@@ -73,6 +81,8 @@ export default function TheBatchSplashPage() {
   const [upcomingOpen, setUpcomingOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const [cursorVisible, setCursorVisible] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationError, setLocationError] = useState(false);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -80,6 +90,27 @@ export default function TheBatchSplashPage() {
   const smoothY = useSpring(cursorY, { stiffness: 700, damping: 45, mass: 0.2 });
 
   const t = copy[language];
+
+  const handleUseLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError(true);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        setLocationError(false);
+      },
+      () => {
+        setLocationError(true);
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+    );
+  };
 
   useEffect(() => {
     const interval = setInterval(() => setTimeLeft(getTimeLeft(targetDate)), 1000);
@@ -232,6 +263,25 @@ export default function TheBatchSplashPage() {
                 <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{t.citySections}</h3>
                 <p className="mt-3 text-sm leading-6 text-white/55">{t.nearbyText}</p>
                 <p className="mt-2 text-xs uppercase tracking-[0.24em] text-white/35">{t.tapToExpand}</p>
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={handleUseLocation}
+                    className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.04] px-4 py-2.5 text-[11px] uppercase tracking-[0.2em] text-white/90 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/22 hover:bg-white/[0.09]"
+                  >
+                    {userLocation ? t.locationActive : t.useLocation}
+                  </button>
+                  {userLocation && (
+                    <span className="text-[10px] uppercase tracking-[0.22em] text-white/45">
+                      {t.nearestFirst}
+                    </span>
+                  )}
+                  {locationError && (
+                    <span className="text-[10px] uppercase tracking-[0.22em] text-red-400">
+                      Location unavailable
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="mt-6 space-y-4">
@@ -264,9 +314,8 @@ export default function TheBatchSplashPage() {
                             <div className="space-y-3 border-t border-white/8 px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
                               <p className="px-1 text-[10px] uppercase tracking-[0.28em] text-white/38">{t.cityPrompt}</p>
 
-                              {batch.storesByCity.map((cityGroup) => {
+                              {decorateCities(batch).map((cityGroup) => {
                                 const cityOpen = isCityOpen(batch.batch, cityGroup.city);
-                                const inStockCount = cityGroup.stores.filter((store) => store.status === "IN STOCK").length;
 
                                 return (
                                   <motion.div key={`${batch.batch}-${cityGroup.city}`} layout transition={{ layout: { type: "spring", stiffness: 220, damping: 22 } }} className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02]">
@@ -287,14 +336,21 @@ export default function TheBatchSplashPage() {
                                               <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
                                                 {cityGroup.stores.length} {cityGroup.stores.length === 1 ? "STORE" : "STORES"}
                                               </span>
-                                              {inStockCount > 0 && (
+                                              {cityGroup.inStockCount > 0 && (
                                                 <span className="stock-pulse rounded-full border border-green-500/35 bg-green-500/10 px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-green-400 whitespace-nowrap">
-                                                  {inStockCount} {t.inStock}
+                                                  {cityGroup.inStockCount} {t.inStock}
                                                 </span>
                                               )}
                                             </div>
                                           </div>
                                         </div>
+                                            {cityGroup.nearestDistance != null && (
+                                              <div className="mt-2">
+                                                <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
+                                                  {cityGroup.nearestDistance.toFixed(1)} {t.milesAway}
+                                                </span>
+                                              </div>
+                                            )}
                                       </div>
 
                                       <div className="flex shrink-0 items-center gap-2 self-start sm:self-center">
@@ -302,9 +358,9 @@ export default function TheBatchSplashPage() {
                                           <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-white/60 whitespace-nowrap">
                                             {cityGroup.stores.length} {cityGroup.stores.length === 1 ? "STORE" : "STORES"}
                                           </span>
-                                          {inStockCount > 0 && (
+                                          {cityGroup.inStockCount > 0 && (
                                             <span className="stock-pulse rounded-full border border-green-500/35 bg-green-500/10 px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-green-400 whitespace-nowrap">
-                                              {inStockCount} {t.inStock}
+                                              {cityGroup.inStockCount} {t.inStock}
                                             </span>
                                           )}
                                         </div>
@@ -331,6 +387,11 @@ export default function TheBatchSplashPage() {
                                                       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                         <div className="min-w-0">
                                                           <p className="text-sm tracking-[0.03em] text-white/92 md:text-base">{store.name}</p>
+                                                          {store.distance != null && (
+                                                            <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-white/45">
+                                                              {store.distance.toFixed(1)} {t.milesAway}
+                                                            </p>
+                                                          )}
                                                         </div>
 
                                                         <span className={["w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] transition-all duration-200", inStock ? "stock-pulse border-green-500/35 bg-green-500/10 text-green-400 group-hover:shadow-[0_0_24px_rgba(74,222,128,0.48)]" : "border-red-500/35 bg-red-500/10 text-red-400 shadow-[0_0_18px_rgba(248,113,113,0.35)] group-hover:shadow-[0_0_24px_rgba(248,113,113,0.45)]"].join(" ")}>
@@ -431,6 +492,22 @@ function CursorDot({ x, y, visible }) {
       className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-3 w-3 rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.55)] md:block"
     />
   );
+}
+
+function getDistanceMiles(lat1, lng1, lat2, lng2) {
+  const toRad = (value) => (value * Math.PI) / 180;
+  const R = 3958.8;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLng / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 function getTimeLeft(targetDate) {

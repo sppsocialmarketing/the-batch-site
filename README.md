@@ -66,3 +66,32 @@ git push
 
 - Fixed desktop `Get Directions` button so it stays on one line
 - Tightened animation timing for a cleaner, more premium feel
+
+
+## What's new in v11
+
+- Added optional **Use My Location** button in Store Finder
+- Cities now sort nearest-first when location is enabled
+- Stores inside each city also sort nearest-first
+- Distance badges show miles away for cities and stores
+- Added latitude/longitude fields in `src/data.js` for all sample stores
+
+### Store coordinates format
+
+```js
+{
+  name: "Store Name",
+  status: "IN STOCK",
+  mapsUrl: "https://maps.google.com/?q=Store+Name+City+State",
+  lat: 47.6062,
+  lng: -122.3321
+}
+```
+
+### Push changes to GitHub
+
+```bash
+git add .
+git commit -m "Add nearest store support"
+git push
+```
