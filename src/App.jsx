@@ -15,6 +15,7 @@ const copy = {
     hours: "Hours",
     minutes: "Minutes",
     seconds: "Seconds",
+    landingInStores: "CURRENTLY LANDING IN STORES",
     upcomingRelease: "Upcoming Release",
     upcomingStrains: "Included Strains",
     previousBatches: "Find a Store",
@@ -50,6 +51,7 @@ const copy = {
     hours: "Horas",
     minutes: "Minutos",
     seconds: "Segundos",
+    landingInStores: "ACTUALMENTE LLEGANDO A TIENDAS",
     upcomingRelease: "Próximo Lanzamiento",
     upcomingStrains: "Strains Incluidas",
     previousBatches: "Encontrar Tienda",
@@ -262,14 +264,32 @@ export default function TheBatchSplashPage() {
             >
               <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.nextBatchDropsIn}</p>
 
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-                {timerItems.map((item) => (
-                  <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.02] px-3 py-5 text-center transition-transform duration-200 hover:-translate-y-1 md:px-4 md:py-6">
-                    <div className="text-3xl font-semibold tracking-[0.08em] tabular-nums sm:text-4xl md:text-5xl">{item.value}</div>
-                    <div className="mt-2 text-[10px] uppercase tracking-[0.35em] text-white/45">{item.label}</div>
+              {isLanding ? (
+                <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.02] px-6 py-10 text-center md:px-8 md:py-12">
+                  <div className="mx-auto max-w-2xl">
+                    <p className="text-xl font-medium tracking-[0.16em] text-white/92 md:text-3xl">
+                      {t.landingInStores}
+                      <span className="inline-flex w-[1.6em] justify-start">
+                        <span className="loading-dot">.</span>
+                        <span className="loading-dot" style={{ animationDelay: "0.2s" }}>.</span>
+                        <span className="loading-dot" style={{ animationDelay: "0.4s" }}>.</span>
+                      </span>
+                    </p>
+                    <p className="mt-4 text-sm uppercase tracking-[0.22em] text-white/45">
+                      Check store locations as batches arrive.
+                    </p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ) : (
+                <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+                  {timerItems.map((item) => (
+                    <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.02] px-3 py-5 text-center transition-transform duration-200 hover:-translate-y-1 md:px-4 md:py-6">
+                      <div className="text-3xl font-semibold tracking-[0.08em] tabular-nums sm:text-4xl md:text-5xl">{item.value}</div>
+                      <div className="mt-2 text-[10px] uppercase tracking-[0.35em] text-white/45">{item.label}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="mt-8 border-t border-white/10 pt-7">
                 <p className="text-[11px] uppercase tracking-[0.35em] text-white/45">{t.upcomingRelease}</p>

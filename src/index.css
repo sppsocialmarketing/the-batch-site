@@ -59,3 +59,24 @@ button {
 .stock-pulse {
   animation: stockPulse 2.6s ease-in-out infinite;
 }
+
+
+@keyframes loadingDotPulse {
+  0%, 20% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+}
+
+.loading-dot {
+  display: inline-block;
+  animation: loadingDotPulse 1.2s ease-in-out infinite;
+}

@@ -80,3 +80,11 @@ git push
 - Improved mobile geolocation with a fallback request if high-accuracy lookup fails
 - Fixed city-row badges so `1 stores`, `1 IN STOCK`, and miles-away tags wrap cleanly under the city name
 - Chevron now stays isolated on the right so the metadata does not get shoved around
+
+
+## What's new in v15
+
+- When the countdown hits zero, the timer switches to:
+  - `CURRENTLY LANDING IN STORES...`
+- Added subtle animated dots for the in-process state
+- Helps the countdown feel intentional instead of just stopping at zero
