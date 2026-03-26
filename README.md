@@ -95,3 +95,12 @@ git add .
 git commit -m "Add nearest store support"
 git push
 ```
+
+
+## What's new in v12
+
+- Added backward-compatible data handling so the site works with either:
+  - `storesByCity`
+  - or older flat `stores` arrays with `city`
+- Added safer fallbacks so missing fields are less likely to white-screen the app
+- Best if you want to keep your edited data without perfectly matching the newest structure

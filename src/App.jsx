@@ -75,7 +75,7 @@ const copy = {
 export default function TheBatchSplashPage() {
   const targetDate = useMemo(() => new Date(nextDropDate), []);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
-  const [openBatch, setOpenBatch] = useState(previousBatches[0]?.batch ?? null);
+  const [openBatch, setOpenBatch] = useState((Array.isArray(previousBatches) ? previousBatches[0]?.batch : null) ?? null);
   const [openCity, setOpenCity] = useState({});
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [upcomingOpen, setUpcomingOpen] = useState(false);
@@ -216,7 +216,7 @@ export default function TheBatchSplashPage() {
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <h2 className="text-2xl font-medium tracking-[0.08em] md:text-4xl">{upcomingRelease.batch}</h2>
                   <span className="rounded-full border border-white/12 bg-white/[0.04] px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-white/60">
-                    {upcomingRelease.strains.length} {upcomingRelease.strains.length === 1 ? "STRAIN" : "STRAINS"}
+{(upcomingRelease?.strains || []).length} {(upcomingRelease?.strains || []).length === 1 ? "STRAIN" : "STRAINS"}
                   </span>
                 </div>
 
@@ -227,7 +227,7 @@ export default function TheBatchSplashPage() {
                 >
                   <div className="min-w-0">
                     <p className="text-[10px] uppercase tracking-[0.3em] text-white/45">{t.upcomingStrains}</p>
-                    <p className="mt-2 text-sm uppercase tracking-[0.22em] text-white/82">{upcomingRelease.strains.map((strain) => strain.name).join(" · ")}</p>
+                    <p className="mt-2 text-sm uppercase tracking-[0.22em] text-white/82">{(upcomingRelease?.strains || []).map((strain) => strain.name).join(" · ")}</p>
                   </div>
 
                   <motion.div animate={{ rotate: upcomingOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.03] p-2 text-white/65">
@@ -239,7 +239,7 @@ export default function TheBatchSplashPage() {
                   {upcomingOpen && (
                     <motion.div key="upcoming-strains" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
                       <div className="mt-4 space-y-3">
-                        {upcomingRelease.strains.map((strain) => (
+                        {(upcomingRelease?.strains || []).map((strain) => (
                           <motion.div key={strain.name} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 280, damping: 24 }} className="rounded-2xl border border-white/8 bg-white/[0.018] p-4 transition-all duration-200 hover:border-white/16 hover:bg-white/[0.03]">
                             <div className="flex flex-wrap items-center gap-3">
                               <p className="text-base tracking-[0.12em] text-white/92 md:text-lg">{strain.name}</p>
@@ -285,7 +285,7 @@ export default function TheBatchSplashPage() {
               </div>
 
               <div className="mt-6 space-y-4">
-                {previousBatches.map((batch) => {
+                {(Array.isArray(previousBatches) ? previousBatches : []).map((batch) => {
                   const isOpen = openBatch === batch.batch;
 
                   return (
@@ -462,7 +462,7 @@ export default function TheBatchSplashPage() {
                 {archiveOpen && (
                   <motion.div key="archive-content" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
                     <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                      {batchArchive.map((item) => (
+                      {(Array.isArray(batchArchive) ? batchArchive : []).map((item) => (
                         <motion.div key={item.batch} whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 280, damping: 24 }} className="rounded-2xl border border-white/8 bg-white/[0.018] p-4 transition-all duration-200 hover:border-white/16 hover:bg-white/[0.03]">
                           <div className="flex items-center justify-between gap-3">
                             <span className="text-[10px] uppercase tracking-[0.3em] text-white/45">{item.batch}</span>
