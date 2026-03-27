@@ -91,9 +91,7 @@ git push
 
 ## What's new in v17
 
-- Top-right **Current State** now switches automatically:
-  - before zero: `Awaiting Next Drop`
-  - after zero: `Delivering to Stores`
-- Keeps the landing-state message:
-  - `CURRENTLY LANDING IN STORES...`
-- Built from the already-fixed v16 version to avoid the previous black-screen bug
+- Swapped the site to a soft light theme
+- Inverted the visual system to match white-label / black-text branding
+- Uses an off-white background instead of pure white, so it feels premium and is less harsh in dark rooms
+- No dark/light toggle included
