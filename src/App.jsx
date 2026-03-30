@@ -279,7 +279,7 @@ export default function TheBatchSplashPage() {
                         <span className="loading-dot" style={{ animationDelay: "0.4s" }}>.</span>
                       </span>
                     </p>
-                    <p className="mt-4 text-sm uppercase tracking-[0.22em] text-[#111111]/45">
+                    <p className="mt-4 text-sm uppercase tracking-[0.16em] text-[#111111]/45">
                       {t.landingSubtext}
                     </p>
                   </div>
@@ -311,7 +311,7 @@ export default function TheBatchSplashPage() {
                 >
                   <div className="min-w-0">
                     <p className="text-[10px] uppercase tracking-[0.3em] text-[#111111]/45">{t.upcomingStrains}</p>
-                    <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[#111111]/82">{(upcomingRelease?.strains || []).map((strain) => strain.name).join(" · ")}</p>
+                    <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[#111111]/82">{(upcomingRelease?.strains || []).map((strain) => strain.name).join(" · ")}</p>
                   </div>
 
                   <motion.div animate={{ rotate: upcomingOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/10 bg-black/[0.04] p-2 text-[#111111]/65">
@@ -356,10 +356,10 @@ export default function TheBatchSplashPage() {
                     {userLocation ? t.locationActive : t.useLocation}
                   </button>
                   {userLocation && (
-                    <span className="text-[10px] uppercase tracking-[0.22em] text-[#111111]/45">{t.nearestFirst}</span>
+                    <span className="text-[10px] uppercase tracking-[0.16em] text-[#111111]/45">{t.nearestFirst}</span>
                   )}
                   {locationError && (
-                    <span className="text-[10px] uppercase tracking-[0.22em] text-red-600">{t.locationUnavailable}</span>
+                    <span className="text-[10px] uppercase tracking-[0.16em] text-red-600">{t.locationUnavailable}</span>
                   )}
                 </div>
               </div>
@@ -413,16 +413,16 @@ export default function TheBatchSplashPage() {
                                             <p className="text-[10px] uppercase tracking-[0.28em] text-[#111111]/42">{t.cityLabel}</p>
                                             <p className="text-sm tracking-[0.08em] text-[#111111]/92 md:text-base">{cityGroup.city}</p>
                                             <div className="mt-2 flex flex-wrap items-center gap-2">
-                                              <span className="rounded-full border border-black/10 bg-black/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-[#111111]/60 whitespace-nowrap">
+                                              <span className="rounded-full border border-black/10 bg-black/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#111111]/60 whitespace-nowrap">
                                                 {cityGroup.stores.length} {t.storesLabel}
                                               </span>
                                               {cityGroup.inStockCount > 0 && (
-                                                <span className="stock-pulse rounded-full border border-green-500/30 bg-green-500/12 px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-green-600 whitespace-nowrap">
+                                                <span className="rounded-full border border-[#bbf7d0] bg-[#e8f7ee] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#166534] whitespace-nowrap">
                                                   {cityGroup.inStockCount} {t.inStock}
                                                 </span>
                                               )}
                                               {cityGroup.nearestDistance != null && (
-                                                <span className="rounded-full border border-black/10 bg-black/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.18em] text-[#111111]/60 whitespace-nowrap">
+                                                <span className="rounded-full border border-black/10 bg-black/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#111111]/60 whitespace-nowrap">
                                                   {cityGroup.nearestDistance.toFixed(1)} {t.milesAway}
                                                 </span>
                                               )}
@@ -453,13 +453,13 @@ export default function TheBatchSplashPage() {
                                                       <div className="min-w-0">
                                                         <p className="text-sm tracking-[0.03em] text-[#111111]/92 md:text-base">{store.name}</p>
                                                         {store.distance != null && (
-                                                          <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-[#111111]/45">
+                                                          <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/45">
                                                             {store.distance.toFixed(1)} {t.milesAway}
                                                           </p>
                                                         )}
                                                       </div>
 
-                                                      <span className={["w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] transition-all duration-200", inStock ? "stock-pulse border-green-500/30 bg-green-500/12 text-green-600 group-hover:shadow-[0_0_24px_rgba(74,222,128,0.48)]" : "border-red-500/30 bg-red-500/12 text-red-600 shadow-[0_0_18px_rgba(248,113,113,0.35)] group-hover:shadow-[0_0_24px_rgba(248,113,113,0.45)]"].join(" ")}>
+                                                      <span className={["w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] transition-all duration-200", inStock ? "border-[#bbf7d0] bg-[#e8f7ee] text-[#166534] group-hover:shadow-[0_0_10px_rgba(34,197,94,0.14)]" : "border-[#fecaca] bg-[#fbeaea] text-[#991b1b] shadow-none group-hover:shadow-[0_0_10px_rgba(239,68,68,0.10)]"].join(" ")}>
                                                         {stockLabel}
                                                       </span>
                                                     </div>

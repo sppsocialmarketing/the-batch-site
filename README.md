@@ -102,3 +102,10 @@ git push
 - Fixed the custom cursor so it tracks directly with the mouse instead of lagging behind
 - Reduced cursor size and glow slightly to cut down on motion sickness
 - Kept the same visual style without the floaty trailing effect
+
+
+## What's new in v19
+
+- Reworked `IN STOCK` and `SOLD OUT` badge colors for the light theme
+- Higher contrast and cleaner premium styling
+- Reduced neon/glow effect so statuses feel more refined on the soft background
