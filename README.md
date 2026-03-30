@@ -136,3 +136,10 @@ git push
 - Spanish version updated to `Flor Selecta`
 - Kept the hero line as `Released in limited batches.`
 - Tightened hero spacing slightly so the top section feels cleaner and less repetitive
+
+
+## What's new in v23
+
+- When location is active, the strain/batch cards in Store Finder now sort by nearest available store
+- Added nearest-distance badges on the strain cards
+- Store Finder now helps users see which batches are closest before opening a city

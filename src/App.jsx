@@ -30,6 +30,7 @@ const copy = {
     useLocation: "Use My Location",
     locationActive: "Location Active",
     nearestFirst: "Nearest locations first",
+    closestStrains: "Closest batches first",
     milesAway: "mi away",
     storesLabel: "stores",
     inStock: "IN STOCK",
@@ -67,6 +68,7 @@ const copy = {
     useLocation: "Usar mi ubicación",
     locationActive: "Ubicación activa",
     nearestFirst: "Ubicaciones más cercanas primero",
+    closestStrains: "Batches más cercanos primero",
     milesAway: "mi de distancia",
     storesLabel: "tiendas",
     inStock: "EN STOCK",
@@ -221,6 +223,32 @@ export default function TheBatchSplashPage() {
       });
   };
 
+  const getSortedBatches = () => {
+    const safeBatches = Array.isArray(previousBatches) ? previousBatches : [];
+
+    return safeBatches
+      .map((batch) => {
+        const decoratedCities = decorateCities(batch);
+        const nearestDistance =
+          decoratedCities
+            .flatMap((city) => city.stores)
+            .find((store) => store.distance != null)?.distance ?? null;
+
+        return {
+          ...batch,
+          decoratedCities,
+          nearestDistance,
+        };
+      })
+      .sort((a, b) => {
+        if (!userLocation) return 0;
+        if (a.nearestDistance == null && b.nearestDistance == null) return 0;
+        if (a.nearestDistance == null) return 1;
+        if (b.nearestDistance == null) return -1;
+        return a.nearestDistance - b.nearestDistance;
+      });
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#f5f5f2] px-4 py-8 text-[#111111] md:px-8 md:py-10 lg:px-16">
       <CursorDot x={smoothX} y={smoothY} visible={cursorVisible} />
@@ -366,7 +394,7 @@ export default function TheBatchSplashPage() {
               </div>
 
               <div className="mt-6 space-y-4">
-                {(Array.isArray(previousBatches) ? previousBatches : []).map((batch) => {
+                {getSortedBatches().map((batch) => {
                   const isOpen = openBatch === batch.batch;
 
                   return (
@@ -395,7 +423,7 @@ export default function TheBatchSplashPage() {
                             <div className="space-y-3 border-t border-black/[0.07] px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
                               <p className="px-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/38">{t.cityPrompt}</p>
 
-                              {decorateCities(batch).map((cityGroup) => {
+                              {batch.decoratedCities.map((cityGroup) => {
                                 const cityOpen = isCityOpen(batch.batch, cityGroup.city);
 
                                 return (
