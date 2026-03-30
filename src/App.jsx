@@ -5,7 +5,7 @@ import { batchArchive, nextDropDate, previousBatches, upcomingRelease } from "./
 
 const copy = {
   en: {
-    topLabel: "Limited Release Flower",
+    topLabel: "Selective Flower",
     currentState: "Current State",
     awaiting: "Awaiting Release",
     english: "EN",
@@ -42,7 +42,7 @@ const copy = {
     locationUnavailable: "Location unavailable"
   },
   es: {
-    topLabel: "Flor de Lanzamiento Limitado",
+    topLabel: "Flor Selecta",
     currentState: "Estado Actual",
     awaiting: "Esperando Lanzamiento",
     english: "EN",
@@ -227,10 +227,10 @@ export default function TheBatchSplashPage() {
 
       <div className="mx-auto max-w-6xl">
         <header className="border-b border-black/[0.07] pb-7 md:pb-8">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-[10px] uppercase tracking-[0.32em] text-[#111111]/45 md:text-xs">{t.topLabel}</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[0.12em] sm:text-5xl md:text-7xl">THE BATCH</h1>
+              <h1 className="mt-2.5 text-4xl font-semibold tracking-[0.11em] sm:text-5xl md:text-7xl">THE BATCH</h1>
               <p className="mt-4 text-sm uppercase tracking-[0.16em] text-black/45 md:text-[13px]">Released in limited batches.</p>
             </div>
 

@@ -128,3 +128,11 @@ git push
 - Kept the larger section title as `Find a Store`
 - Replaced the hero tagline with `Released in limited batches.`
 - Updated the helper copy to `Available in select locations.`
+
+
+## What's new in v22
+
+- Changed the top hero label from `Limited Release Flower` to `Selective Flower`
+- Spanish version updated to `Flor Selecta`
+- Kept the hero line as `Released in limited batches.`
+- Tightened hero spacing slightly so the top section feels cleaner and less repetitive
