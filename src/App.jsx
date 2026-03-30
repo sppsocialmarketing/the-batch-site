@@ -19,7 +19,7 @@ const copy = {
     landingSubtext: "Check store locations as batches arrive.",
     upcomingRelease: "Upcoming Release",
     upcomingStrains: "Included Strains",
-    previousBatches: "Find a Store",
+    previousBatches: "Batch Finder",
     citySections: "Find a Store",
     nearbyText: "Fastest way to check if there's Batches near you.",
     tapToExpand: "Click a strain to see if it's in your city or nearby.",
@@ -56,8 +56,8 @@ const copy = {
     landingSubtext: "Revisa las tiendas mientras van llegando los batches.",
     upcomingRelease: "Próximo Lanzamiento",
     upcomingStrains: "Strains Incluidas",
-    previousBatches: "Encontrar Tienda",
-    citySections: "Buscar por Ciudad",
+    previousBatches: "Buscador de Batch",
+    citySections: "Encontrar Tienda",
     nearbyText: "Disponible en ubicaciones seleccionadas.",
     tapToExpand: "Elige un batch y luego una ciudad.",
     openInGoogleMaps: "Abrir en Google Maps",
@@ -231,7 +231,7 @@ export default function TheBatchSplashPage() {
             <div>
               <p className="text-[10px] uppercase tracking-[0.32em] text-[#111111]/45 md:text-xs">{t.topLabel}</p>
               <h1 className="mt-3 text-4xl font-semibold tracking-[0.12em] sm:text-5xl md:text-7xl">THE BATCH</h1>
-              <p className="mt-4 text-sm uppercase tracking-[0.16em] text-black/45 md:text-[13px]">One batch. No reruns.</p>
+              <p className="mt-4 text-sm uppercase tracking-[0.16em] text-black/45 md:text-[13px]">Released in limited batches.</p>
             </div>
 
             <div className="flex flex-col gap-4 text-left md:items-end md:text-right">

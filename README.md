@@ -120,3 +120,11 @@ git push
 - Softer borders, lighter shadows, and more unified card styling
 - Added a hero statement under the logo: `One batch. No reruns.`
 - Simplified helper copy to feel more premium and less operational
+
+
+## What's new in v21
+
+- Changed the small Store Finder label from `Find a Store` to `Batch Finder`
+- Kept the larger section title as `Find a Store`
+- Replaced the hero tagline with `Released in limited batches.`
+- Updated the helper copy to `Available in select locations.`
