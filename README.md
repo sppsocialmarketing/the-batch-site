@@ -95,3 +95,10 @@ git push
 - Inverted the visual system to match white-label / black-text branding
 - Uses an off-white background instead of pure white, so it feels premium and is less harsh in dark rooms
 - No dark/light toggle included
+
+
+## What's new in v18
+
+- Fixed the custom cursor so it tracks directly with the mouse instead of lagging behind
+- Reduced cursor size and glow slightly to cut down on motion sickness
+- Kept the same visual style without the floaty trailing effect

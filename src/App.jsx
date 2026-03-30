@@ -94,8 +94,8 @@ export default function TheBatchSplashPage() {
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  const smoothX = useSpring(cursorX, { stiffness: 700, damping: 45, mass: 0.2 });
-  const smoothY = useSpring(cursorY, { stiffness: 700, damping: 45, mass: 0.2 });
+  const smoothX = cursorX;
+  const smoothY = cursorY;
 
   const t = copy[language];
 
@@ -553,8 +553,8 @@ function CursorDot({ x, y, visible }) {
   return (
     <motion.div
       style={{ x, y, opacity: visible ? 1 : 0, scale: visible ? 1 : 0.85 }}
-      transition={{ opacity: { duration: 0.18 }, scale: { duration: 0.18 } }}
-      className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-3 w-3 rounded-full bg-[#111111] shadow-[0_0_14px_rgba(0,0,0,0.18)] md:block"
+      transition={{ opacity: { duration: 0.08 }, scale: { duration: 0.08 } }}
+      className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-2.5 w-2.5 rounded-full bg-[#111111] shadow-[0_0_10px_rgba(0,0,0,0.14)] md:block"
     />
   );
 }
