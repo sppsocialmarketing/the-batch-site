@@ -109,3 +109,14 @@ git push
 - Reworked `IN STOCK` and `SOLD OUT` badge colors for the light theme
 - Higher contrast and cleaner premium styling
 - Reduced neon/glow effect so statuses feel more refined on the soft background
+
+
+## What's new in v20
+
+- Added an Apple-like polish pass focused on restraint and consistency
+- More breathing room between sections and inside cards
+- Stronger typography hierarchy with quieter utility text
+- Reduced motion intensity so interactions feel calmer and more precise
+- Softer borders, lighter shadows, and more unified card styling
+- Added a hero statement under the logo: `One batch. No reruns.`
+- Simplified helper copy to feel more premium and less operational

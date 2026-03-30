@@ -80,3 +80,15 @@ button {
   display: inline-block;
   animation: loadingDotPulse 1.2s ease-in-out infinite;
 }
+
+
+/* v20 polish */
+body {
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: rgba(17,17,17,0.12);
+  color: #111111;
+}
+

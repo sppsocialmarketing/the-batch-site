@@ -7,7 +7,7 @@ const copy = {
   en: {
     topLabel: "Limited Release Flower",
     currentState: "Current State",
-    awaiting: "Awaiting Next Drop",
+    awaiting: "Awaiting Release",
     english: "EN",
     spanish: "ES",
     nextBatchDropsIn: "Next Batch Drops In",
@@ -20,7 +20,7 @@ const copy = {
     upcomingRelease: "Upcoming Release",
     upcomingStrains: "Included Strains",
     previousBatches: "Find a Store",
-    citySections: "Browse by City",
+    citySections: "Find a Store",
     nearbyText: "Fastest way to check if there's Batches near you.",
     tapToExpand: "Click a strain to see if it's in your city or nearby.",
     openInGoogleMaps: "Open in Google Maps",
@@ -36,7 +36,7 @@ const copy = {
     soldOut: "SOLD OUT",
     archive: "Batch Archive",
     archiveLabel: "Past Drops",
-    archiveCopy: "A clean record of every release. Built for scale, so as more batches drop, the archive stays organized instead of turning into a wall of chaos.",
+    archiveCopy: "A record of prior releases, kept simple and easy to scan.",
     showArchive: "Show Archive",
     hideArchive: "Hide Archive",
     locationUnavailable: "Location unavailable"
@@ -44,7 +44,7 @@ const copy = {
   es: {
     topLabel: "Flor de Lanzamiento Limitado",
     currentState: "Estado Actual",
-    awaiting: "Esperando el Próximo Drop",
+    awaiting: "Esperando Lanzamiento",
     english: "EN",
     spanish: "ES",
     nextBatchDropsIn: "Próximo Batch en",
@@ -58,8 +58,8 @@ const copy = {
     upcomingStrains: "Strains Incluidas",
     previousBatches: "Encontrar Tienda",
     citySections: "Buscar por Ciudad",
-    nearbyText: "La forma más rápida de revisar si hay Batches cerca de ti.",
-    tapToExpand: "Haz clic en una strain para ver si está en tu ciudad o cerca.",
+    nearbyText: "Disponible en ubicaciones seleccionadas.",
+    tapToExpand: "Elige un batch y luego una ciudad.",
     openInGoogleMaps: "Abrir en Google Maps",
     directions: "Cómo llegar",
     cityLabel: "Ciudad",
@@ -73,7 +73,7 @@ const copy = {
     soldOut: "AGOTADO",
     archive: "Archivo de Batches",
     archiveLabel: "Drops Anteriores",
-    archiveCopy: "Un registro limpio de cada lanzamiento. Hecho para crecer, para que cuando haya muchos batches el archivo siga ordenado y no se convierta en un muro de caos.",
+    archiveCopy: "Un registro de lanzamientos previos, simple y fácil de revisar.",
     showArchive: "Mostrar Archivo",
     hideArchive: "Ocultar Archivo",
     locationUnavailable: "Ubicación no disponible"
@@ -226,20 +226,21 @@ export default function TheBatchSplashPage() {
       <CursorDot x={smoothX} y={smoothY} visible={cursorVisible} />
 
       <div className="mx-auto max-w-6xl">
-        <header className="border-b border-black/10 pb-7 md:pb-8">
+        <header className="border-b border-black/[0.07] pb-7 md:pb-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.35em] text-[#111111]/45 md:text-xs">{t.topLabel}</p>
+              <p className="text-[10px] uppercase tracking-[0.32em] text-[#111111]/45 md:text-xs">{t.topLabel}</p>
               <h1 className="mt-3 text-4xl font-semibold tracking-[0.12em] sm:text-5xl md:text-7xl">THE BATCH</h1>
+              <p className="mt-4 text-sm uppercase tracking-[0.16em] text-black/45 md:text-[13px]">One batch. No reruns.</p>
             </div>
 
             <div className="flex flex-col gap-4 text-left md:items-end md:text-right">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.3em] text-[#111111]/35">{t.currentState}</p>
+                <p className="text-[11px] uppercase tracking-[0.16em] text-[#111111]/35">{t.currentState}</p>
                 <p className="mt-2 text-sm uppercase tracking-[0.25em] text-[#111111]/70">{t.awaiting}</p>
               </div>
 
-              <div className="inline-flex w-fit items-center rounded-full border border-black/10 bg-black/[0.04] p-1">
+              <div className="inline-flex w-fit items-center rounded-full border border-black/[0.07] bg-black/[0.035] p-1">
                 <button
                   type="button"
                   onClick={() => setLanguage("en")}
@@ -259,17 +260,17 @@ export default function TheBatchSplashPage() {
           </div>
         </header>
 
-        <main className="grid grid-cols-1 gap-10 pt-10 md:gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:pt-12">
-          <section className="space-y-8">
+        <main className="grid grid-cols-1 gap-12 pt-12 md:gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24 lg:pt-16">
+          <section className="space-y-10 md:space-y-12">
             <motion.div
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 260, damping: 24 }}
-              className="rounded-3xl border border-black/10 bg-black/[0.025] p-6 shadow-2xl shadow-black/[0.06] backdrop-blur-[2px] md:p-10"
+              whileHover={{ y: -2 }}
+              transition={{ type: "spring", stiffness: 240, damping: 26 }}
+              className="rounded-[28px] border border-black/[0.07] bg-black/[0.022] p-7 shadow-2xl shadow-black/[0.045] backdrop-blur-[2px] md:p-11"
             >
-              <p className="text-[11px] uppercase tracking-[0.35em] text-[#111111]/45">{t.nextBatchDropsIn}</p>
+              <p className="text-[10px] uppercase tracking-[0.32em] text-[#111111]/45">{t.nextBatchDropsIn}</p>
 
               {isLanding ? (
-                <div className="mt-6 rounded-3xl border border-black/10 bg-black/[0.025] px-6 py-10 text-center md:px-8 md:py-12">
+                <div className="mt-6 rounded-[28px] border border-black/[0.07] bg-black/[0.022] px-6 py-10 text-center md:px-8 md:py-12">
                   <div className="mx-auto max-w-2xl">
                     <p className="text-xl font-medium tracking-[0.16em] text-[#111111]/92 md:text-3xl">
                       {t.landingInStores}
@@ -287,7 +288,7 @@ export default function TheBatchSplashPage() {
               ) : (
                 <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
                   {timerItems.map((item) => (
-                    <div key={item.label} className="rounded-2xl border border-black/10 bg-black/[0.025] px-3 py-5 text-center transition-transform duration-200 hover:-translate-y-1 md:px-4 md:py-6">
+                    <div key={item.label} className="rounded-[22px] border border-black/[0.07] bg-black/[0.022] px-3 py-5 text-center transition-transform duration-200 hover:-translate-y-1 md:px-4 md:py-6">
                       <div className="text-3xl font-semibold tracking-[0.08em] tabular-nums sm:text-4xl md:text-5xl">{item.value}</div>
                       <div className="mt-2 text-[10px] uppercase tracking-[0.35em] text-[#111111]/45">{item.label}</div>
                     </div>
@@ -295,11 +296,11 @@ export default function TheBatchSplashPage() {
                 </div>
               )}
 
-              <div className="mt-8 border-t border-black/10 pt-7">
-                <p className="text-[11px] uppercase tracking-[0.35em] text-[#111111]/45">{t.upcomingRelease}</p>
+              <div className="mt-8 border-t border-black/[0.07] pt-7">
+                <p className="text-[10px] uppercase tracking-[0.32em] text-[#111111]/45">{t.upcomingRelease}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <h2 className="text-2xl font-medium tracking-[0.08em] md:text-4xl">{upcomingRelease?.batch}</h2>
-                  <span className="rounded-full border border-black/10 bg-black/[0.05] px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-[#111111]/60">
+                  <span className="rounded-full border border-black/[0.07] bg-black/[0.045] px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/60">
                     {(upcomingRelease?.strains || []).length} {(upcomingRelease?.strains || []).length === 1 ? "STRAIN" : "STRAINS"}
                   </span>
                 </div>
@@ -307,14 +308,14 @@ export default function TheBatchSplashPage() {
                 <button
                   type="button"
                   onClick={() => setUpcomingOpen((value) => !value)}
-                  className="mt-5 flex w-full items-center justify-between gap-4 rounded-2xl border border-black/10 bg-black/[0.025] px-4 py-4 text-left transition-all duration-200 hover:border-black/16 hover:bg-black/[0.05]"
+                  className="mt-5 flex w-full items-center justify-between gap-4 rounded-[22px] border border-black/[0.07] bg-black/[0.022] px-4 py-4 text-left transition-all duration-200 hover:border-black/12 hover:bg-black/[0.045]"
                 >
                   <div className="min-w-0">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#111111]/45">{t.upcomingStrains}</p>
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#111111]/45">{t.upcomingStrains}</p>
                     <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[#111111]/82">{(upcomingRelease?.strains || []).map((strain) => strain.name).join(" · ")}</p>
                   </div>
 
-                  <motion.div animate={{ rotate: upcomingOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/10 bg-black/[0.04] p-2 text-[#111111]/65">
+                  <motion.div animate={{ rotate: upcomingOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/[0.07] bg-black/[0.035] p-2 text-[#111111]/65">
                     <ChevronDown className="h-4 w-4" />
                   </motion.div>
                 </button>
@@ -324,10 +325,10 @@ export default function TheBatchSplashPage() {
                     <motion.div key="upcoming-strains" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
                       <div className="mt-4 space-y-3">
                         {(upcomingRelease?.strains || []).map((strain) => (
-                          <motion.div key={strain.name} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 280, damping: 24 }} className="rounded-2xl border border-black/8 bg-black/[0.025] p-4 transition-all duration-200 hover:border-black/14 hover:bg-black/[0.04]">
+                          <motion.div key={strain.name} whileHover={{ y: -1.5 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="rounded-[22px] border border-black/[0.07] bg-black/[0.022] p-4 transition-all duration-200 hover:border-black/12 hover:bg-black/[0.035]">
                             <div className="flex flex-wrap items-center gap-3">
                               <p className="text-base tracking-[0.12em] text-[#111111]/92 md:text-lg">{strain.name}</p>
-                              <span className="rounded-full border border-black/10 bg-black/[0.05] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{strain.type}</span>
+                              <span className="rounded-full border border-black/[0.07] bg-black/[0.045] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/55">{strain.type}</span>
                             </div>
                             <p className="mt-3 max-w-xl text-sm leading-7 text-[#111111]/68">{strain.notes?.[language]}</p>
                           </motion.div>
@@ -341,17 +342,17 @@ export default function TheBatchSplashPage() {
           </section>
 
           <section>
-            <div className="rounded-3xl border border-black/10 bg-black/[0.025] p-5 shadow-2xl shadow-black/[0.06] backdrop-blur-[2px] md:p-10">
-              <div className="border-b border-black/10 pb-5">
-                <p className="text-[11px] uppercase tracking-[0.35em] text-[#111111]/45">{t.previousBatches}</p>
+            <div className="rounded-[28px] border border-black/[0.07] bg-black/[0.022] p-6 shadow-2xl shadow-black/[0.045] backdrop-blur-[2px] md:p-11">
+              <div className="border-b border-black/[0.07] pb-5">
+                <p className="text-[10px] uppercase tracking-[0.32em] text-[#111111]/45">{t.previousBatches}</p>
                 <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{t.citySections}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#111111]/55">{t.nearbyText}</p>
-                <p className="mt-2 text-xs uppercase tracking-[0.24em] text-[#111111]/35">{t.tapToExpand}</p>
+                <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[#111111]/35">{t.tapToExpand}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <button
                     type="button"
                     onClick={handleUseLocation}
-                    className="inline-flex items-center justify-center rounded-full border border-black/10 bg-black/[0.05] px-4 py-2.5 text-[11px] uppercase tracking-[0.2em] text-[#111111]/90 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/20 hover:bg-black/[0.08]"
+                    className="inline-flex items-center justify-center rounded-full border border-black/[0.07] bg-black/[0.045] px-4 py-2.5 text-[11px] uppercase tracking-[0.16em] text-[#111111]/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-black/12 hover:bg-black/[0.08]"
                   >
                     {userLocation ? t.locationActive : t.useLocation}
                   </button>
@@ -369,7 +370,7 @@ export default function TheBatchSplashPage() {
                   const isOpen = openBatch === batch.batch;
 
                   return (
-                    <motion.div key={batch.batch} layout transition={{ layout: { type: "spring", stiffness: 260, damping: 24 } }} className="overflow-hidden rounded-3xl border border-black/8 bg-black/[0.02] backdrop-blur-[1px] transition-all duration-200 hover:border-black/14 hover:bg-black/[0.04] hover:shadow-[0_14px_40px_rgba(0,0,0,0.06)]">
+                    <motion.div key={batch.batch} layout transition={{ layout: { type: "spring", stiffness: 260, damping: 24 } }} className="overflow-hidden rounded-[28px] border border-black/[0.07] bg-black/[0.018] backdrop-blur-[1px] transition-all duration-200 hover:border-black/12 hover:bg-black/[0.035] hover:shadow-[0_14px_40px_rgba(0,0,0,0.06)]">
                       <button
                         type="button"
                         onClick={() => setOpenBatch(isOpen ? null : batch.batch)}
@@ -377,13 +378,13 @@ export default function TheBatchSplashPage() {
                       >
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-[10px] uppercase tracking-[0.3em] text-[#111111]/45">{batch.batch}</span>
-                            <span className="rounded-full border border-black/10 bg-black/[0.04] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{batch.type}</span>
+                            <span className="text-[10px] uppercase tracking-[0.16em] text-[#111111]/45">{batch.batch}</span>
+                            <span className="rounded-full border border-black/[0.07] bg-black/[0.035] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/55">{batch.type}</span>
                           </div>
                           <p className="mt-3 truncate pr-2 text-lg tracking-[0.12em] text-[#111111]/92 md:text-xl">{batch.strain}</p>
                         </div>
 
-                        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/10 bg-black/[0.04] p-2 text-[#111111]/65">
+                        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/[0.07] bg-black/[0.035] p-2 text-[#111111]/65">
                           <ChevronDown className="h-4 w-4" />
                         </motion.div>
                       </button>
@@ -391,29 +392,29 @@ export default function TheBatchSplashPage() {
                       <AnimatePresence initial={false}>
                         {isOpen && (
                           <motion.div key="content" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
-                            <div className="space-y-3 border-t border-black/8 px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
-                              <p className="px-1 text-[10px] uppercase tracking-[0.28em] text-[#111111]/38">{t.cityPrompt}</p>
+                            <div className="space-y-3 border-t border-black/[0.07] px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
+                              <p className="px-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/38">{t.cityPrompt}</p>
 
                               {decorateCities(batch).map((cityGroup) => {
                                 const cityOpen = isCityOpen(batch.batch, cityGroup.city);
 
                                 return (
-                                  <motion.div key={`${batch.batch}-${cityGroup.city}`} layout transition={{ layout: { type: "spring", stiffness: 260, damping: 24 } }} className="overflow-hidden rounded-2xl border border-black/8 bg-black/[0.025]">
+                                  <motion.div key={`${batch.batch}-${cityGroup.city}`} layout transition={{ layout: { type: "spring", stiffness: 260, damping: 24 } }} className="overflow-hidden rounded-[22px] border border-black/[0.07] bg-black/[0.022]">
                                     <button
                                       type="button"
                                       onClick={() => toggleCity(batch.batch, cityGroup.city)}
-                                      className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-all duration-200 hover:bg-black/[0.04]"
+                                      className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-all duration-200 hover:bg-black/[0.035]"
                                     >
                                       <div className="min-w-0">
                                         <div className="flex items-center gap-2">
-                                          <div className="rounded-full border border-black/10 p-2 text-[#111111]/55">
+                                          <div className="rounded-full border border-black/[0.07] p-2 text-[#111111]/55">
                                             <MapPin className="h-4 w-4" />
                                           </div>
                                           <div className="min-w-0">
-                                            <p className="text-[10px] uppercase tracking-[0.28em] text-[#111111]/42">{t.cityLabel}</p>
+                                            <p className="text-[10px] uppercase tracking-[0.16em] text-[#111111]/42">{t.cityLabel}</p>
                                             <p className="text-sm tracking-[0.08em] text-[#111111]/92 md:text-base">{cityGroup.city}</p>
                                             <div className="mt-2 flex flex-wrap items-center gap-2">
-                                              <span className="rounded-full border border-black/10 bg-black/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#111111]/60 whitespace-nowrap">
+                                              <span className="rounded-full border border-black/[0.07] bg-black/[0.045] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#111111]/60 whitespace-nowrap">
                                                 {cityGroup.stores.length} {t.storesLabel}
                                               </span>
                                               {cityGroup.inStockCount > 0 && (
@@ -422,7 +423,7 @@ export default function TheBatchSplashPage() {
                                                 </span>
                                               )}
                                               {cityGroup.nearestDistance != null && (
-                                                <span className="rounded-full border border-black/10 bg-black/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#111111]/60 whitespace-nowrap">
+                                                <span className="rounded-full border border-black/[0.07] bg-black/[0.045] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#111111]/60 whitespace-nowrap">
                                                   {cityGroup.nearestDistance.toFixed(1)} {t.milesAway}
                                                 </span>
                                               )}
@@ -432,7 +433,7 @@ export default function TheBatchSplashPage() {
                                       </div>
 
                                       <div className="flex shrink-0 items-start self-start">
-                                        <motion.div animate={{ rotate: cityOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/10 bg-black/[0.04] p-2 text-[#111111]/65">
+                                        <motion.div animate={{ rotate: cityOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/[0.07] bg-black/[0.035] p-2 text-[#111111]/65">
                                           <ChevronDown className="h-4 w-4" />
                                         </motion.div>
                                       </div>
@@ -441,13 +442,13 @@ export default function TheBatchSplashPage() {
                                     <AnimatePresence initial={false}>
                                       {cityOpen && (
                                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
-                                          <div className="space-y-3 border-t border-black/8 p-3">
+                                          <div className="space-y-3 border-t border-black/[0.07] p-3">
                                             {cityGroup.stores.map((store) => {
                                               const inStock = store.status === "IN STOCK";
                                               const stockLabel = inStock ? t.inStock : t.soldOut;
 
                                               return (
-                                                <motion.div key={`${cityGroup.city}-${store.name}`} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 280, damping: 24 }} className="group rounded-2xl border border-black/8 bg-black/[0.025] p-3 transition-all duration-200 hover:border-black/14 hover:bg-black/[0.045] hover:backdrop-blur-md">
+                                                <motion.div key={`${cityGroup.city}-${store.name}`} whileHover={{ y: -1.5 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="group rounded-[22px] border border-black/[0.07] bg-black/[0.022] p-3 transition-all duration-200 hover:border-black/12 hover:bg-black/[0.045] hover:backdrop-blur-md">
                                                   <div className="flex flex-col gap-3">
                                                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                       <div className="min-w-0">
@@ -465,12 +466,12 @@ export default function TheBatchSplashPage() {
                                                     </div>
 
                                                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.26em] text-[#111111]/42 transition-colors duration-200 hover:text-[#111111]/75">
+                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-[#111111]/42 transition-colors duration-200 hover:text-[#111111]/75">
                                                         <span>{t.openInGoogleMaps}</span>
                                                         <ArrowUpRight className="h-3.5 w-3.5" />
                                                       </a>
 
-                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-black/10 bg-black/[0.05] px-5 py-3 text-[11px] uppercase tracking-[0.2em] text-[#111111]/90 transition-all duration-200 hover:-translate-y-0.5 hover:border-black/20 hover:bg-black/[0.08] sm:w-auto">
+                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-black/[0.07] bg-black/[0.045] px-5 py-3 text-[11px] uppercase tracking-[0.16em] text-[#111111]/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-black/12 hover:bg-black/[0.08] sm:w-auto">
                                                         <span>{t.directions}</span>
                                                         <ArrowRight className="h-3.5 w-3.5" />
                                                       </a>
@@ -498,19 +499,19 @@ export default function TheBatchSplashPage() {
           </section>
 
           <section className="lg:col-span-2">
-            <section className="rounded-3xl border border-black/10 bg-black/[0.025] p-6 backdrop-blur-[2px] md:p-8">
+            <section className="rounded-[28px] border border-black/[0.07] bg-black/[0.022] p-6 backdrop-blur-[2px] md:p-9">
               <button type="button" onClick={() => setArchiveOpen((value) => !value)} className="flex w-full items-center justify-between gap-4 text-left">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-full border border-black/10 p-2 text-[#111111]/70">
+                  <div className="rounded-full border border-black/[0.07] p-2 text-[#111111]/70">
                     <Archive className="h-4 w-4" />
                   </div>
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.35em] text-[#111111]/45">{t.archiveLabel}</p>
+                    <p className="text-[10px] uppercase tracking-[0.32em] text-[#111111]/45">{t.archiveLabel}</p>
                     <h3 className="mt-2 text-2xl font-medium tracking-[0.06em]">{t.archive}</h3>
                   </div>
                 </div>
 
-                <motion.div animate={{ rotate: archiveOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/10 bg-black/[0.04] p-2 text-[#111111]/65">
+                <motion.div animate={{ rotate: archiveOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-black/[0.07] bg-black/[0.035] p-2 text-[#111111]/65">
                   <ChevronDown className="h-4 w-4" />
                 </motion.div>
               </button>
@@ -528,13 +529,13 @@ export default function TheBatchSplashPage() {
                   <motion.div key="archive-content" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
                     <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                       {(Array.isArray(batchArchive) ? batchArchive : []).map((item) => (
-                        <motion.div key={item.batch} whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 280, damping: 24 }} className="rounded-2xl border border-black/8 bg-black/[0.025] p-4 transition-all duration-200 hover:border-black/14 hover:bg-black/[0.04]">
+                        <motion.div key={item.batch} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="rounded-[22px] border border-black/[0.07] bg-black/[0.022] p-4 transition-all duration-200 hover:border-black/12 hover:bg-black/[0.035]">
                           <div className="flex items-center justify-between gap-3">
-                            <span className="text-[10px] uppercase tracking-[0.3em] text-[#111111]/45">{item.batch}</span>
-                            <span className="rounded-full border border-black/10 bg-black/[0.05] px-2.5 py-1 text-[10px] uppercase tracking-[0.24em] text-[#111111]/55">{item.type}</span>
+                            <span className="text-[10px] uppercase tracking-[0.16em] text-[#111111]/45">{item.batch}</span>
+                            <span className="rounded-full border border-black/[0.07] bg-black/[0.045] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/55">{item.type}</span>
                           </div>
                           <p className="mt-3 text-lg tracking-[0.12em] text-[#111111]/92">{item.strain}</p>
-                          <p className="mt-2 text-xs uppercase tracking-[0.24em] text-[#111111]/45">{item.status}</p>
+                          <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[#111111]/45">{item.status}</p>
                         </motion.div>
                       ))}
                     </div>
