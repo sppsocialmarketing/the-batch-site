@@ -168,3 +168,12 @@ git push
   - store finder batch cards
   - archive cards
 - Added subtle top accent lines on store finder batch cards
+
+
+## What's new in v26
+
+- Corrected strain color system to match product jars:
+  - Sativa = red wine
+  - Hybrid = moody forest green
+  - Indica = dark luxury purple
+- Updated badges, accent lines, and legend to reflect correct mapping
