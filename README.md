@@ -157,3 +157,14 @@ git push
   - store finder batch cards
   - archive cards
 - Added subtle accent lines and a small palette legend near the hero
+
+
+## What's new in v25
+
+- Fixed the palette pass so the strain-type colors are now visibly applied
+- Added clear Hybrid / Sativa / Indica chips near the hero
+- Added color-coded type badges across:
+  - upcoming strains
+  - store finder batch cards
+  - archive cards
+- Added subtle top accent lines on store finder batch cards

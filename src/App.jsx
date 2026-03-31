@@ -382,7 +382,7 @@ export default function TheBatchSplashPage() {
                           <motion.div key={strain.name} whileHover={{ y: -1.5 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="rounded-[22px] border border-black/[0.07] bg-black/[0.022] p-4 transition-all duration-200 hover:border-black/12 hover:bg-black/[0.035]">
                             <div className="flex flex-wrap items-center gap-3">
                               <p className="text-base tracking-[0.12em] text-[#111111]/92 md:text-lg">{strain.name}</p>
-                              <span className="rounded-full border border-black/[0.07] bg-black/[0.045] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/55">{strain.type}</span>
+                              <span className={`rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
                             </div>
                             <p className="mt-3 max-w-xl text-sm leading-7 text-[#111111]/68">{strain.notes?.[language]}</p>
                           </motion.div>
@@ -433,7 +433,7 @@ export default function TheBatchSplashPage() {
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="text-[10px] uppercase tracking-[0.16em] text-[#111111]/45">{batch.batch}</span>
-                            <span className="rounded-full border border-black/[0.07] bg-black/[0.035] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/55">{batch.type}</span>
+                            <span className={`rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] ${getTypeTheme(batch.type).badge}`}>{batch.type}</span>
                           </div>
                           <p className="mt-3 truncate pr-2 text-lg tracking-[0.12em] text-[#111111]/92 md:text-xl">{batch.strain}</p>
                         </div>
@@ -586,7 +586,7 @@ export default function TheBatchSplashPage() {
                         <motion.div key={item.batch} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="rounded-[22px] border border-black/[0.07] bg-black/[0.022] p-4 transition-all duration-200 hover:border-black/12 hover:bg-black/[0.035]">
                           <div className="flex items-center justify-between gap-3">
                             <span className="text-[10px] uppercase tracking-[0.16em] text-[#111111]/45">{item.batch}</span>
-                            <span className="rounded-full border border-black/[0.07] bg-black/[0.045] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-[#111111]/55">{item.type}</span>
+                            <span className={`rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] ${getTypeTheme(item.type).badge}`}>{item.type}</span>
                           </div>
                           <p className="mt-3 text-lg tracking-[0.12em] text-[#111111]/92">{item.strain}</p>
                           <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[#111111]/45">{item.status}</p>
