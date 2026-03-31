@@ -186,3 +186,13 @@ git push
   - lowering background tint
   - increasing color depth
 - Colors now feel closer to actual jar labels
+
+
+## What's new in v28
+
+- Corrected the strain palette to the exact requested mapping:
+  - Sativa = deep wine red
+  - Hybrid = moody forest green
+  - Indica = dark luxury purple
+- Tightened badge sizing and spacing so the labels feel less generic and more premium
+- Removed the washed-out pastel feel and replaced it with deeper ink-like accents
