@@ -196,3 +196,9 @@ git push
   - Indica = dark luxury purple
 - Tightened badge sizing and spacing so the labels feel less generic and more premium
 - Removed the washed-out pastel feel and replaced it with deeper ink-like accents
+
+
+## What's new in v29
+
+- Fixed the production build error from v28
+- Removed an extra brace in `App.jsx` that was breaking the Vite build

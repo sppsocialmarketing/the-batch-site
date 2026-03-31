@@ -98,7 +98,7 @@ const typeTheme = {
     line: "bg-[#3E2A5E]",
     dot: "bg-[#3E2A5E]",
   },
-};};
+};
 
 function getTypeTheme(type) {
   return typeTheme[type] || {
