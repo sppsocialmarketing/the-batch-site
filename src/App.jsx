@@ -82,6 +82,32 @@ const copy = {
   }
 };
 
+const typeTheme = {
+  SATIVA: {
+    badge: "border-[#b7d9c8] bg-[#edf6f0] text-[#1d4d34]",
+    accent: "bg-[#2f5b46]",
+    chip: "border-[#b7d9c8] bg-[#edf6f0] text-[#1d4d34]",
+  },
+  INDICA: {
+    badge: "border-[#e5b8bf] bg-[#f9ecee] text-[#7b1f2d]",
+    accent: "bg-[#7b1f2d]",
+    chip: "border-[#e5b8bf] bg-[#f9ecee] text-[#7b1f2d]",
+  },
+  HYBRID: {
+    badge: "border-[#d0c4e5] bg-[#f1edf8] text-[#463063]",
+    accent: "bg-[#463063]",
+    chip: "border-[#d0c4e5] bg-[#f1edf8] text-[#463063]",
+  },
+};
+
+function getTypeTheme(type) {
+  return typeTheme[type] || {
+    badge: "border-black/[0.07] bg-black/[0.04] text-black/55",
+    accent: "bg-black/60",
+    chip: "border-black/[0.07] bg-black/[0.04] text-black/55",
+  };
+}
+
 export default function TheBatchSplashPage() {
   const targetDate = useMemo(() => new Date(nextDropDate), []);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));

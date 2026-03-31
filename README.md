@@ -143,3 +143,17 @@ git push
 - When location is active, the strain/batch cards in Store Finder now sort by nearest available store
 - Added nearest-distance badges on the strain cards
 - Store Finder now helps users see which batches are closest before opening a city
+
+
+## What's new in v24
+
+- Added a strain-type palette based on the label system:
+  - Hybrid = deep violet
+  - Sativa = deep forest green
+  - Indica = deep wine red
+- Kept the main site background neutral so the palette accents do not clash
+- Type badges now use the new color system across:
+  - upcoming strains
+  - store finder batch cards
+  - archive cards
+- Added subtle accent lines and a small palette legend near the hero
