@@ -177,3 +177,12 @@ git push
   - Hybrid = moody forest green
   - Indica = dark luxury purple
 - Updated badges, accent lines, and legend to reflect correct mapping
+
+
+## What's new in v27
+
+- Fixed color palette to feel more premium and less pastel
+- Reduced washed-out look by:
+  - lowering background tint
+  - increasing color depth
+- Colors now feel closer to actual jar labels
