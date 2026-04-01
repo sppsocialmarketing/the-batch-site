@@ -1,4 +1,4 @@
-export const nextDropDate = "2026-04-01T11:27:00";
+export const nextDropDate = "2026-04-01T11:28:00";
 
 export const upcomingRelease = {
   batch: "BATCH NO. 001",
