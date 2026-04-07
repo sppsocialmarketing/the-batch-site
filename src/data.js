@@ -40,11 +40,11 @@ export const nextRelease = {
       }
     },
     {
-      name: "CANDY GAS",
+      name: "EYE CANDY",
       type: "HYBRID",
       notes: {
-        en: "Sweet candy inhale with a strong gassy backend.",
-        es: "Entrada dulce tipo caramelo con un final fuerte y gaseoso."
+        en: "Sweet, standout flower with a polished candy-forward profile.",
+        es: "Flor llamativa con un perfil dulce y marcado tipo caramelo."
       }
     },
     {
