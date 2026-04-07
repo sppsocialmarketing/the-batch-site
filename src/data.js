@@ -1,20 +1,61 @@
 export const nextDropDate = "2026-04-10T18:00:00";
 
 export const featuredRelease = {
-  title: {
-    en: "Limited Release",
-    es: "Lanzamiento Limitado"
-  },
+  label: "LIMITED RELEASE",
   strain: "LEMON CHERRY GELATO",
-  type: "HYBRID",
-  details: {
-    en: ["Indoor Flower", "Pesticide-Free", "Hand-Selected Flower"],
-    es: ["Flor de Interior", "Libre de Pesticidas", "Flor Seleccionada a Mano"]
+  notes: {
+    en: "Indoor flower. Pesticide-free. Hand-selected for a limited release.",
+    es: "Flor indoor. Libre de pesticidas. Seleccionada a mano para un lanzamiento limitado."
   },
-  description: {
-    en: "Clean indoor flower with a premium finish and a tightly controlled release.",
-    es: "Flor indoor limpia con un acabado premium y un lanzamiento cuidadosamente controlado."
+  highlights: {
+    en: ["Indoor Flower", "Pesticide-Free", "Hand-Selected"],
+    es: ["Flor Indoor", "Libre de Pesticidas", "Selección a Mano"]
   }
+};
+
+export const nextRelease = {
+  title: {
+    en: "Upcoming Strains",
+    es: "Próximos Strains"
+  },
+  subtitle: {
+    en: "What’s next after this release.",
+    es: "Lo que sigue después de este lanzamiento."
+  },
+  strains: [
+    {
+      name: "GAS NANA",
+      type: "HYBRID",
+      notes: {
+        en: "Heavy gas layered with sweet banana undertones.",
+        es: "Gas intenso con notas dulces de plátano."
+      }
+    },
+    {
+      name: "HI CHEW",
+      type: "SATIVA",
+      notes: {
+        en: "Bright, candy-like profile with a smooth, uplifting finish.",
+        es: "Perfil dulce tipo caramelo con un efecto ligero y energético."
+      }
+    },
+    {
+      name: "CANDY GAS",
+      type: "HYBRID",
+      notes: {
+        en: "Sweet candy inhale with a strong gassy backend.",
+        es: "Entrada dulce tipo caramelo con un final fuerte y gaseoso."
+      }
+    },
+    {
+      name: "OREOZ",
+      type: "INDICA",
+      notes: {
+        en: "Creamy, dessert-like profile with deep relaxing effects.",
+        es: "Perfil cremoso tipo postre con efectos relajantes profundos."
+      }
+    }
+  ]
 };
 
 export const storeReleases = [

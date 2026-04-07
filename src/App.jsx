@@ -1,98 +1,97 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useMotionValue } from "framer-motion";
 import { ArrowRight, ChevronDown, MapPin, ArrowUpRight } from "lucide-react";
-import { featuredRelease, nextDropDate, storeReleases } from "./data";
+import { featuredRelease, nextDropDate, nextRelease, storeReleases } from "./data";
 
 const copy = {
   en: {
-    topLabel: "The Batch",
     currentState: "Current State",
     awaiting: "Awaiting Release",
     delivering: "Now in Stores",
     english: "EN",
     spanish: "ES",
-    releaseDropsIn: "Release Countdown",
+    releaseCountdown: "Limited Release",
     days: "Days",
     hours: "Hours",
     minutes: "Minutes",
     seconds: "Seconds",
     landingInStores: "NOW IN STORES",
-    landingSubtext: "Check store locations as inventory lands.",
-    limitedRelease: "Limited Release",
-    featuredFlower: "Featured Flower",
-    storeTitle: "Find a Store",
-    nearbyText: "A clean limited drop. Indoor flower. Pesticide-free.",
-    tapToExpand: "Select a city to view store availability.",
+    landingSubtext: "Check store locations as this release arrives.",
+    productHighlights: "Release Details",
+    storeFinderLabel: "Store Finder",
+    citySections: "Find a Store",
+    nearbyText: "Indoor flower. Pesticide-free. Available in selected stores.",
+    tapToExpand: "Click the strain, then a city, to view store availability.",
     openInGoogleMaps: "Open in Google Maps",
     directions: "Get Directions",
-    cityLabel: "City",
-    cityPrompt: "Choose a city",
     useLocation: "Use My Location",
     locationActive: "Location Active",
     nearestFirst: "Nearest locations first",
+    closestStrains: "Closest strains first",
     milesAway: "mi away",
     storesLabel: "stores",
     inStock: "IN STOCK",
     soldOut: "SOLD OUT",
-    locationUnavailable: "Location unavailable"
+    nextSectionLabel: "Up Next",
+    nextSectionPrompt: "Preview upcoming strains"
   },
   es: {
-    topLabel: "The Batch",
     currentState: "Estado Actual",
     awaiting: "Esperando Lanzamiento",
     delivering: "Ya en Tiendas",
     english: "EN",
     spanish: "ES",
-    releaseDropsIn: "Cuenta Regresiva",
+    releaseCountdown: "Lanzamiento Limitado",
     days: "Días",
     hours: "Horas",
     minutes: "Minutos",
     seconds: "Segundos",
     landingInStores: "YA EN TIENDAS",
-    landingSubtext: "Revisa las tiendas mientras llega el inventario.",
-    limitedRelease: "Lanzamiento Limitado",
-    featuredFlower: "Flor Destacada",
-    storeTitle: "Encontrar Tienda",
-    nearbyText: "Un drop limpio y limitado. Flor indoor. Libre de pesticidas.",
-    tapToExpand: "Elige una ciudad para ver disponibilidad.",
+    landingSubtext: "Revisa las tiendas mientras llega este lanzamiento.",
+    productHighlights: "Detalles del Lanzamiento",
+    storeFinderLabel: "Buscador de Tiendas",
+    citySections: "Encontrar Tienda",
+    nearbyText: "Flor indoor. Libre de pesticidas. Disponible en tiendas seleccionadas.",
+    tapToExpand: "Haz clic en el strain y luego en una ciudad para ver disponibilidad.",
     openInGoogleMaps: "Abrir en Google Maps",
     directions: "Cómo llegar",
-    cityLabel: "Ciudad",
-    cityPrompt: "Elige una ciudad",
     useLocation: "Usar mi ubicación",
     locationActive: "Ubicación activa",
     nearestFirst: "Ubicaciones más cercanas primero",
+    closestStrains: "Strains más cercanos primero",
     milesAway: "mi de distancia",
     storesLabel: "tiendas",
     inStock: "EN STOCK",
     soldOut: "AGOTADO",
-    locationUnavailable: "Ubicación no disponible"
+    nextSectionLabel: "Lo Siguiente",
+    nextSectionPrompt: "Ver próximos strains"
   }
 };
 
 const typeTheme = {
   SATIVA: {
-    badge: "border-[#8f6a2d]/40 bg-[#c6a85a]/10 text-[#e7d38a]",
+    badge: "border-[#8D6A1F]/30 bg-[#C6A85A]/10 text-[#C6A85A]",
   },
   HYBRID: {
-    badge: "border-[#8f6a2d]/40 bg-[#c6a85a]/10 text-[#e7d38a]",
+    badge: "border-[#8D6A1F]/30 bg-[#C6A85A]/10 text-[#C6A85A]",
   },
   INDICA: {
-    badge: "border-[#8f6a2d]/40 bg-[#c6a85a]/10 text-[#e7d38a]",
+    badge: "border-[#8D6A1F]/30 bg-[#C6A85A]/10 text-[#C6A85A]",
   },
 };
 
 function getTypeTheme(type) {
   return typeTheme[type] || {
-    badge: "border-[#8f6a2d]/40 bg-[#c6a85a]/10 text-[#e7d38a]",
+    badge: "border-[#8D6A1F]/30 bg-[#C6A85A]/10 text-[#C6A85A]",
   };
 }
 
 export default function TheBatchSplashPage() {
   const targetDate = useMemo(() => new Date(nextDropDate), []);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
-  const [openRelease, setOpenRelease] = useState(storeReleases[0]?.strain ?? null);
+  const [openStrain, setOpenStrain] = useState((Array.isArray(storeReleases) ? storeReleases[0]?.strain : null) ?? null);
   const [openCity, setOpenCity] = useState({});
+  const [upcomingOpen, setUpcomingOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const [cursorVisible, setCursorVisible] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
@@ -100,6 +99,7 @@ export default function TheBatchSplashPage() {
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
+
   const t = copy[language];
 
   const handleUseLocation = () => {
@@ -117,18 +117,18 @@ export default function TheBatchSplashPage() {
     };
 
     const onError = () => {
-      navigator.geolocation.getCurrentPosition(
-        onSuccess,
-        () => setLocationError(true),
-        { enableHighAccuracy: false, timeout: 15000, maximumAge: 300000 }
-      );
+      navigator.geolocation.getCurrentPosition(onSuccess, () => setLocationError(true), {
+        enableHighAccuracy: false,
+        timeout: 15000,
+        maximumAge: 300000,
+      });
     };
 
-    navigator.geolocation.getCurrentPosition(
-      onSuccess,
-      onError,
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 120000 }
-    );
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 120000,
+    });
   };
 
   useEffect(() => {
@@ -169,17 +169,23 @@ export default function TheBatchSplashPage() {
 
   const isLanding = timerItems.every((item) => item.value === "00");
 
-  const toggleCity = (releaseKey, cityName) => {
-    const key = `${releaseKey}__${cityName}`;
+  const toggleCity = (strainKey, cityName) => {
+    const key = `${strainKey}__${cityName}`;
     setOpenCity((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const isCityOpen = (releaseKey, cityName) => !!openCity[`${releaseKey}__${cityName}`];
+  const isCityOpen = (strainKey, cityName) => !!openCity[`${strainKey}__${cityName}`];
+
+  const normalizeCities = (release) => {
+    if (Array.isArray(release?.storesByCity)) return release.storesByCity;
+    return [];
+  };
 
   const decorateCities = (release) => {
-    return (release?.storesByCity || [])
+    return normalizeCities(release)
       .map((cityGroup) => {
-        const stores = (cityGroup?.stores || [])
+        const safeStores = Array.isArray(cityGroup?.stores) ? cityGroup.stores : [];
+        const stores = safeStores
           .map((store) => {
             const distance =
               userLocation && store?.lat != null && store?.lng != null
@@ -196,25 +202,13 @@ export default function TheBatchSplashPage() {
             return a.distance - b.distance;
           });
 
-        const nearestDistance = stores.find((s) => s.distance != null)?.distance ?? null;
-        const inStockCount = stores.filter((s) => s.status === "IN STOCK").length;
+        const nearestDistance = stores.find((store) => store.distance != null)?.distance ?? null;
 
-        return { ...cityGroup, stores, nearestDistance, inStockCount };
-      })
-      .sort((a, b) => {
-        if (a.nearestDistance == null && b.nearestDistance == null) return 0;
-        if (a.nearestDistance == null) return 1;
-        if (b.nearestDistance == null) return -1;
-        return a.nearestDistance - b.nearestDistance;
-      });
-  };
-
-  const getSortedReleases = () => {
-    return (storeReleases || [])
-      .map((release) => {
-        const decoratedCities = decorateCities(release);
-        const nearestDistance = decoratedCities.flatMap((city) => city.stores).find((store) => store.distance != null)?.distance ?? null;
-        return { ...release, decoratedCities, nearestDistance };
+        return {
+          ...cityGroup,
+          stores,
+          nearestDistance,
+        };
       })
       .sort((a, b) => {
         if (!userLocation) return 0;
@@ -225,7 +219,28 @@ export default function TheBatchSplashPage() {
       });
   };
 
-  const releaseDetails = featuredRelease.details?.[language] || featuredRelease.details?.en || [];
+  const getSortedReleases = () => {
+    const safeReleases = Array.isArray(storeReleases) ? storeReleases : [];
+
+    return safeReleases
+      .map((release) => {
+        const decoratedCities = decorateCities(release);
+        const nearestDistance = decoratedCities.flatMap((city) => city.stores).find((store) => store.distance != null)?.distance ?? null;
+
+        return {
+          ...release,
+          decoratedCities,
+          nearestDistance,
+        };
+      })
+      .sort((a, b) => {
+        if (!userLocation) return 0;
+        if (a.nearestDistance == null && b.nearestDistance == null) return 0;
+        if (a.nearestDistance == null) return 1;
+        if (b.nearestDistance == null) return -1;
+        return a.nearestDistance - b.nearestDistance;
+      });
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#0b0b0b] px-4 py-8 text-[#ededed] md:px-8 md:py-10 lg:px-16">
@@ -235,30 +250,21 @@ export default function TheBatchSplashPage() {
         <header className="border-b border-white/10 pb-7 md:pb-8">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.32em] text-white/40 md:text-xs">{t.topLabel}</p>
-              <h1 className="mt-2.5 text-4xl font-semibold tracking-[0.11em] sm:text-5xl md:text-7xl">THE BATCH</h1>
-              <p className="mt-4 text-sm uppercase tracking-[0.16em] text-white/42">Clean luxury indoor flower.</p>
+              <h1 className="text-4xl font-semibold tracking-[0.11em] sm:text-5xl md:text-7xl">THE BATCH</h1>
+              <p className="mt-4 text-sm uppercase tracking-[0.16em] text-[#ededed]/55">Limited release indoor flower.</p>
             </div>
 
             <div className="flex flex-col gap-4 text-left md:items-end md:text-right">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.16em] text-white/32">{t.currentState}</p>
+                <p className="text-[11px] uppercase tracking-[0.16em] text-[#ededed]/35">{t.currentState}</p>
                 <p className="mt-2 text-sm uppercase tracking-[0.25em] text-[#e7d38a]">{isLanding ? t.delivering : t.awaiting}</p>
               </div>
 
-              <div className="inline-flex w-fit items-center rounded-full border border-white/10 bg-white/[0.04] p-1">
-                <button
-                  type="button"
-                  onClick={() => setLanguage("en")}
-                  className={["rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.28em] transition-all duration-200", language === "en" ? "bg-[#c6a85a] text-[#0b0b0b]" : "text-white/65 hover:text-white"].join(" ")}
-                >
+              <div className="inline-flex w-fit items-center rounded-full border border-white/10 bg-white/5 p-1">
+                <button type="button" onClick={() => setLanguage("en")} className={["rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.28em] transition-all duration-200", language === "en" ? "bg-[#e7d38a] text-[#0b0b0b]" : "text-[#ededed]/65 hover:text-[#ededed]"].join(" ")}>
                   {t.english}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setLanguage("es")}
-                  className={["rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.28em] transition-all duration-200", language === "es" ? "bg-[#c6a85a] text-[#0b0b0b]" : "text-white/65 hover:text-white"].join(" ")}
-                >
+                <button type="button" onClick={() => setLanguage("es")} className={["rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.28em] transition-all duration-200", language === "es" ? "bg-[#e7d38a] text-[#0b0b0b]" : "text-[#ededed]/65 hover:text-[#ededed]"].join(" ")}>
                   {t.spanish}
                 </button>
               </div>
@@ -268,42 +274,26 @@ export default function TheBatchSplashPage() {
 
         <main className="grid grid-cols-1 gap-12 pt-12 md:gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24 lg:pt-16">
           <section className="space-y-10 md:space-y-12">
-            <motion.div
-              whileHover={{ y: -2 }}
-              transition={{ type: "spring", stiffness: 240, damping: 26 }}
-              className="rounded-[28px] border border-[#c6a85a]/20 bg-[linear-gradient(180deg,rgba(198,168,90,0.10),rgba(255,255,255,0.03))] p-7 shadow-[0_20px_80px_rgba(0,0,0,0.35)] backdrop-blur-[2px] md:p-11"
-            >
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[#e7d38a] shadow-[0_0_14px_rgba(231,211,138,0.7)]" />
-                <p className="bg-[linear-gradient(180deg,#e7d38a_0%,#c6a85a_100%)] bg-clip-text text-[11px] font-medium uppercase tracking-[0.34em] text-transparent">
-                  {t.limitedRelease}
-                </p>
-              </div>
+            <motion.div whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 240, damping: 26 }} className="rounded-[28px] border border-[#c6a85a]/20 bg-white/[0.03] p-7 shadow-2xl shadow-black/30 backdrop-blur-[2px] md:p-11">
+              <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{featuredRelease.label}</p>
+              <h2 className="mt-4 text-3xl font-medium tracking-[0.08em] text-[#f2e5b5] md:text-5xl">{featuredRelease.strain}</h2>
+              <p className="mt-4 max-w-xl text-sm leading-7 text-[#ededed]/65">{featuredRelease.notes?.[language]}</p>
 
-              <div className="mt-6">
-                <p className="text-[10px] uppercase tracking-[0.32em] text-white/38">{t.featuredFlower}</p>
-                <div className="mt-3 flex flex-wrap items-center gap-3">
-                  <h2 className="text-3xl font-medium tracking-[0.08em] md:text-5xl">{featuredRelease.strain}</h2>
-                  <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(featuredRelease.type).badge}`}>{featuredRelease.type}</span>
-                </div>
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-white/62">{featuredRelease.description?.[language]}</p>
-              </div>
-
-              <div className="mt-7 flex flex-wrap gap-3">
-                {releaseDetails.map((detail) => (
-                  <span key={detail} className="rounded-full border border-[#c6a85a]/25 bg-[#c6a85a]/10 px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-[#e7d38a]">
-                    {detail}
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                {(featuredRelease.highlights?.[language] || []).map((item) => (
+                  <span key={item} className="rounded-full border border-[#c6a85a]/20 bg-[#c6a85a]/8 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-[#e7d38a]">
+                    {item}
                   </span>
                 ))}
               </div>
 
               <div className="mt-8 border-t border-white/10 pt-7">
-                <p className="text-[10px] uppercase tracking-[0.32em] text-white/38">{t.releaseDropsIn}</p>
+                <p className="text-[10px] uppercase tracking-[0.32em] text-[#ededed]/45">{t.releaseCountdown}</p>
 
                 {isLanding ? (
-                  <div className="mt-6 rounded-[28px] border border-[#c6a85a]/18 bg-white/[0.025] px-6 py-10 text-center md:px-8 md:py-12">
+                  <div className="mt-6 rounded-[28px] border border-[#c6a85a]/20 bg-[#c6a85a]/[0.06] px-6 py-10 text-center md:px-8 md:py-12">
                     <div className="mx-auto max-w-2xl">
-                      <p className="text-xl font-medium tracking-[0.16em] text-[#e7d38a] md:text-3xl">
+                      <p className="text-xl font-medium tracking-[0.16em] text-[#f2e5b5] md:text-3xl">
                         {t.landingInStores}
                         <span className="inline-flex w-[1.6em] justify-start">
                           <span className="loading-dot">.</span>
@@ -311,119 +301,113 @@ export default function TheBatchSplashPage() {
                           <span className="loading-dot" style={{ animationDelay: "0.4s" }}>.</span>
                         </span>
                       </p>
-                      <p className="mt-4 text-sm uppercase tracking-[0.16em] text-white/45">{t.landingSubtext}</p>
+                      <p className="mt-4 text-sm uppercase tracking-[0.16em] text-[#ededed]/55">{t.landingSubtext}</p>
                     </div>
                   </div>
                 ) : (
                   <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
                     {timerItems.map((item) => (
-                      <div key={item.label} className="rounded-[22px] border border-white/10 bg-white/[0.025] px-3 py-5 text-center transition-transform duration-200 hover:-translate-y-1 md:px-4 md:py-6">
-                        <div className="text-3xl font-semibold tracking-[0.08em] tabular-nums text-[#e7d38a] sm:text-4xl md:text-5xl">{item.value}</div>
-                        <div className="mt-2 text-[10px] uppercase tracking-[0.35em] text-white/40">{item.label}</div>
+                      <div key={item.label} className="rounded-[22px] border border-white/10 bg-white/[0.03] px-3 py-5 text-center transition-transform duration-200 hover:-translate-y-1 md:px-4 md:py-6">
+                        <div className="text-3xl font-semibold tracking-[0.08em] tabular-nums text-[#f5f5f0] sm:text-4xl md:text-5xl">{item.value}</div>
+                        <div className="mt-2 text-[10px] uppercase tracking-[0.35em] text-[#ededed]/45">{item.label}</div>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
             </motion.div>
+
+            {isLanding && (
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="rounded-[28px] border border-white/10 bg-white/[0.03] p-7 shadow-2xl shadow-black/25 backdrop-blur-[2px] md:p-11">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.nextSectionLabel}</p>
+                    <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{nextRelease.title?.[language]}</h3>
+                    <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
+                  </div>
+                  <button type="button" onClick={() => setUpcomingOpen((value) => !value)} className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-[#ededed]/85 transition-all duration-200 hover:border-[#c6a85a]/30 hover:text-[#f5f5f0]">
+                    {t.nextSectionPrompt}
+                  </button>
+                </div>
+
+                <AnimatePresence initial={false}>
+                  {upcomingOpen && (
+                    <motion.div key="upcoming-strains" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
+                      <div className="mt-6 space-y-3">
+                        {(nextRelease?.strains || []).map((strain) => (
+                          <motion.div key={strain.name} whileHover={{ y: -1.5 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4 transition-all duration-200 hover:border-[#c6a85a]/20 hover:bg-white/[0.04]">
+                            <div className="flex flex-wrap items-center gap-3">
+                              <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{strain.name}</p>
+                              <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
+                            </div>
+                            <p className="mt-3 max-w-xl text-sm leading-7 text-[#ededed]/68">{strain.notes?.[language]}</p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
           </section>
 
           <section>
-            <div className="rounded-[28px] border border-white/10 bg-white/[0.025] p-6 shadow-[0_20px_80px_rgba(0,0,0,0.30)] backdrop-blur-[2px] md:p-11">
+            <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-6 shadow-2xl shadow-black/25 backdrop-blur-[2px] md:p-11">
               <div className="border-b border-white/10 pb-5">
-                <p className="text-[10px] uppercase tracking-[0.32em] text-white/38">{t.storeTitle}</p>
-                <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] text-[#e7d38a] md:text-3xl">{featuredRelease.title?.[language] || featuredRelease.title?.en}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/58">{t.nearbyText}</p>
-                <p className="mt-2 text-xs uppercase tracking-[0.16em] text-white/32">{t.tapToExpand}</p>
+                <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.storeFinderLabel}</p>
+                <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] text-[#f5f5f0] md:text-3xl">{t.citySections}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{t.nearbyText}</p>
+                <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[#ededed]/35">{t.tapToExpand}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={handleUseLocation}
-                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2.5 text-[11px] uppercase tracking-[0.16em] text-white/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#c6a85a]/35 hover:bg-white/[0.08]"
-                  >
+                  <button type="button" onClick={handleUseLocation} className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2.5 text-[11px] uppercase tracking-[0.16em] text-[#ededed]/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#c6a85a]/25 hover:bg-white/[0.08]">
                     {userLocation ? t.locationActive : t.useLocation}
                   </button>
-                  {userLocation && (
-                    <span className="text-[10px] uppercase tracking-[0.16em] text-white/45">{t.nearestFirst}</span>
-                  )}
-                  {locationError && (
-                    <span className="text-[10px] uppercase tracking-[0.16em] text-red-400">{t.locationUnavailable}</span>
-                  )}
+                  {userLocation && <span className="text-[11px] uppercase tracking-[0.16em] text-[#e7d38a]">{t.nearestFirst}</span>}
+                  {locationError && <span className="text-[11px] uppercase tracking-[0.16em] text-[#fca5a5]">Location unavailable</span>}
                 </div>
               </div>
 
               <div className="mt-6 space-y-4">
                 {getSortedReleases().map((release) => {
-                  const isOpen = openRelease === release.strain;
+                  const releaseOpen = openStrain === release.strain;
 
                   return (
-                    <motion.div key={release.strain} layout transition={{ layout: { type: "spring", stiffness: 260, damping: 24 } }} className="overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02] backdrop-blur-[1px] transition-all duration-200 hover:border-[#c6a85a]/25 hover:bg-white/[0.035] hover:shadow-[0_14px_40px_rgba(0,0,0,0.22)]">
-                      <button
-                        type="button"
-                        onClick={() => setOpenRelease(isOpen ? null : release.strain)}
-                        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left md:px-5 md:py-5"
-                      >
-                        <div className="min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-[10px] uppercase tracking-[0.16em] text-[#e7d38a]">{t.limitedRelease}</span>
+                    <motion.div key={release.strain} whileHover={{ y: -2 }} transition={{ type: "spring", stiffness: 240, damping: 28 }} className="overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.03]">
+                      <button type="button" onClick={() => setOpenStrain(releaseOpen ? null : release.strain)} className="flex w-full items-center justify-between gap-4 p-4 text-left transition-all duration-200 hover:bg-white/[0.04] md:p-5">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-3">
+                            <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{release.strain}</p>
                             <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(release.type).badge}`}>{release.type}</span>
                           </div>
-                          <p className="mt-3 truncate pr-2 text-lg tracking-[0.12em] text-white/95 md:text-xl">{release.strain}</p>
+                          <p className="mt-2 text-[10px] uppercase tracking-[0.16em] text-[#ededed]/45">{release.decoratedCities?.length || 0} {t.storesLabel}</p>
                         </div>
 
-                        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.035] p-2 text-white/65">
+                        <motion.div animate={{ rotate: releaseOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.05] p-2 text-[#ededed]/65">
                           <ChevronDown className="h-4 w-4" />
                         </motion.div>
                       </button>
 
                       <AnimatePresence initial={false}>
-                        {isOpen && (
-                          <motion.div key="content" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
-                            <div className="space-y-3 border-t border-white/10 px-3 pb-3 pt-3 md:px-4 md:pb-4 md:pt-4">
-                              <p className="px-1 text-[10px] uppercase tracking-[0.16em] text-white/34">{t.cityPrompt}</p>
-
+                        {releaseOpen && (
+                          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden border-t border-white/10">
+                            <div className="space-y-3 p-3 md:p-4">
                               {release.decoratedCities.map((cityGroup) => {
                                 const cityOpen = isCityOpen(release.strain, cityGroup.city);
 
                                 return (
-                                  <motion.div key={`${release.strain}-${cityGroup.city}`} layout transition={{ layout: { type: "spring", stiffness: 260, damping: 24 } }} className="overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.022]">
-                                    <button
-                                      type="button"
-                                      onClick={() => toggleCity(release.strain, cityGroup.city)}
-                                      className="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-all duration-200 hover:bg-white/[0.035]"
-                                    >
+                                  <motion.div key={`${release.strain}-${cityGroup.city}`} className="overflow-hidden rounded-[20px] border border-white/10 bg-white/[0.025]">
+                                    <button type="button" onClick={() => toggleCity(release.strain, cityGroup.city)} className="flex w-full items-center justify-between gap-4 p-3 text-left transition-all duration-200 hover:bg-white/[0.035]">
                                       <div className="min-w-0">
-                                        <div className="flex items-center gap-2">
-                                          <div className="rounded-full border border-white/10 p-2 text-white/55">
-                                            <MapPin className="h-4 w-4" />
-                                          </div>
-                                          <div className="min-w-0">
-                                            <p className="text-[10px] uppercase tracking-[0.16em] text-white/40">{t.cityLabel}</p>
-                                            <p className="text-sm tracking-[0.08em] text-white/92 md:text-base">{cityGroup.city}</p>
-                                            <div className="mt-2 flex flex-wrap items-center gap-2">
-                                              <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-white/65 whitespace-nowrap">
-                                                {cityGroup.stores.length} {t.storesLabel}
-                                              </span>
-                                              {cityGroup.inStockCount > 0 && (
-                                                <span className="stock-pulse rounded-full border border-[#1c6b42] bg-[#0e2e1e] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-[#8cf0b2] whitespace-nowrap">
-                                                  {cityGroup.inStockCount} {t.inStock}
-                                                </span>
-                                              )}
-                                              {cityGroup.nearestDistance != null && (
-                                                <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[10px] leading-none uppercase tracking-[0.16em] text-white/65 whitespace-nowrap">
-                                                  {cityGroup.nearestDistance.toFixed(1)} {t.milesAway}
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
+                                        <div className="flex items-center gap-2 text-[#f5f5f0]">
+                                          <MapPin className="h-3.5 w-3.5 text-[#c6a85a]" />
+                                          <p className="truncate text-sm tracking-[0.03em] md:text-base">{cityGroup.city}</p>
                                         </div>
+                                        {cityGroup.nearestDistance != null && <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#ededed]/45">{cityGroup.nearestDistance.toFixed(1)} {t.milesAway}</p>}
                                       </div>
 
-                                      <div className="flex shrink-0 items-start self-start">
-                                        <motion.div animate={{ rotate: cityOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.035] p-2 text-white/65">
-                                          <ChevronDown className="h-4 w-4" />
-                                        </motion.div>
-                                      </div>
+                                      <motion.div animate={{ rotate: cityOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.05] p-2 text-[#ededed]/65">
+                                        <ChevronDown className="h-4 w-4" />
+                                      </motion.div>
                                     </button>
 
                                     <AnimatePresence initial={false}>
@@ -435,30 +419,26 @@ export default function TheBatchSplashPage() {
                                               const stockLabel = inStock ? t.inStock : t.soldOut;
 
                                               return (
-                                                <motion.div key={`${cityGroup.city}-${store.name}`} whileHover={{ y: -1.5 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="group rounded-[22px] border border-white/10 bg-white/[0.022] p-3 transition-all duration-200 hover:border-[#c6a85a]/20 hover:bg-white/[0.045] hover:backdrop-blur-md">
+                                                <motion.div key={`${cityGroup.city}-${store.name}`} whileHover={{ y: -1.5 }} transition={{ type: "spring", stiffness: 250, damping: 28 }} className="group rounded-[22px] border border-white/10 bg-white/[0.03] p-3 transition-all duration-200 hover:border-[#c6a85a]/20 hover:bg-white/[0.05]">
                                                   <div className="flex flex-col gap-3">
                                                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                       <div className="min-w-0">
-                                                        <p className="text-sm tracking-[0.03em] text-white/92 md:text-base">{store.name}</p>
-                                                        {store.distance != null && (
-                                                          <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-white/45">
-                                                            {store.distance.toFixed(1)} {t.milesAway}
-                                                          </p>
-                                                        )}
+                                                        <p className="text-sm tracking-[0.03em] text-[#f5f5f0] md:text-base">{store.name}</p>
+                                                        {store.distance != null && <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#ededed]/45">{store.distance.toFixed(1)} {t.milesAway}</p>}
                                                       </div>
 
-                                                      <span className={["w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] transition-all duration-200", inStock ? "border-[#1c6b42] bg-[#0e2e1e] text-[#8cf0b2] group-hover:shadow-[0_0_14px_rgba(34,197,94,0.16)]" : "border-[#6a1a1a] bg-[#2a1111] text-[#ff9b9b] group-hover:shadow-[0_0_12px_rgba(239,68,68,0.14)]"].join(" ")}>
+                                                      <span className={["w-fit shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] transition-all duration-200", inStock ? "border-[#355d45] bg-[#102217] text-[#7df0a7] group-hover:shadow-[0_0_10px_rgba(34,197,94,0.14)]" : "border-[#5f2c2c] bg-[#221010] text-[#fca5a5] group-hover:shadow-[0_0_10px_rgba(239,68,68,0.10)]"].join(" ")}>
                                                         {stockLabel}
                                                       </span>
                                                     </div>
 
                                                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-white/45 transition-colors duration-200 hover:text-white/82">
+                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-[#ededed]/42 transition-colors duration-200 hover:text-[#ededed]/75">
                                                         <span>{t.openInGoogleMaps}</span>
                                                         <ArrowUpRight className="h-3.5 w-3.5" />
                                                       </a>
 
-                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.05] px-5 py-3 text-[11px] uppercase tracking-[0.16em] text-white/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#c6a85a]/35 hover:bg-white/[0.08] sm:w-auto">
+                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.05] px-5 py-3 text-[11px] uppercase tracking-[0.16em] text-[#ededed]/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#c6a85a]/25 hover:bg-white/[0.08] sm:w-auto">
                                                         <span>{t.directions}</span>
                                                         <ArrowRight className="h-3.5 w-3.5" />
                                                       </a>
@@ -495,7 +475,7 @@ function CursorDot({ x, y, visible }) {
     <motion.div
       style={{ x, y, opacity: visible ? 1 : 0, scale: visible ? 1 : 0.85 }}
       transition={{ opacity: { duration: 0.08 }, scale: { duration: 0.08 } }}
-      className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-2.5 w-2.5 rounded-full bg-[#e7d38a] shadow-[0_0_12px_rgba(231,211,138,0.42)] md:block"
+      className="pointer-events-none fixed left-0 top-0 z-[999] hidden h-2.5 w-2.5 rounded-full bg-[#e7d38a] shadow-[0_0_12px_rgba(231,211,138,0.2)] md:block"
     />
   );
 }
@@ -533,6 +513,6 @@ function getTimeLeft(targetDate) {
     days: String(days).padStart(2, "0"),
     hours: String(hours).padStart(2, "0"),
     minutes: String(minutes).padStart(2, "0"),
-    seconds: String(seconds).padStart(2, "0")
+    seconds: String(seconds).padStart(2, "0"),
   };
 }

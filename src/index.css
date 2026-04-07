@@ -20,8 +20,8 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at top, rgba(198,168,90,0.12), transparent 28%),
-    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(11,11,11,0) 16%),
+    radial-gradient(circle at top, rgba(198,168,90,0.14), transparent 22%),
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,0.05), transparent 26%),
     linear-gradient(180deg, #111111 0%, #0b0b0b 100%);
   letter-spacing: 0.01em;
 }
@@ -48,19 +48,6 @@ button {
   font: inherit;
 }
 
-@keyframes stockPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 rgba(74, 222, 128, 0.0), 0 0 18px rgba(74, 222, 128, 0.18);
-  }
-  50% {
-    box-shadow: 0 0 0 rgba(74, 222, 128, 0.0), 0 0 24px rgba(74, 222, 128, 0.30);
-  }
-}
-
-.stock-pulse {
-  animation: stockPulse 2.6s ease-in-out infinite;
-}
-
 @keyframes loadingDotPulse {
   0%, 20% {
     opacity: 0.2;
@@ -82,6 +69,6 @@ button {
 }
 
 ::selection {
-  background: rgba(198,168,90,0.22);
-  color: #ffffff;
+  background: rgba(231, 211, 138, 0.18);
+  color: #f8f4e6;
 }
