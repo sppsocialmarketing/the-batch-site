@@ -319,16 +319,24 @@ export default function TheBatchSplashPage() {
 
             {isLanding && (
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="rounded-[28px] border border-white/10 bg-white/[0.03] p-7 shadow-2xl shadow-black/25 backdrop-blur-[2px] md:p-11">
-                <div className="flex items-center justify-between gap-4">
+                <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.nextSectionLabel}</p>
+                <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{nextRelease.title?.[language]}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
+
+                <button
+                  type="button"
+                  onClick={() => setUpcomingOpen((value) => !value)}
+                  className="mt-6 flex w-full items-center justify-between gap-4 rounded-[20px] border border-white/10 bg-white/[0.04] px-4 py-4 text-left transition-all duration-200 hover:border-[#c6a85a]/25 hover:bg-white/[0.05]"
+                >
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.nextSectionLabel}</p>
-                    <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{nextRelease.title?.[language]}</h3>
-                    <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-[#ededed]/45">{t.nextSectionPrompt}</p>
+                    <p className="mt-2 text-sm tracking-[0.08em] text-[#f5f5f0]">{(nextRelease?.strains || []).length} upcoming strain{(nextRelease?.strains || []).length === 1 ? '' : 's'}</p>
                   </div>
-                  <button type="button" onClick={() => setUpcomingOpen((value) => !value)} className="rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-[#ededed]/85 transition-all duration-200 hover:border-[#c6a85a]/30 hover:text-[#f5f5f0]">
-                    {t.nextSectionPrompt}
-                  </button>
-                </div>
+
+                  <motion.div animate={{ rotate: upcomingOpen ? 180 : 0 }} transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }} className="shrink-0 rounded-full border border-white/10 bg-white/[0.05] p-2 text-[#ededed]/65">
+                    <ChevronDown className="h-4 w-4" />
+                  </motion.div>
+                </button>
 
                 <AnimatePresence initial={false}>
                   {upcomingOpen && (
