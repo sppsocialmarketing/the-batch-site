@@ -318,60 +318,58 @@ export default function TheBatchSplashPage() {
               </div>
             </motion.div>
 
-            {isLanding && (
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="rounded-[28px] border border-white/10 bg-white/[0.03] p-7 shadow-2xl shadow-black/25 backdrop-blur-[2px] md:p-11">
-                <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.nextSectionLabel}</p>
-                <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{nextRelease.title?.[language]}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="rounded-[28px] border border-white/10 bg-white/[0.03] p-7 shadow-2xl shadow-black/25 backdrop-blur-[2px] md:p-11">
+              <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.nextSectionLabel}</p>
+              <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{nextRelease.title?.[language]}</h3>
+              <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
 
-                <div className="mt-6">
-                  <label htmlFor="upcoming-strains" className="mb-3 block text-[10px] uppercase tracking-[0.18em] text-[#ededed]/45">
-                    {t.nextSectionPrompt}
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="upcoming-strains"
-                      value={selectedUpcoming}
-                      onChange={(event) => setSelectedUpcoming(event.target.value)}
-                      className="w-full appearance-none rounded-[20px] border border-white/10 bg-white/[0.04] px-4 py-4 pr-12 text-sm tracking-[0.08em] text-[#f5f5f0] outline-none transition-all duration-200 hover:border-[#c6a85a]/25 focus:border-[#c6a85a]/35"
-                    >
-                      {(nextRelease?.strains || []).map((strain) => (
-                        <option key={strain.name} value={strain.name} className="bg-[#111111] text-[#f5f5f0]">
-                          {strain.name}
-                        </option>
-                      ))}
-                    </select>
+              <div className="mt-6">
+                <label htmlFor="upcoming-strains" className="mb-3 block text-[10px] uppercase tracking-[0.18em] text-[#ededed]/45">
+                  {t.nextSectionPrompt}
+                </label>
+                <div className="relative">
+                  <select
+                    id="upcoming-strains"
+                    value={selectedUpcoming}
+                    onChange={(event) => setSelectedUpcoming(event.target.value)}
+                    className="w-full appearance-none rounded-[20px] border border-white/10 bg-white/[0.04] px-4 py-4 pr-12 text-sm tracking-[0.08em] text-[#f5f5f0] outline-none transition-all duration-200 hover:border-[#c6a85a]/25 focus:border-[#c6a85a]/35"
+                  >
+                    {(nextRelease?.strains || []).map((strain) => (
+                      <option key={strain.name} value={strain.name} className="bg-[#111111] text-[#f5f5f0]">
+                        {strain.name}
+                      </option>
+                    ))}
+                  </select>
 
-                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#ededed]/65">
-                      <ChevronDown className="h-4 w-4" />
-                    </div>
+                  <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#ededed]/65">
+                    <ChevronDown className="h-4 w-4" />
                   </div>
                 </div>
+              </div>
 
-                <div className="mt-6 space-y-3">
-                  {(nextRelease?.strains || []).map((strain) => {
-                    const selected = strain.name === selectedUpcoming;
-                    return (
-                      <motion.div
-                        key={strain.name}
-                        whileHover={{ y: -1.5 }}
-                        transition={{ type: "spring", stiffness: 250, damping: 28 }}
-                        className={[
-                          "rounded-[22px] border bg-white/[0.03] p-4 transition-all duration-200",
-                          selected ? "border-[#c6a85a]/30 bg-[#c6a85a]/[0.06]" : "border-white/10 hover:border-[#c6a85a]/20 hover:bg-white/[0.04]"
-                        ].join(" ")}
-                      >
-                        <div className="flex flex-wrap items-center gap-3">
-                          <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{strain.name}</p>
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
-                        </div>
-                        <p className="mt-3 max-w-xl text-sm leading-7 text-[#ededed]/68">{strain.notes?.[language]}</p>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
+              <div className="mt-6 space-y-3">
+                {(nextRelease?.strains || []).map((strain) => {
+                  const selected = strain.name === selectedUpcoming;
+                  return (
+                    <motion.div
+                      key={strain.name}
+                      whileHover={{ y: -1.5 }}
+                      transition={{ type: "spring", stiffness: 250, damping: 28 }}
+                      className={[
+                        "rounded-[22px] border bg-white/[0.03] p-4 transition-all duration-200",
+                        selected ? "border-[#c6a85a]/30 bg-[#c6a85a]/[0.06]" : "border-white/10 hover:border-[#c6a85a]/20 hover:bg-white/[0.04]"
+                      ].join(" ")}
+                    >
+                      <div className="flex flex-wrap items-center gap-3">
+                        <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{strain.name}</p>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
+                      </div>
+                      <p className="mt-3 max-w-xl text-sm leading-7 text-[#ededed]/68">{strain.notes?.[language]}</p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
           </section>
 
           <section>
