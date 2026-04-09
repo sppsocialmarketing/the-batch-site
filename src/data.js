@@ -15,8 +15,8 @@ export const featuredRelease = {
 
 export const nextRelease = {
   title: {
-    en: "Next Drop",
-    es: "Próximo Drop"
+    en: "What’s Coming in the Next Drop",
+    es: "Lo Que Viene en el Próximo Drop"
   },
   subtitle: {
     en: "These strains release when the countdown hits zero.",

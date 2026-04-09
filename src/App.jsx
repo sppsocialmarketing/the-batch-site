@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useMotionValue } from "framer-motion";
 import { ArrowRight, ChevronDown, MapPin, ArrowUpRight } from "lucide-react";
-import { featuredRelease, nextDropDate, nextRelease, storeReleases } from "./data";
+import { nextDropDate, nextRelease, storeReleases } from "./data";
 
 const copy = {
   en: {
@@ -303,44 +303,30 @@ export default function TheBatchSplashPage() {
               </div>
 
               <div className="mt-8 border-t border-white/10 pt-7">
-                <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{featuredRelease.label}</p>
-                <h2 className="mt-4 text-3xl font-medium tracking-[0.08em] text-[#f2e5b5] md:text-5xl">{featuredRelease.strain}</h2>
-                <p className="mt-4 max-w-xl text-sm leading-7 text-[#ededed]/65">{featuredRelease.notes?.[language]}</p>
+                <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.nextSectionLabel}</p>
+                <h2 className="mt-4 text-2xl font-medium tracking-[0.06em] text-[#f2e5b5] md:text-3xl">{nextRelease.title?.[language]}</h2>
+                <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
 
-                <div className="mt-6 flex flex-wrap gap-2.5">
-                  {(featuredRelease.highlights?.[language] || []).map((item) => (
-                    <span key={item} className="rounded-full border border-[#c6a85a]/20 bg-[#c6a85a]/8 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-[#e7d38a]">
-                      {item}
-                    </span>
+                <div className="mt-6 rounded-[22px] border border-[#c6a85a]/20 bg-[#c6a85a]/[0.05] px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-[#e7d38a]">
+                  {t.nextSectionPrompt}
+                </div>
+
+                <div className="mt-6 space-y-3">
+                  {(nextRelease?.strains || []).map((strain) => (
+                    <motion.div
+                      key={strain.name}
+                      whileHover={{ y: -1.5 }}
+                      transition={{ type: "spring", stiffness: 250, damping: 28 }}
+                      className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4 transition-all duration-200 hover:border-[#c6a85a]/20 hover:bg-white/[0.04]"
+                    >
+                      <div className="flex flex-wrap items-center gap-3">
+                        <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{strain.name}</p>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
+                      </div>
+                      <p className="mt-3 max-w-xl text-sm leading-7 text-[#ededed]/68">{strain.notes?.[language]}</p>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="rounded-[28px] border border-white/10 bg-white/[0.03] p-7 shadow-2xl shadow-black/25 backdrop-blur-[2px] md:p-11">
-              <p className="text-[10px] uppercase tracking-[0.32em] text-[#c6a85a]">{t.nextSectionLabel}</p>
-              <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{nextRelease.title?.[language]}</h3>
-              <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
-
-              <div className="mt-6 rounded-[22px] border border-[#c6a85a]/20 bg-[#c6a85a]/[0.05] px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-[#e7d38a]">
-                {t.nextSectionPrompt}
-              </div>
-
-              <div className="mt-6 space-y-3">
-                {(nextRelease?.strains || []).map((strain) => (
-                  <motion.div
-                    key={strain.name}
-                    whileHover={{ y: -1.5 }}
-                    transition={{ type: "spring", stiffness: 250, damping: 28 }}
-                    className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4 transition-all duration-200 hover:border-[#c6a85a]/20 hover:bg-white/[0.04]"
-                  >
-                    <div className="flex flex-wrap items-center gap-3">
-                      <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{strain.name}</p>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
-                    </div>
-                    <p className="mt-3 max-w-xl text-sm leading-7 text-[#ededed]/68">{strain.notes?.[language]}</p>
-                  </motion.div>
-                ))}
               </div>
             </motion.div>
           </section>
