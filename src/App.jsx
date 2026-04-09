@@ -404,6 +404,14 @@ export default function TheBatchSplashPage() {
                                                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                       <div className="min-w-0">
                                                         <p className="text-sm tracking-[0.03em] text-[#f5f5f0] md:text-base">{store.name}</p>
+{store.phone && (
+  <div className="mt-2">
+    <a href={`tel:${store.phone}`} className="block text-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-[#ededed]/90 hover:border-[#c6a85a]/25">
+      Call to confirm availability
+    </a>
+  </div>
+)}
+
                                                         {store.distance != null && <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#ededed]/45">{store.distance.toFixed(1)} {t.milesAway}</p>}
                                                       </div>
 
