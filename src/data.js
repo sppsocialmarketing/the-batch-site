@@ -69,17 +69,18 @@ export const storeReleases = [
           {
             name: "Northline Cannabis",
             status: "IN STOCK",
-            // Add phone: "(555) 123-4567" or phoneUrl: "tel:+15551234567" to enable one-tap calling.
             mapsUrl: "https://maps.google.com/?q=Northline+Cannabis+Marysville+WA",
             lat: 48.0518,
-            lng: -122.1771
+            lng: -122.1771,
+            phone: "+13605550101"
           },
           {
             name: "Cascade Green",
             status: "IN STOCK",
             mapsUrl: "https://maps.google.com/?q=Cascade+Green+Marysville+WA",
             lat: 48.054,
-            lng: -122.183
+            lng: -122.183,
+            phone: "+13605550102"
           }
         ]
       },
@@ -91,14 +92,16 @@ export const storeReleases = [
             status: "IN STOCK",
             mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary+Seattle+WA",
             lat: 47.6062,
-            lng: -122.3321
+            lng: -122.3321,
+            phone: "+13605550103"
           },
           {
             name: "North Dock Cannabis",
             status: "SOLD OUT",
             mapsUrl: "https://maps.google.com/?q=North+Dock+Cannabis+Seattle+WA",
             lat: 47.6145,
-            lng: -122.3418
+            lng: -122.3418,
+            phone: "+13605550104"
           }
         ]
       },
@@ -110,7 +113,8 @@ export const storeReleases = [
             status: "SOLD OUT",
             mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Bellevue+WA",
             lat: 47.6101,
-            lng: -122.2015
+            lng: -122.2015,
+            phone: "+13605550105"
           }
         ]
       }

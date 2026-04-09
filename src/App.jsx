@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useMotionValue } from "framer-motion";
-import { ChevronDown, MapPin, ArrowUpRight, Phone, Navigation } from "lucide-react";
+import { ArrowRight, ChevronDown, MapPin, ArrowUpRight } from "lucide-react";
 import { nextDropDate, nextRelease, storeReleases } from "./data";
+
+function formatPhone(phone) {
+  const digits = String(phone || "").replace(/\D/g, "");
+  const normalized = digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
+  if (normalized.length !== 10) return phone;
+  return `(${normalized.slice(0, 3)}) ${normalized.slice(3, 6)}-${normalized.slice(6)}`;
+}
 
 const copy = {
   en: {
@@ -24,7 +31,7 @@ const copy = {
     tapToExpand: "Click the strain, then a city, to view store availability.",
     openInGoogleMaps: "Open in Google Maps",
     directions: "Get Directions",
-    useLocation: "Use Location",
+    useLocation: "Use My Location",
     locationActive: "Location Active",
     nearestFirst: "Nearest locations first",
     closestStrains: "Closest strains first",
@@ -55,7 +62,7 @@ const copy = {
     tapToExpand: "Haz clic en el strain y luego en una ciudad para ver disponibilidad.",
     openInGoogleMaps: "Abrir en Google Maps",
     directions: "Cómo llegar",
-    useLocation: "Usar ubicación",
+    useLocation: "Usar mi ubicación",
     locationActive: "Ubicación activa",
     nearestFirst: "Ubicaciones más cercanas primero",
     closestStrains: "Strains más cercanos primero",
@@ -84,13 +91,6 @@ function getTypeTheme(type) {
   return typeTheme[type] || {
     badge: "border-[#8D6A1F]/30 bg-[#C6A85A]/10 text-[#C6A85A]",
   };
-}
-
-function getPhoneHref(store) {
-  if (store?.phoneUrl) return store.phoneUrl;
-  if (!store?.phone) return null;
-  const digits = String(store.phone).replace(/[^\d+]/g, "");
-  return digits ? `tel:${digits}` : null;
 }
 
 export default function TheBatchSplashPage() {
@@ -346,15 +346,8 @@ export default function TheBatchSplashPage() {
                 <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{t.nearbyText}</p>
                 <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[#ededed]/35">{t.tapToExpand}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={handleUseLocation}
-                    aria-label={userLocation ? t.locationActive : t.useLocation}
-                    title={userLocation ? t.locationActive : t.useLocation}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2.5 text-[#f5f5f0] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-200 hover:-translate-y-[1px] hover:border-white/20 hover:bg-white/[0.08] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
-                  >
-                    <MapPin className={`h-4 w-4 ${userLocation ? "text-[#e7d38a]" : "text-[#ededed]/82"}`} />
-                    <span className="text-[10px] uppercase tracking-[0.18em]">{t.useLocation}</span>
+                  <button type="button" onClick={handleUseLocation} className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2.5 text-[11px] uppercase tracking-[0.16em] text-[#ededed]/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#c6a85a]/25 hover:bg-white/[0.08]">
+                    {userLocation ? t.locationActive : t.useLocation}
                   </button>
                   {userLocation && <span className="text-[11px] uppercase tracking-[0.16em] text-[#e7d38a]">{t.nearestFirst}</span>}
                   {locationError && <span className="text-[11px] uppercase tracking-[0.16em] text-[#fca5a5]">Location unavailable</span>}
@@ -418,6 +411,19 @@ export default function TheBatchSplashPage() {
                                                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                       <div className="min-w-0">
                                                         <p className="text-sm tracking-[0.03em] text-[#f5f5f0] md:text-base">{store.name}</p>
+                                                        {store.phone && (
+                                                          <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                                                            <a
+                                                              href={`tel:${store.phone}`}
+                                                              className="inline-flex w-full items-center justify-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-[#ededed]/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#c6a85a]/25 hover:bg-white/[0.08] sm:w-auto"
+                                                            >
+                                                              Call to confirm availability
+                                                            </a>
+                                                            <span className="text-[11px] tracking-[0.08em] text-[#ededed]/58">
+                                                              {formatPhone(store.phone)}
+                                                            </span>
+                                                          </div>
+                                                        )}
                                                         {store.distance != null && <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-[#ededed]/45">{store.distance.toFixed(1)} {t.milesAway}</p>}
                                                       </div>
 
@@ -432,39 +438,10 @@ export default function TheBatchSplashPage() {
                                                         <ArrowUpRight className="h-3.5 w-3.5" />
                                                       </a>
 
-                                                      <div className="flex items-center gap-2 self-start sm:self-auto">
-                                                        {getPhoneHref(store) ? (
-                                                          <a
-                                                            href={getPhoneHref(store)}
-                                                            aria-label="Call Store"
-                                                            title={store.phone ? `Call ${store.phone}` : "Call Store"}
-                                                            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-[#ededed]/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-200 hover:-translate-y-[1px] hover:border-white/20 hover:bg-white/[0.08] hover:text-[#f5f5f0] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
-                                                          >
-                                                            <Phone className="h-4 w-4" />
-                                                          </a>
-                                                        ) : (
-                                                          <button
-                                                            type="button"
-                                                            aria-label="Call Store Unavailable"
-                                                            title="Phone number unavailable"
-                                                            disabled
-                                                            className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full border border-white/8 bg-white/[0.025] text-[#ededed]/28 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-                                                          >
-                                                            <Phone className="h-4 w-4" />
-                                                          </button>
-                                                        )}
-
-                                                        <a
-                                                          href={store.mapsUrl}
-                                                          target="_blank"
-                                                          rel="noreferrer"
-                                                          aria-label={t.directions}
-                                                          title={t.directions}
-                                                          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-[#ededed]/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-200 hover:-translate-y-[1px] hover:border-white/20 hover:bg-white/[0.08] hover:text-[#f5f5f0] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
-                                                        >
-                                                          <Navigation className="h-4 w-4" />
-                                                        </a>
-                                                      </div>
+                                                      <a href={store.mapsUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.05] px-5 py-3 text-[11px] uppercase tracking-[0.16em] text-[#ededed]/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-[#c6a85a]/25 hover:bg-white/[0.08] sm:w-auto">
+                                                        <span>{t.directions}</span>
+                                                        <ArrowRight className="h-3.5 w-3.5" />
+                                                      </a>
                                                     </div>
                                                   </div>
                                                 </motion.div>
