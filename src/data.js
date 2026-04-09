@@ -15,12 +15,12 @@ export const featuredRelease = {
 
 export const nextRelease = {
   title: {
-    en: "Upcoming Strains",
-    es: "Próximos Strains"
+    en: "Next Drop",
+    es: "Próximo Drop"
   },
   subtitle: {
-    en: "What’s next after this release.",
-    es: "Lo que sigue después de este lanzamiento."
+    en: "These strains release when the countdown hits zero.",
+    es: "Estos strains se liberan cuando el contador llegue a cero."
   },
   strains: [
     {

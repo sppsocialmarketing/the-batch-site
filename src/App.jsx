@@ -33,7 +33,7 @@ const copy = {
     inStock: "IN STOCK",
     soldOut: "SOLD OUT",
     nextSectionLabel: "Up Next",
-    nextSectionPrompt: "Choose a strain"
+    nextSectionPrompt: "Releasing when the timer ends"
   },
   es: {
     currentState: "Estado Actual",
@@ -64,7 +64,7 @@ const copy = {
     inStock: "EN STOCK",
     soldOut: "AGOTADO",
     nextSectionLabel: "Lo Siguiente",
-    nextSectionPrompt: "Elige un strain"
+    nextSectionPrompt: "Se libera cuando termine el contador"
   }
 };
 
@@ -91,7 +91,6 @@ export default function TheBatchSplashPage() {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(targetDate));
   const [openStrain, setOpenStrain] = useState((Array.isArray(storeReleases) ? storeReleases[0]?.strain : null) ?? null);
   const [openCity, setOpenCity] = useState({});
-  const [selectedUpcoming, setSelectedUpcoming] = useState((nextRelease?.strains || [])[0]?.name ?? "");
   const [language, setLanguage] = useState("en");
   const [cursorVisible, setCursorVisible] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
@@ -323,51 +322,25 @@ export default function TheBatchSplashPage() {
               <h3 className="mt-3 text-2xl font-medium tracking-[0.06em] md:text-3xl">{nextRelease.title?.[language]}</h3>
               <p className="mt-3 text-sm leading-6 text-[#ededed]/55">{nextRelease.subtitle?.[language]}</p>
 
-              <div className="mt-6">
-                <label htmlFor="upcoming-strains" className="mb-3 block text-[10px] uppercase tracking-[0.18em] text-[#ededed]/45">
-                  {t.nextSectionPrompt}
-                </label>
-                <div className="relative">
-                  <select
-                    id="upcoming-strains"
-                    value={selectedUpcoming}
-                    onChange={(event) => setSelectedUpcoming(event.target.value)}
-                    className="w-full appearance-none rounded-[20px] border border-white/10 bg-white/[0.04] px-4 py-4 pr-12 text-sm tracking-[0.08em] text-[#f5f5f0] outline-none transition-all duration-200 hover:border-[#c6a85a]/25 focus:border-[#c6a85a]/35"
-                  >
-                    {(nextRelease?.strains || []).map((strain) => (
-                      <option key={strain.name} value={strain.name} className="bg-[#111111] text-[#f5f5f0]">
-                        {strain.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[#ededed]/65">
-                    <ChevronDown className="h-4 w-4" />
-                  </div>
-                </div>
+              <div className="mt-6 rounded-[22px] border border-[#c6a85a]/20 bg-[#c6a85a]/[0.05] px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-[#e7d38a]">
+                {t.nextSectionPrompt}
               </div>
 
               <div className="mt-6 space-y-3">
-                {(nextRelease?.strains || []).map((strain) => {
-                  const selected = strain.name === selectedUpcoming;
-                  return (
-                    <motion.div
-                      key={strain.name}
-                      whileHover={{ y: -1.5 }}
-                      transition={{ type: "spring", stiffness: 250, damping: 28 }}
-                      className={[
-                        "rounded-[22px] border bg-white/[0.03] p-4 transition-all duration-200",
-                        selected ? "border-[#c6a85a]/30 bg-[#c6a85a]/[0.06]" : "border-white/10 hover:border-[#c6a85a]/20 hover:bg-white/[0.04]"
-                      ].join(" ")}
-                    >
-                      <div className="flex flex-wrap items-center gap-3">
-                        <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{strain.name}</p>
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
-                      </div>
-                      <p className="mt-3 max-w-xl text-sm leading-7 text-[#ededed]/68">{strain.notes?.[language]}</p>
-                    </motion.div>
-                  );
-                })}
+                {(nextRelease?.strains || []).map((strain) => (
+                  <motion.div
+                    key={strain.name}
+                    whileHover={{ y: -1.5 }}
+                    transition={{ type: "spring", stiffness: 250, damping: 28 }}
+                    className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4 transition-all duration-200 hover:border-[#c6a85a]/20 hover:bg-white/[0.04]"
+                  >
+                    <div className="flex flex-wrap items-center gap-3">
+                      <p className="text-base tracking-[0.12em] text-[#f5f5f0] md:text-lg">{strain.name}</p>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${getTypeTheme(strain.type).badge}`}>{strain.type}</span>
+                    </div>
+                    <p className="mt-3 max-w-xl text-sm leading-7 text-[#ededed]/68">{strain.notes?.[language]}</p>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </section>
