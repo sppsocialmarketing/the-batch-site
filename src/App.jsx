@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useMotionValue } from "framer-motion";
-import { ChevronDown, MapPin, ArrowUpRight, Smartphone, Navigation } from "lucide-react";
+import { ChevronDown, MapPin, ArrowUpRight, Phone, Navigation } from "lucide-react";
 import { nextDropDate, nextRelease, storeReleases } from "./data";
 
 const copy = {
@@ -24,7 +24,7 @@ const copy = {
     tapToExpand: "Click the strain, then a city, to view store availability.",
     openInGoogleMaps: "Open in Google Maps",
     directions: "Get Directions",
-    useLocation: "Use My Location",
+    useLocation: "Use Location",
     locationActive: "Location Active",
     nearestFirst: "Nearest locations first",
     closestStrains: "Closest strains first",
@@ -55,7 +55,7 @@ const copy = {
     tapToExpand: "Haz clic en el strain y luego en una ciudad para ver disponibilidad.",
     openInGoogleMaps: "Abrir en Google Maps",
     directions: "Cómo llegar",
-    useLocation: "Usar mi ubicación",
+    useLocation: "Usar ubicación",
     locationActive: "Ubicación activa",
     nearestFirst: "Ubicaciones más cercanas primero",
     closestStrains: "Strains más cercanos primero",
@@ -344,9 +344,10 @@ export default function TheBatchSplashPage() {
                     onClick={handleUseLocation}
                     aria-label={userLocation ? t.locationActive : t.useLocation}
                     title={userLocation ? t.locationActive : t.useLocation}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-[#f5f5f0] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-200 hover:-translate-y-[1px] hover:border-white/20 hover:bg-white/[0.08] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2.5 text-[#f5f5f0] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-200 hover:-translate-y-[1px] hover:border-white/20 hover:bg-white/[0.08] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
                   >
-                    <Smartphone className={`h-4.5 w-4.5 ${userLocation ? "text-[#e7d38a]" : "text-[#ededed]/82"}`} />
+                    <MapPin className={`h-4 w-4 ${userLocation ? "text-[#e7d38a]" : "text-[#ededed]/82"}`} />
+                    <span className="text-[10px] uppercase tracking-[0.18em]">{t.useLocation}</span>
                   </button>
                   {userLocation && <span className="text-[11px] uppercase tracking-[0.16em] text-[#e7d38a]">{t.nearestFirst}</span>}
                   {locationError && <span className="text-[11px] uppercase tracking-[0.16em] text-[#fca5a5]">Location unavailable</span>}
@@ -424,7 +425,19 @@ export default function TheBatchSplashPage() {
                                                         <ArrowUpRight className="h-3.5 w-3.5" />
                                                       </a>
 
-                                                      <a
+                                                      <div className="flex items-center gap-2 self-start sm:self-auto">
+                                                        <a
+                                                          href={store.mapsUrl}
+                                                          target="_blank"
+                                                          rel="noreferrer"
+                                                          aria-label="Call Store"
+                                                          title="Call Store"
+                                                          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-[#ededed]/88 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-200 hover:-translate-y-[1px] hover:border-white/20 hover:bg-white/[0.08] hover:text-[#f5f5f0] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
+                                                        >
+                                                          <Phone className="h-4 w-4" />
+                                                        </a>
+
+                                                        <a
                                                           href={store.mapsUrl}
                                                           target="_blank"
                                                           rel="noreferrer"
@@ -434,6 +447,7 @@ export default function TheBatchSplashPage() {
                                                         >
                                                           <Navigation className="h-4 w-4" />
                                                         </a>
+                                                      </div>
                                                     </div>
                                                   </div>
                                                 </motion.div>
