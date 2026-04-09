@@ -72,8 +72,6 @@ export const storeReleases = [
             mapsUrl: "https://maps.google.com/?q=Northline+Cannabis+Marysville+WA",
             lat: 48.0518,
             lng: -122.1771
-          ,
-            phone: "+13605550102"
           },
           {
             name: "Cascade Green",
@@ -81,8 +79,6 @@ export const storeReleases = [
             mapsUrl: "https://maps.google.com/?q=Cascade+Green+Marysville+WA",
             lat: 48.054,
             lng: -122.183
-          ,
-            phone: "+13605550103"
           }
         ]
       },
@@ -95,8 +91,6 @@ export const storeReleases = [
             mapsUrl: "https://maps.google.com/?q=Greenhouse+Dispensary+Seattle+WA",
             lat: 47.6062,
             lng: -122.3321
-          ,
-            phone: "+13605550104"
           },
           {
             name: "North Dock Cannabis",
@@ -104,8 +98,6 @@ export const storeReleases = [
             mapsUrl: "https://maps.google.com/?q=North+Dock+Cannabis+Seattle+WA",
             lat: 47.6145,
             lng: -122.3418
-          ,
-            phone: "+13605550105"
           }
         ]
       },
@@ -118,8 +110,6 @@ export const storeReleases = [
             mapsUrl: "https://maps.google.com/?q=Urban+Harvest+Bellevue+WA",
             lat: 47.6101,
             lng: -122.2015
-          ,
-            phone: "+13605550106"
           }
         ]
       }
